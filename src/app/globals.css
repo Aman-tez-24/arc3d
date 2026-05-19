@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* =========================
+   BASE RESET
+========================= */
+
 html {
   scroll-behavior: smooth;
 }
@@ -16,41 +20,42 @@ body {
   padding: 0;
 }
 
-button {
-  cursor: pointer;
-}
-
 /* =========================
-   GLOBAL UI LOCK + PREMIUM BASE
+   UX LOCKS (FIXED VERSION)
 ========================= */
 
-/* Disable text selection */
+/* Allow interactions but prevent text selection */
 * {
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
-/* Disable image dragging */
+/* ❌ FIX: DO NOT disable pointer events on images */
 img {
   -webkit-user-drag: none;
-  -webkit-user-drag: none;
-  pointer-events: none;
+  user-select: none;
 }
 
-/* Smooth rendering */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Disable zoom (mobile + desktop gestures) */
+/* Prevent zoom + gestures */
 html, body {
   touch-action: pan-y;
   overscroll-behavior: none;
 }
 
-/* Remove default scrollbar */
+/* =========================
+   CURSOR SUPPORT FIX
+========================= */
+
+button,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* =========================
+   SCROLLBAR (PREMIUM)
+========================= */
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -64,13 +69,15 @@ html, body {
   border-radius: 10px;
 }
 
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
   scrollbar-color: #0a0a0a transparent;
 }
 
-/* Optional: prevent focus outline noise */
+/* =========================
+   FOCUS CLEAN
+========================= */
+
 *:focus {
   outline: none;
 }

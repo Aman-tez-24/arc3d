@@ -39,8 +39,23 @@ export default function Hero() {
               environments with intelligent visualization and futuristic spatial
               storytelling.
             </p>
+            <button
+              onClick={() => {
+                const section = document.getElementById("showcase");
 
-            <button>
+                if (section) {
+                  const y =
+                    section.getBoundingClientRect().top +
+                    window.pageYOffset +
+                    80;
+
+                  window.scrollTo({
+                    top: y,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+            >
               Explore Experience
               <span>→</span>
             </button>
@@ -48,7 +63,17 @@ export default function Hero() {
         </div>
 
         {/* FLOAT BUTTON */}
-        <div className="floatingBtn">−</div>
+        <div
+          className="floatingBtn"
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+        >
+          −
+        </div>
       </div>
 
       <style jsx>{`
@@ -169,12 +194,12 @@ export default function Hero() {
           right: 0;
           bottom: 0;
 
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
 
           background: #f4f1ea;
 
-          border-top-left-radius: 30px;
+          border-top-left-radius: 20px;
 
           z-index: 10;
         }
@@ -190,7 +215,7 @@ export default function Hero() {
           width: 60px;
           height: 60px;
 
-          border-bottom-right-radius: 30px;
+          border-bottom-right-radius: 20px;
 
           box-shadow: 20px 20px 0 #f4f1ea;
         }
@@ -206,7 +231,7 @@ export default function Hero() {
           width: 60px;
           height: 60px;
 
-          border-bottom-right-radius: 30px;
+          border-bottom-right-radius: 20px;
 
           box-shadow: 20px 20px 0 #f4f1ea;
         }
@@ -344,13 +369,13 @@ export default function Hero() {
         ========================= */
 
         .floatingBtn {
-          position: absolute;
+          position: fixed;
 
           right: 10px;
-          bottom: 10px;
+          bottom: 20px;
 
-          width: 56px;
-          height: 56px;
+          width: 46px;
+          height: 46px;
 
           border-radius: 50%;
 

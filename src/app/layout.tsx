@@ -1,4 +1,7 @@
+"use client";
+
 import "./globals.css";
+import { usePathname } from "next/navigation";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -10,22 +13,23 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const isAuthPage = pathname === "/signin";
+
   return (
     <html lang="en">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
-      </head>
-
-      <body className="bg-black text-white overflow-x-hidden">
+      <body className="appBody">
         <ZoomBlocker />
         <Cursor />
 
-        <Navbar />
-        {children}
-        <Footer />
+        {/* NAVBAR ONLY IF NOT AUTH PAGE */}
+        {!isAuthPage && <Navbar />}
+
+        <main>{children}</main>
+
+        {/* FOOTER ONLY IF NOT AUTH PAGE */}
+        {!isAuthPage && <Footer />}
       </body>
     </html>
   );

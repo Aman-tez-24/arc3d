@@ -5,21 +5,61 @@ export default function Navbar() {
     <>
       <header className="navbar">
         {/* LOGO */}
-        <div className="navbarLogo">
-          <h1>Arc3D</h1>
+        <div
+          className="navbarLogo"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          <img src="/images/logo.png" alt="Arc3D" />
         </div>
 
         {/* MENU */}
         <nav className="navbarMenu">
-          <button className="navItem active">Home</button>
+          <button
+            className="navItem active"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            Home
+          </button>
 
-          <button className="navItem">About</button>
+          <button
+            className="navItem"
+            onClick={() => {
+              window.location.href = "/about";
+            }}
+          >
+            About
+          </button>
 
-          <button className="navItem">Services</button>
+          <button
+            className="navItem"
+            onClick={() => {
+              window.location.href = "/services";
+            }}
+          >
+            Services
+          </button>
 
-          <button className="navItem">Company</button>
+          <button
+            className="navItem"
+            onClick={() => {
+              window.location.href = "/company";
+            }}
+          >
+            Company
+          </button>
 
-          <button className="signBtn">Sign in</button>
+          <button
+            className="signBtn"
+            onClick={() => {
+              window.location.href = "/signin";
+            }}
+          >
+            Sign in
+          </button>
         </nav>
       </header>
 
@@ -42,27 +82,28 @@ export default function Navbar() {
 
         .navbarLogo {
           height: 60px;
-
-          padding: 0 32px;
+          cursor: pointer;
+          padding: 0 10px;
 
           border-radius: 20px;
 
-          background: black;
+          background: transparent;
 
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        .navbarLogo h1 {
-          color: white;
+        .navbarLogo img {
+          height: 42px;
+          width: auto;
+          object-fit: contain;
+          display: block;
+          user-select: none;
 
-          font-size: 2rem;
-          font-weight: 500;
+          filter: brightness(0) saturate(100%);
 
-          letter-spacing: -0.08em;
-
-          line-height: 1;
+          opacity: 0.95;
         }
 
         /* MENU */

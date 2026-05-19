@@ -2,7 +2,7 @@
 
 export default function Showcase() {
   return (
-    <section className="showcase">
+    <section id="showcase" className="showcase">
       {/* HEADER */}
       <div className="header">
         <h2>Selected Architectural Works</h2>

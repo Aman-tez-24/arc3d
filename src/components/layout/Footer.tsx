@@ -19,11 +19,50 @@ export default function Footer() {
 
           {/* SOCIAL */}
           <div className="social">
-            <div className="circle">I</div>
-            <div className="circle">L</div>
-            <div className="circle">X</div>
-            <div className="circle">D</div>
-            <div className="circle">G</div>
+            <a
+              href="https://instagram.com/arc3d_in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="circle"
+            >
+              IG
+            </a>
+
+            <a
+              href="https://linkedin.com/company/yourcompany"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="circle"
+            >
+              IN
+            </a>
+
+            <a
+              href="https://x.com/Arc3dIn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="circle"
+            >
+              X
+            </a>
+
+            <a
+              href="https://www.youtube.com/channel/UCEz7MWyt84wpxRN3EYy5c_Q"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="circle"
+            >
+              YT
+            </a>
+
+            <a
+              href="https://github.com/yourcompany"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="circle"
+            >
+              GH
+            </a>
           </div>
 
           {/* ADDRESS */}
