@@ -22,8 +22,8 @@ function BackgroundModel() {
       const center = new THREE.Vector3();
       box.getCenter(center);
 
-      ref.current.position.x = -center.x;
-      ref.current.position.y = -center.y;
+      ref.current.position.x = -center.x - 2;
+      ref.current.position.y = -center.y - 12;
       ref.current.position.z = -center.z;
     });
   }, []);
@@ -40,11 +40,7 @@ function BackgroundModel() {
     ref.current.rotation.x += (targetRotX - ref.current.rotation.x) * 0.06;
   });
 
-  return (
-    <group ref={ref}>
-      <primitive object={scene} />
-    </group>
-  );
+  return <primitive ref={ref} object={scene} scale={1} />;
 }
 
 export default function Hero() {
