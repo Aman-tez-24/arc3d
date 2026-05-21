@@ -3,36 +3,76 @@
 export default function IntroSection() {
   return (
     <section className="intro">
+      {/* AMBIENT BACKGROUND */}
+      <div className="ambient ambient1" />
+      <div className="ambient ambient2" />
+
       {/* SECTION 1 */}
       <div className="container">
         {/* IMAGE */}
         <div className="imageWrap">
-          <div className="blob">
-            <img src="/images/hero.jpg" alt="architectural visualization" />
+          <div className="frame">
+            <div className="glassCard">
+              <span>ARC3D / SPATIAL ENGINE</span>
+            </div>
+
+            <div className="blob">
+              <img src="/images/hero.jpg" alt="architectural visualization" />
+            </div>
+
+            {/* FLOATING ELEMENTS */}
+            <div className="floating floating1" />
+            <div className="floating floating2" />
           </div>
         </div>
 
         {/* TEXT */}
         <div className="textWrap">
-          <h2>Designing Spaces that Think, Flow, and Live Beyond Blueprints</h2>
+          <div className="miniTag">Architectural Intelligence</div>
+
+          <h2>
+            Designing Spaces
+            <br />
+            that Think, Flow,
+            <br />
+            and Feel Alive
+          </h2>
+
+          <div className="line" />
 
           <p>
             At Arc3D, we transform imagination into immersive architectural
-            reality. Every structure begins as a thought — we refine it into a
-            spatial experience shaped by light, proportion, and purpose.
+            reality. Every structure begins as a thought — refined into a
+            spatial experience shaped by proportion, atmosphere, and movement.
           </p>
 
           <p>
-            Our approach blends design intelligence with advanced 3D
-            visualization, allowing architects and clients to experience spaces
-            before they are built. Precision meets creativity at every stage.
+            Our visualization system combines cinematic rendering with
+            intelligent architectural workflows, allowing designers and clients
+            to experience environments before they physically exist.
           </p>
 
           <p>
-            From concept sketches to fully interactive 3D environments, we
-            redefine how architecture is visualized, evaluated, and experienced
-            in the modern world.
+            From conceptual sketches to fully interactive 3D worlds, Arc3D
+            redefines how architecture is explored, presented, and understood.
           </p>
+
+          <div className="stats">
+            <div className="statCard">
+              <h3>120+</h3>
+              <span>Projects Visualized</span>
+            </div>
+
+            <div className="statCard">
+              <h3>Real-Time</h3>
+              <span>Spatial Rendering</span>
+            </div>
+
+            <div className="statCard">
+              <h3>AI Driven</h3>
+              <span>Design Systems</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -42,133 +82,385 @@ export default function IntroSection() {
       <div className="container reverse">
         {/* IMAGE */}
         <div className="imageWrap">
-          <div className="blob blob2">
-            <img src="/images/hero.jpg" alt="luxury architectural design" />
+          <div className="frame">
+            <div className="glassCard right">
+              <span>IMMERSIVE VISUALIZATION</span>
+            </div>
+
+            <div className="blob blob2">
+              <img src="/images/hero.jpg" alt="luxury architectural design" />
+            </div>
+
+            <div className="floating floating3" />
+            <div className="floating floating4" />
           </div>
         </div>
 
         {/* TEXT */}
         <div className="textWrap">
-          <h2>Where Digital Craft Meets Architectural Precision</h2>
+          <div className="miniTag">Luxury Digital Craft</div>
+
+          <h2>
+            Where Digital
+            <br />
+            Precision Meets
+            <br />
+            Spatial Emotion
+          </h2>
+
+          <div className="line" />
 
           <p>
-            We don’t just build 3D models — we craft spatial narratives. Every
-            curve, material, and shadow is tuned to reflect real-world physics
-            and emotional design intent.
+            We do not simply create 3D models — we engineer architectural
+            experiences. Every material, shadow, reflection, and surface is
+            tuned to communicate realism and emotional depth.
           </p>
 
           <p>
-            Arc3D empowers architects, builders, and visionaries to explore
-            their ideas in fully interactive environments before a single brick
-            is laid.
+            Arc3D empowers architects, developers, and visionaries to explore
+            future spaces through cinematic environments powered by advanced
+            visualization systems.
           </p>
 
           <p>
-            This is not visualization. This is architectural intelligence —
-            rendered, refined, and ready for reality.
+            This is more than rendering. This is architecture transformed into
+            intelligent digital presence.
           </p>
+
+          <button>
+            Explore Spatial Engine
+            <span>→</span>
+          </button>
         </div>
       </div>
 
       {/* CSS */}
       <style jsx>{`
         .intro {
+          position: relative;
+          overflow: hidden;
+
           background:
             radial-gradient(
               circle at top,
-              rgba(0, 0, 0, 0.03),
-              transparent 40%
+              rgba(0, 0, 0, 0.04),
+              transparent 45%
             ),
-            #ffffff;
-          padding: 100px 10px 40px 10px;
+            linear-gradient(to bottom, #f8f6f2, #ffffff);
+
+          padding: 140px 24px 80px;
+        }
+
+        /* AMBIENT LIGHTS */
+        .ambient {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(120px);
+          opacity: 0.5;
+          pointer-events: none;
+        }
+
+        .ambient1 {
+          width: 500px;
+          height: 500px;
+          background: rgba(0, 0, 0, 0.05);
+
+          top: -100px;
+          left: -120px;
+        }
+
+        .ambient2 {
+          width: 400px;
+          height: 400px;
+          background: rgba(0, 0, 0, 0.03);
+
+          bottom: -100px;
+          right: -100px;
         }
 
         .container {
-          max-width: 1200px;
+          position: relative;
+          z-index: 2;
+
+          max-width: 1300px;
+
           margin: auto;
+
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 90px;
+
+          gap: 100px;
         }
 
         .reverse {
           flex-direction: row-reverse;
         }
 
-        /* ✅ TRUE VERTICAL CENTERING FIX */
+        /* IMAGE AREA */
         .imageWrap {
           width: 50%;
           display: flex;
-          align-items: center;
           justify-content: center;
-          height: 100%;
+          position: relative;
+        }
+
+        .frame {
           position: relative;
         }
 
         .blob {
-          width: 420px;
-          height: 520px;
+          width: 520px;
+          height: 650px;
+
           overflow: hidden;
 
-          clip-path: path(
-            "M 90 0 C 40 10, 10 40, 0 90 C -10 160, 40 220, 90 240 C 180 280, 260 240, 300 180 C 340 120, 320 40, 260 10 C 200 -10, 150 -10, 90 0 Z"
-          );
+          border-radius: 34px;
 
-          box-shadow: 0 50px 140px rgba(0, 0, 0, 0.12);
+          background: #ddd;
+
+          box-shadow:
+            0 100px 240px rgba(0, 0, 0, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
           transition:
-            transform 0.6s ease,
-            box-shadow 0.6s ease;
+            transform 0.8s ease,
+            box-shadow 0.8s ease;
         }
 
         .blob2 {
-          clip-path: path(
-            "M 120 0 C 60 20, 20 60, 0 120 C -20 200, 40 260, 120 280 C 220 300, 300 260, 340 200 C 380 140, 360 60, 300 20 C 240 -10, 180 -10, 120 0 Z"
-          );
+          transform: rotate(-2deg);
         }
 
         .blob img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transform: scale(1.08);
+
+          transition: transform 1.5s ease;
         }
 
         .imageWrap:hover .blob {
-          transform: translateY(-10px) scale(1.02);
-          box-shadow: 0 70px 180px rgba(0, 0, 0, 0.18);
+          transform: translateY(-12px) scale(1.02);
+          box-shadow:
+            0 120px 280px rgba(0, 0, 0, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
+        .imageWrap:hover img {
+          transform: scale(1.08);
+        }
+
+        /* GLASS CARD */
+        .glassCard {
+          position: absolute;
+
+          top: 30px;
+          left: -40px;
+
+          z-index: 10;
+
+          padding: 18px 24px;
+
+          border-radius: 20px;
+
+          background: rgba(255, 255, 255, 0.6);
+
+          backdrop-filter: blur(14px);
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+
+          border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .glassCard.right {
+          left: auto;
+          right: -40px;
+        }
+
+        .glassCard span {
+          font-size: 11px;
+          letter-spacing: 0.24em;
+          color: rgba(0, 0, 0, 0.65);
+        }
+
+        /* FLOATING ELEMENTS */
+        .floating {
+          position: absolute;
+          border-radius: 50%;
+
+          backdrop-filter: blur(10px);
+
+          background: rgba(255, 255, 255, 0.3);
+
+          border: 1px solid rgba(255, 255, 255, 0.4);
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+        }
+
+        .floating1 {
+          width: 120px;
+          height: 120px;
+
+          top: 12%;
+          right: -50px;
+        }
+
+        .floating2 {
+          width: 60px;
+          height: 60px;
+
+          bottom: 12%;
+          left: -30px;
+        }
+
+        .floating3 {
+          width: 90px;
+          height: 90px;
+
+          top: 18%;
+          left: -40px;
+        }
+
+        .floating4 {
+          width: 150px;
+          height: 150px;
+
+          bottom: 8%;
+          right: -60px;
+        }
+
+        /* TEXT */
         .textWrap {
           width: 50%;
         }
 
+        .miniTag {
+          font-size: 11px;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+
+          color: rgba(0, 0, 0, 0.45);
+
+          margin-bottom: 24px;
+        }
+
         h2 {
-          font-size: 44px;
-          font-weight: 800;
-          line-height: 1.05;
-          margin-bottom: 22px;
+          font-size: 68px;
+          font-weight: 900;
+
+          line-height: 0.95;
+
+          letter-spacing: -0.07em;
+
           color: #0a0a0a;
-          letter-spacing: -0.6px;
+        }
+
+        .line {
+          width: 120px;
+          height: 1px;
+
+          background: rgba(0, 0, 0, 0.15);
+
+          margin: 36px 0;
         }
 
         p {
-          font-size: 15px;
-          line-height: 1.9;
+          font-size: 16px;
+          line-height: 2;
+
           color: rgba(0, 0, 0, 0.65);
-          margin-top: 16px;
-          max-width: 540px;
+
+          margin-top: 18px;
+
+          max-width: 620px;
+        }
+
+        /* STATS */
+        .stats {
+          display: flex;
+          gap: 20px;
+
+          margin-top: 40px;
+
+          flex-wrap: wrap;
+        }
+
+        .statCard {
+          padding: 24px;
+
+          min-width: 170px;
+
+          border-radius: 24px;
+
+          background: rgba(255, 255, 255, 0.7);
+
+          backdrop-filter: blur(14px);
+
+          border: 1px solid rgba(255, 255, 255, 0.6);
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.06);
+        }
+
+        .statCard h3 {
+          font-size: 26px;
+          color: #0a0a0a;
+          margin-bottom: 8px;
+        }
+
+        .statCard span {
+          font-size: 12px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+          margin-top: 42px;
+
+          display: flex;
+          align-items: center;
+          gap: 14px;
+
+          padding: 18px 28px;
+
+          border: none;
+
+          border-radius: 999px;
+
+          background: #0a0a0a;
+
+          color: white;
+
+          font-size: 13px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+
+          cursor: pointer;
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+
+          transition: all 0.35s ease;
+        }
+
+        button:hover {
+          transform: translateY(-6px);
+          gap: 18px;
+        }
+
+        button span {
+          font-size: 18px;
         }
 
         .spacer {
-          height: 90px;
+          height: 180px;
         }
 
-        /* Responsive */
-        @media (max-width: 900px) {
+        /* RESPONSIVE */
+        @media (max-width: 1100px) {
           .container {
             flex-direction: column;
-            gap: 50px;
+            gap: 70px;
           }
 
           .imageWrap,
@@ -178,11 +470,35 @@ export default function IntroSection() {
 
           .blob {
             width: 100%;
-            height: 420px;
+            height: 520px;
           }
 
           h2 {
-            font-size: 32px;
+            font-size: 48px;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .intro {
+            padding: 100px 20px 60px;
+          }
+
+          h2 {
+            font-size: 38px;
+          }
+
+          .blob {
+            height: 420px;
+          }
+
+          .stats {
+            flex-direction: column;
+          }
+
+          .glassCard {
+            left: 20px;
+            right: 20px;
+            top: 20px;
           }
         }
       `}</style>

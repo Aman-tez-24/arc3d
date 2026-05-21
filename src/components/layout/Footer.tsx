@@ -1,4 +1,4 @@
-"use client";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -83,37 +83,84 @@ export default function Footer() {
         {/* LINKS */}
         <div className="column">
           <h3>Services</h3>
-          <a href="#">2D → 3D Conversion</a>
-          <a href="#">Floor Planning</a>
-          <a href="#">AI Design System</a>
-          <a href="#">Visualization</a>
+
+          <Link href="/servicesSection/2d-to-3d">
+            <span className="footerLink">2D → 3D Conversion</span>
+          </Link>
+
+          <Link href="/servicesSection/floor-planning">
+            <span className="footerLink">Floor Planning</span>
+          </Link>
+
+          <Link href="/servicesSection/ai-design-system">
+            <span className="footerLink">AI Design System</span>
+          </Link>
+
+          <Link href="/servicesSection/visualization">
+            <span className="footerLink">Visualization</span>
+          </Link>
         </div>
 
         <div className="column">
           <h3>Company</h3>
-          <a href="#">About</a>
-          <a href="#">Projects</a>
-          <a href="#">Careers</a>
-          <a href="#">Contact</a>
+
+          <Link href="/companySection">
+            <span className="footerLink">About</span>
+          </Link>
+
+          <Link href="/companySection">
+            <span className="footerLink">Projects</span>
+          </Link>
+
+          <Link href="/companySection">
+            <span className="footerLink">Careers</span>
+          </Link>
+
+          <Link href="/contact">
+            <span className="footerLink">Contact</span>
+          </Link>
         </div>
 
         <div className="column">
           <h3>Developers</h3>
-          <a href="#">API</a>
-          <a href="#">Integration</a>
-          <a href="#">Architecture</a>
-          <a href="#">GitHub</a>
+
+          <Link href="/devSection">
+            <span className="footerLink">API</span>
+          </Link>
+
+          <Link href="/devSection">
+            <span className="footerLink">Integration</span>
+          </Link>
+
+          <Link href="/devSection">
+            <span className="footerLink">Architecture</span>
+          </Link>
+
+          <Link href="https://github.com/yourrepo" target="_blank">
+            <span className="footerLink">GitHub</span>
+          </Link>
         </div>
 
         <div className="column">
           <h3>Docs</h3>
-          <a href="#">Getting Started</a>
-          <a href="#">3D Engine</a>
-          <a href="#">Workflow</a>
-          <a href="#">Support</a>
+
+          <Link href="/docsSection">
+            <span className="footerLink">Getting Started</span>
+          </Link>
+
+          <Link href="/docsSection">
+            <span className="footerLink">3D Engine</span>
+          </Link>
+
+          <Link href="/docsSection">
+            <span className="footerLink">Workflow</span>
+          </Link>
+
+          <Link href="/docsSection">
+            <span className="footerLink">Support</span>
+          </Link>
         </div>
       </div>
-
       {/* QUOTE SECTION */}
       <div className="quote">
         <p>
@@ -264,6 +311,12 @@ export default function Footer() {
         }
 
         /* COLUMN */
+        .column {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .column h3 {
           font-size: 12px;
           letter-spacing: 2px;
@@ -272,18 +325,18 @@ export default function Footer() {
           margin-bottom: 18px;
         }
 
-        .column a {
+        .footerLink {
           display: block;
           font-size: 14px;
           color: rgba(0, 0, 0, 0.7);
           text-decoration: none;
-          margin-bottom: 10px;
+
           transition:
             transform 0.25s ease,
             color 0.25s ease;
         }
 
-        .column a:hover {
+        .footerLink:hover {
           color: #0a0a0a;
           transform: translateX(4px);
         }
@@ -305,6 +358,7 @@ export default function Footer() {
         }
 
         /* BOTTOM */
+
         .bottom {
           max-width: 1200px;
           margin: 70px auto 0;

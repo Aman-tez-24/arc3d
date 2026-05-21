@@ -7,6 +7,7 @@ import Viewport from "@/components/home/Viewport";
 import Workflow from "@/components/home/Workflow";
 import MorphingParticles from "@/components/home/MorphingParticles";
 import ContactSection from "@/components/home/ContactSection";
+import Reviews from "@/components/home/Reviews";
 export default function HomePage() {
   return (
     <main className="bg-[#f3f1eb] min-h-screen">
@@ -17,7 +18,9 @@ export default function HomePage() {
       <Services />
       <Viewport />
       <Workflow />
+      <Reviews />
       <MorphingParticles />
+
       <ContactSection />
     </main>
   );

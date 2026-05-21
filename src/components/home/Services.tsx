@@ -1,202 +1,554 @@
 "use client";
 
 export default function Services() {
+  const services = [
+    {
+      id: "01",
+      tag: "Core System",
+      title: "2D → 3D Architectural Conversion",
+      description:
+        "We transform static architectural drawings into immersive cinematic 3D environments with real-world scale, intelligent materials, spatial depth, and experiential walkthrough precision.",
+      image: "/images/showcase.jpg",
+    },
+    {
+      id: "02",
+      tag: "Spatial Planning",
+      title: "Custom Floor Planning",
+      description:
+        "Luxury-driven layout systems engineered for movement, functionality, natural flow, ventilation, and architectural harmony — crafted around human interaction and living behavior.",
+      image: "/images/showcase.jpg",
+    },
+    {
+      id: "03",
+      tag: "AI Intelligence",
+      title: "AI Design Assistance",
+      description:
+        "Advanced architectural intelligence systems generate optimized structural suggestions, lighting strategies, orientation logic, and high-efficiency spatial decisions in real time.",
+      image: "/images/showcase.jpg",
+    },
+    {
+      id: "04",
+      tag: "Cinematic Visuals",
+      title: "Visualization & Rendering",
+      description:
+        "Ultra-premium cinematic rendering pipelines that deliver emotionally immersive architectural storytelling before construction even begins.",
+      image: "/images/showcase.jpg",
+    },
+  ];
+
   return (
     <section className="services">
+      {/* BACKGROUND */}
+      <div className="bgGlow" />
+      <div className="gridLines" />
+
       {/* HEADER */}
       <div className="header">
-        <h2>Our Core Services</h2>
+        <span className="miniTag">ARC3D SERVICES</span>
+
+        <h2>
+          Spatial Intelligence
+          <br />
+          Engineered for Luxury
+        </h2>
+
         <p>
-          We design intelligent architectural systems that convert imagination
-          into precise, immersive, and build-ready 3D environments.
+          Arc3D combines cinematic visualization, intelligent planning systems,
+          and architectural precision to create immersive environments that feel
+          futuristic, premium, and deeply experiential.
         </p>
       </div>
 
-      {/* SERVICE 1 */}
-      <div className="panel">
-        <div className="image">
-          <img src="/images/showcase.jpg" alt="2D to 3D conversion" />
-        </div>
-        <div className="content">
-          <span>01 / Core</span>
-          <h3>2D to 3D Architectural Conversion</h3>
-          <p>
-            We transform static architectural drawings into fully immersive 3D
-            environments with accurate scale, materials, lighting, and spatial
-            depth — ready for real-world visualization and walkthroughs.
-          </p>
-        </div>
+      {/* SERVICES */}
+      <div className="servicesWrap">
+        {services.map((service, index) => (
+          <div
+            className={`panel ${index % 2 !== 0 ? "reverse" : ""}`}
+            key={service.id}
+          >
+            {/* IMAGE SIDE */}
+            <div className="imageWrap">
+              <div className="imageGlow" />
+
+              <div className="image">
+                <img src={service.image} alt={service.title} />
+              </div>
+
+              {/* FLOAT CARD */}
+              <div className="floatingCard">
+                <span>{service.id}</span>
+                <p>Luxury Spatial System</p>
+              </div>
+            </div>
+
+            {/* CONTENT */}
+            <div className="content">
+              <div className="line" />
+
+              <span className="serviceTag">{service.tag}</span>
+
+              <h3>{service.title}</h3>
+
+              <p>{service.description}</p>
+
+              {/* FEATURES */}
+              <div className="features">
+                <div>Precision Modeling</div>
+                <div>Real-Time Experience</div>
+                <div>Architectural Intelligence</div>
+              </div>
+
+              {/* BUTTON */}
+              <button>
+                Explore Service
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* SERVICE 2 (REVERSE) */}
-      <div className="panel reverse">
-        <div className="image">
-          <img src="/images/showcase.jpg" alt="floor planning" />
-        </div>
-        <div className="content">
-          <span>02 / Design</span>
-          <h3>Custom Floor Planning</h3>
-          <p>
-            Intelligent layout design focused on flow, usability, and structural
-            balance. Every plan is optimized for real-life functionality and
-            aesthetic harmony.
-          </p>
-        </div>
-      </div>
-
-      {/* SERVICE 3 */}
-      <div className="panel">
-        <div className="image">
-          <img src="/images/showcase.jpg" alt="ai design" />
-        </div>
-        <div className="content">
-          <span>03 / Intelligence</span>
-          <h3>AI Design Assistance</h3>
-          <p>
-            Smart design suggestions for structure, orientation, ventilation,
-            and spatial efficiency powered by architectural intelligence
-            systems.
-          </p>
-        </div>
-      </div>
-
-      {/* SERVICE 4 (REVERSE) */}
-      <div className="panel reverse">
-        <div className="image">
-          <img src="/images/showcase.jpg" alt="rendering visualization" />
-        </div>
-        <div className="content">
-          <span>04 / Visuals</span>
-          <h3>Visualization & Rendering</h3>
-          <p>
-            Cinematic-quality renders and walkthroughs that bring architectural
-            concepts to life before construction begins — realistic, emotional,
-            and immersive.
-          </p>
-        </div>
-      </div>
-
-      {/* CSS */}
       <style jsx>{`
         .services {
-          background: #ffffff;
-          padding: 140px 20px;
+          position: relative;
+          overflow: hidden;
+
+          background:
+            radial-gradient(
+              circle at top,
+              rgba(0, 0, 0, 0.03),
+              transparent 35%
+            ),
+            linear-gradient(to bottom, #ffffff, #f8f5ef);
+
+          padding: 160px 24px;
+        }
+
+        /* BACKGROUND EFFECTS */
+        .bgGlow {
+          position: absolute;
+          top: -200px;
+          left: 50%;
+          transform: translateX(-50%);
+
+          width: 900px;
+          height: 900px;
+
+          background: radial-gradient(
+            circle,
+            rgba(0, 0, 0, 0.05),
+            transparent 70%
+          );
+
+          filter: blur(80px);
+
+          pointer-events: none;
+        }
+
+        .gridLines {
+          position: absolute;
+          inset: 0;
+
+          background-image:
+            linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+
+          background-size: 60px 60px;
+
+          opacity: 0.3;
+
+          pointer-events: none;
         }
 
         /* HEADER */
         .header {
-          max-width: 900px;
+          position: relative;
+          z-index: 2;
+
+          max-width: 950px;
           margin: auto;
           text-align: center;
-          margin-bottom: 100px;
+
+          margin-bottom: 140px;
+        }
+
+        .miniTag {
+          display: inline-flex;
+
+          padding: 10px 18px;
+
+          border-radius: 999px;
+
+          background: rgba(255, 255, 255, 0.7);
+
+          backdrop-filter: blur(20px);
+
+          border: 1px solid rgba(0, 0, 0, 0.06);
+
+          font-size: 11px;
+          font-weight: 700;
+
+          letter-spacing: 3px;
+          text-transform: uppercase;
+
+          color: rgba(0, 0, 0, 0.55);
+
+          margin-bottom: 30px;
+
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
         }
 
         .header h2 {
-          font-size: 54px;
-          font-weight: 850;
-          letter-spacing: -0.8px;
+          font-size: clamp(3rem, 7vw, 6rem);
+
+          font-weight: 900;
+
+          line-height: 0.92;
+
+          letter-spacing: -0.08em;
+
           color: #0a0a0a;
-          margin-bottom: 18px;
+
+          margin-bottom: 28px;
         }
 
         .header p {
-          font-size: 15.5px;
-          line-height: 1.9;
-          color: rgba(0, 0, 0, 0.65);
-          max-width: 750px;
+          max-width: 760px;
+
           margin: auto;
+
+          font-size: 16px;
+          line-height: 2;
+
+          color: rgba(0, 0, 0, 0.65);
         }
 
-        /* PANEL (KEY LAYOUT) */
-        .panel {
-          max-width: 1200px;
-          margin: 120px auto;
+        /* SERVICES WRAP */
+        .servicesWrap {
+          position: relative;
+          z-index: 2;
+
+          max-width: 1350px;
+          margin: auto;
 
           display: flex;
+          flex-direction: column;
+          gap: 140px;
+        }
+
+        /* PANEL */
+        .panel {
+          display: flex;
           align-items: center;
-          gap: 80px;
+          gap: 90px;
         }
 
         .reverse {
           flex-direction: row-reverse;
         }
 
-        /* IMAGE */
-        .image {
+        /* IMAGE SIDE */
+        .imageWrap {
+          position: relative;
+
           flex: 1;
-          height: 520px;
-          border-radius: 28px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .imageGlow {
+          position: absolute;
+
+          width: 80%;
+          height: 80%;
+
+          background: radial-gradient(
+            circle,
+            rgba(0, 0, 0, 0.08),
+            transparent 70%
+          );
+
+          filter: blur(70px);
+
+          opacity: 0.7;
+        }
+
+        .image {
+          position: relative;
+
+          width: 100%;
+          height: 620px;
+
           overflow: hidden;
 
-          box-shadow: 0 60px 160px rgba(0, 0, 0, 0.12);
+          border-radius: 34px;
 
-          transition: transform 0.6s ease;
+          background: #ddd;
+
+          box-shadow:
+            0 60px 160px rgba(0, 0, 0, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+          transform-style: preserve-3d;
+
+          transition:
+            transform 0.8s ease,
+            box-shadow 0.8s ease;
+        }
+
+        .image::after {
+          content: "";
+
+          position: absolute;
+          inset: 0;
+
+          background:
+            linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent 30%),
+            linear-gradient(to right, rgba(255, 255, 255, 0.12), transparent);
+
+          pointer-events: none;
         }
 
         .image img {
           width: 100%;
           height: 100%;
+
           object-fit: cover;
+
           transform: scale(1.05);
-          transition: transform 1s ease;
+
+          transition: transform 1.2s ease;
+        }
+
+        .panel:hover .image {
+          transform: perspective(1200px) rotateY(-4deg) rotateX(2deg)
+            translateY(-10px);
         }
 
         .panel:hover .image img {
           transform: scale(1.12);
         }
 
-        .panel:hover .image {
-          transform: translateY(-10px);
+        /* FLOAT CARD */
+        .floatingCard {
+          position: absolute;
+
+          bottom: -30px;
+          left: 40px;
+
+          padding: 22px 26px;
+
+          border-radius: 26px;
+
+          background: rgba(255, 255, 255, 0.7);
+
+          backdrop-filter: blur(24px);
+
+          border: 1px solid rgba(255, 255, 255, 0.5);
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+        }
+
+        .floatingCard span {
+          display: block;
+
+          font-size: 36px;
+          font-weight: 900;
+
+          line-height: 1;
+
+          color: #0a0a0a;
+        }
+
+        .floatingCard p {
+          margin-top: 6px;
+
+          font-size: 12px;
+
+          letter-spacing: 2px;
+          text-transform: uppercase;
+
+          color: rgba(0, 0, 0, 0.55);
         }
 
         /* CONTENT */
         .content {
           flex: 1;
+
+          position: relative;
         }
 
-        .content span {
+        .line {
+          width: 120px;
+          height: 1px;
+
+          background: rgba(0, 0, 0, 0.15);
+
+          margin-bottom: 26px;
+        }
+
+        .serviceTag {
+          display: inline-block;
+
+          margin-bottom: 18px;
+
           font-size: 12px;
-          letter-spacing: 2px;
+          font-weight: 700;
+
+          letter-spacing: 3px;
+          text-transform: uppercase;
+
           color: rgba(0, 0, 0, 0.45);
         }
 
         .content h3 {
-          font-size: 34px;
-          font-weight: 800;
-          margin: 14px 0;
+          font-size: clamp(2rem, 4vw, 4rem);
+
+          font-weight: 850;
+
+          line-height: 1;
+
+          letter-spacing: -0.05em;
+
           color: #0a0a0a;
-          letter-spacing: -0.5px;
+
+          margin-bottom: 28px;
         }
 
         .content p {
-          font-size: 15px;
-          line-height: 1.9;
+          max-width: 580px;
+
+          font-size: 15.5px;
+          line-height: 2;
+
+          color: rgba(0, 0, 0, 0.66);
+
+          margin-bottom: 34px;
+        }
+
+        /* FEATURES */
+        .features {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 14px;
+
+          margin-bottom: 36px;
+        }
+
+        .features div {
+          padding: 12px 18px;
+
+          border-radius: 999px;
+
+          background: rgba(255, 255, 255, 0.65);
+
+          backdrop-filter: blur(12px);
+
+          border: 1px solid rgba(0, 0, 0, 0.06);
+
+          font-size: 12px;
+          font-weight: 600;
+
           color: rgba(0, 0, 0, 0.65);
-          max-width: 520px;
+
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        /* BUTTON */
+        button {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+
+          padding: 18px 26px;
+
+          border: none;
+          outline: none;
+
+          border-radius: 999px;
+
+          background: #0a0a0a;
+
+          color: white;
+
+          font-size: 13px;
+          font-weight: 700;
+
+          letter-spacing: 2px;
+          text-transform: uppercase;
+
+          cursor: pointer;
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.16);
+
+          transition:
+            transform 0.35s ease,
+            gap 0.35s ease,
+            box-shadow 0.35s ease;
+        }
+
+        button span {
+          font-size: 18px;
+        }
+
+        button:hover {
+          transform: translateY(-6px);
+          gap: 22px;
+
+          box-shadow: 0 50px 120px rgba(0, 0, 0, 0.22);
         }
 
         /* RESPONSIVE */
-        @media (max-width: 900px) {
-          .panel {
-            flex-direction: column;
-            gap: 30px;
-            margin: 80px auto;
-          }
-
+        @media (max-width: 1000px) {
+          .panel,
           .reverse {
             flex-direction: column;
           }
 
           .image {
-            height: 320px;
+            height: 420px;
           }
 
-          .header h2 {
-            font-size: 34px;
+          .floatingCard {
+            left: 20px;
+            bottom: -20px;
+          }
+
+          .content {
+            margin-top: 20px;
+          }
+
+          .header {
+            margin-bottom: 90px;
+          }
+
+          .servicesWrap {
+            gap: 100px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .services {
+            padding: 100px 18px;
+          }
+
+          .image {
+            height: 320px;
+            border-radius: 24px;
           }
 
           .content h3 {
-            font-size: 26px;
+            line-height: 1.05;
+          }
+
+          .floatingCard {
+            padding: 18px 20px;
+          }
+
+          .floatingCard span {
+            font-size: 28px;
           }
         }
       `}</style>

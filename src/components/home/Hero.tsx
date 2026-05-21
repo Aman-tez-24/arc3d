@@ -9,7 +9,7 @@ import { Environment, useGLTF } from "@react-three/drei";
 
 import * as THREE from "three";
 
-function BackgroundModel() {
+/*function BackgroundModel() {
   const { scene } = useGLTF("/models/scene.gltf");
 
   const ref = useRef<THREE.Group>(null);
@@ -45,7 +45,7 @@ function BackgroundModel() {
       <primitive object={scene} />
     </group>
   );
-}
+}*/
 
 export default function Hero() {
   return (
@@ -54,8 +54,10 @@ export default function Hero() {
       <div className="heroContainer">
         {/* BACKGROUND IMAGE */}
         {/* 3D BACKGROUND */}
-
         <div className="heroImage">
+          <img src="/images/hero.jpg" alt="Arc3D Contact" />
+        </div>
+        {/*  <div className="heroImage">
           <Canvas
             style={{
               width: "100%",
@@ -92,7 +94,7 @@ export default function Hero() {
               <BackgroundModel />
             </Suspense>
           </Canvas>
-        </div>
+        </div>*/}
 
         {/* OVERLAY */}
         <div className="heroOverlay" />
@@ -129,9 +131,7 @@ export default function Hero() {
 
                 if (section) {
                   const y =
-                    section.getBoundingClientRect().top +
-                    window.pageYOffset +
-                    80;
+                    section.getBoundingClientRect().top + window.scrollY - 80;
 
                   window.scrollTo({
                     top: y,
@@ -188,14 +188,40 @@ export default function Hero() {
         ========================= */
 
         .heroImage {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          box-shadow:
+            0 40px 120px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          z-index: 2;
+        }
+
+        .heroImage img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 1.2s ease;
+        }
+
+        .heroImage:hover img {
+          transform: scale(1.05);
+        }
+
+        /* cinematic overlay */
+        .heroImage::after {
+          content: "";
+
           position: absolute;
-
           inset: 0;
-          pointer-events: auto;
-          background-size: cover;
-          background-position: center;
 
-          transform: scale(1.02);
+          background:
+            linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.05)),
+            linear-gradient(to right, rgba(255, 255, 255, 0.08), transparent);
+
+          pointer-events: none;
         }
 
         /* =========================
@@ -214,7 +240,6 @@ export default function Hero() {
           );
         }
         .heroOverlay,
-        .heroContentWrapper,
         .topLeftCurve,
         .bottomRightCurve {
           pointer-events: none;
