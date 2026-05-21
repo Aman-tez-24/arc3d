@@ -15,19 +15,18 @@ function BackgroundModel() {
   const ref = useRef<THREE.Group>(null);
 
   useLayoutEffect(() => {
-    const box = new THREE.Box3().setFromObject(scene);
+    requestAnimationFrame(() => {
+      if (!ref.current) return;
 
-    const center = new THREE.Vector3();
+      const box = new THREE.Box3().setFromObject(ref.current);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
 
-    box.getCenter(center);
-
-    scene.position.x = -center.x - 2;
-    scene.position.y = -center.y - 12;
-    scene.position.z = -center.z;
-
-    // IMPORTANT: set initial rotation on scene itself
-    scene.rotation.y = Math.PI * 1.5;
-  }, [scene]);
+      ref.current.position.x = -center.x;
+      ref.current.position.y = -center.y;
+      ref.current.position.z = -center.z;
+    });
+  }, []);
 
   useFrame((state) => {
     if (!ref.current) return;
@@ -40,22 +39,12 @@ function BackgroundModel() {
     ref.current.rotation.y += (targetRotY - ref.current.rotation.y) * 0.06;
     ref.current.rotation.x += (targetRotX - ref.current.rotation.x) * 0.06;
   });
-  useEffect(() => {
-    if (!scene) return;
 
-    // wait 1 frame so geometry + materials are ready
-    requestAnimationFrame(() => {
-      const box = new THREE.Box3().setFromObject(scene);
-      const center = new THREE.Vector3();
-      box.getCenter(center);
-
-      scene.position.x = -center.x - 2;
-      scene.position.y = -center.y - 12;
-      scene.position.z = -center.z;
-    });
-  }, [scene]);
-
-  return <primitive ref={ref} object={scene} scale={1} />;
+  return (
+    <group ref={ref}>
+      <primitive object={scene} />
+    </group>
+  );
 }
 
 export default function Hero() {
@@ -74,7 +63,7 @@ export default function Hero() {
               touchAction: "none",
             }}
             camera={{
-              position: [15, 6, 30],
+              position: [6, 6, 30],
               rotation: [0, 0, 0],
               fov: 45,
             }}
