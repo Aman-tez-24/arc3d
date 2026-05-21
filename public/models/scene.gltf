@@ -878,52 +878,52 @@
   "extensionsUsed": ["KHR_materials_specular"],
   "images": [
     {
-      "uri": " /Material.006_normal.png"
+      "uri": " /models/textures/Material.006_normal.png"
     },
     {
-      "uri": " /Material.008_baseColor.jpeg"
+      "uri": " /models/textures/Material.008_baseColor.jpeg"
     },
     {
-      "uri": " /Material.008_normal.png"
+      "uri": " /models/textures/Material.008_normal.png"
     },
     {
-      "uri": " /Material.002_baseColor.jpeg"
+      "uri": " /models/textures/Material.002_baseColor.jpeg"
     },
     {
-      "uri": " /material_normal.png"
+      "uri": " /models/textures/material_normal.png"
     },
     {
-      "uri": " /Material.001_baseColor.jpeg"
+      "uri": " /models/textures/Material.001_baseColor.jpeg"
     },
     {
-      "uri": " /Material.001_normal.png"
+      "uri": " /models/textures/Material.001_normal.png"
     },
     {
-      "uri": " /Material.004_baseColor.png"
+      "uri": " /models/textures/Material.004_baseColor.png"
     },
     {
-      "uri": " /Material.004_normal.png"
+      "uri": " /models/textures/Material.004_normal.png"
     },
     {
-      "uri": " /Material.009_baseColor.png"
+      "uri": " /models/textures/Material.009_baseColor.png"
     },
     {
-      "uri": " /Material.009_normal.png"
+      "uri": " /models/textures/Material.009_normal.png"
     },
     {
-      "uri": " /Material.011_baseColor.png"
+      "uri": " /models/textures/Material.011_baseColor.png"
     },
     {
-      "uri": " /Material.011_normal.png"
+      "uri": " /models/textures/Material.011_normal.png"
     },
     {
-      "uri": " /Material.012_baseColor.png"
+      "uri": " /models/textures/Material.012_baseColor.png"
     },
     {
-      "uri": " /Material.012_normal.png"
+      "uri": " /models/textures/Material.012_normal.png"
     },
     {
-      "uri": " /8_20260512190452_baseColor.png"
+      "uri": "/models/textures/8_20260512190452_baseColor.png"
     }
   ],
   "materials": [
@@ -1709,7 +1709,7 @@
       "nodes": [0]
     }
   ],
-  " ": [
+  "textures": [
     {
       "sampler": 0,
       "source": 0
