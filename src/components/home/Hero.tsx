@@ -1,6 +1,48 @@
 "use client";
 
 import Navbar from "../layout/Navbar";
+import { Suspense, useEffect, useLayoutEffect, useRef } from "react";
+
+import { Canvas, useFrame } from "@react-three/fiber";
+
+import { Environment, useGLTF } from "@react-three/drei";
+
+import * as THREE from "three";
+
+function BackgroundModel() {
+  const { scene } = useGLTF("/models/scene.gltf");
+
+  const ref = useRef<THREE.Group>(null);
+
+  useLayoutEffect(() => {
+    const box = new THREE.Box3().setFromObject(scene);
+
+    const center = new THREE.Vector3();
+
+    box.getCenter(center);
+
+    scene.position.x = -center.x - 2;
+    scene.position.y = -center.y - 12;
+    scene.position.z = -center.z;
+
+    // IMPORTANT: set initial rotation on scene itself
+    scene.rotation.y = Math.PI * 1.5;
+  }, [scene]);
+
+  useFrame((state) => {
+    if (!ref.current) return;
+
+    const { pointer } = state;
+
+    const targetRotY = Math.PI * 1.5 + pointer.x * 0.08;
+    const targetRotX = -pointer.y * 0.05;
+
+    ref.current.rotation.y += (targetRotY - ref.current.rotation.y) * 0.06;
+    ref.current.rotation.x += (targetRotX - ref.current.rotation.x) * 0.06;
+  });
+
+  return <primitive ref={ref} object={scene} scale={1} />;
+}
 
 export default function Hero() {
   return (
@@ -8,7 +50,46 @@ export default function Hero() {
       {/* HERO CONTAINER */}
       <div className="heroContainer">
         {/* BACKGROUND IMAGE */}
-        <div className="heroImage" />
+        {/* 3D BACKGROUND */}
+
+        <div className="heroImage">
+          <Canvas
+            style={{
+              width: "100%",
+              height: "100%",
+              touchAction: "none",
+            }}
+            camera={{
+              position: [15, 6, 30],
+              rotation: [0, 0, 0],
+              fov: 45,
+            }}
+            dpr={[1, 2]}
+            gl={{
+              antialias: true,
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.2,
+            }}
+          >
+            <Suspense fallback={null}>
+              <ambientLight intensity={0.8} />
+
+              <directionalLight position={[10, 15, 10]} intensity={3} />
+
+              <directionalLight
+                position={[-10, 8, -10]}
+                intensity={1.5}
+                color="#cfe8ff"
+              />
+
+              <pointLight position={[0, 5, 3]} intensity={2} color="#fff2df" />
+
+              <Environment preset="apartment" />
+
+              <BackgroundModel />
+            </Suspense>
+          </Canvas>
+        </div>
 
         {/* OVERLAY */}
         <div className="heroOverlay" />
@@ -107,9 +188,7 @@ export default function Hero() {
           position: absolute;
 
           inset: 0;
-
-          background-image: url("/images/hero.jpg");
-
+          pointer-events: auto;
           background-size: cover;
           background-position: center;
 
@@ -131,7 +210,12 @@ export default function Hero() {
             rgba(0, 0, 0, 0.05)
           );
         }
-
+        .heroOverlay,
+        .heroContentWrapper,
+        .topLeftCurve,
+        .bottomRightCurve {
+          pointer-events: none;
+        }
         /* =========================
            TOP LEFT CURVE
         ========================= */

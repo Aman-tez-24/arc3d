@@ -10,7 +10,14 @@ export default function Footer() {
       <div className="container">
         {/* BRAND */}
         <div className="brand">
-          <h2>Arc3D</h2>
+          <div
+            className="fotterLogo"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            <img src="/images/logo.png" alt="Arc3D" />
+          </div>
 
           <p>
             Transforming architectural imagination into precise, immersive
@@ -139,6 +146,27 @@ export default function Footer() {
             #ffffff 45%,
             #f7f5f0 100%
           );
+        }
+        .fotterLogo {
+          height: 60px;
+          cursor: pointer;
+          border-radius: 20px;
+
+          background: transparent;
+
+          display: flex;
+        }
+
+        .fotterLogo img {
+          height: 42px;
+          width: auto;
+          object-fit: contain;
+          display: block;
+          user-select: none;
+
+          filter: brightness(0) saturate(100%);
+
+          opacity: 0.95;
         }
 
         .glow {
