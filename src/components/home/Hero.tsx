@@ -40,6 +40,20 @@ function BackgroundModel() {
     ref.current.rotation.y += (targetRotY - ref.current.rotation.y) * 0.06;
     ref.current.rotation.x += (targetRotX - ref.current.rotation.x) * 0.06;
   });
+  useEffect(() => {
+    if (!scene) return;
+
+    // wait 1 frame so geometry + materials are ready
+    requestAnimationFrame(() => {
+      const box = new THREE.Box3().setFromObject(scene);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+
+      scene.position.x = -center.x - 2;
+      scene.position.y = -center.y - 12;
+      scene.position.z = -center.z;
+    });
+  }, [scene]);
 
   return <primitive ref={ref} object={scene} scale={1} />;
 }
