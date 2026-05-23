@@ -124,7 +124,7 @@ export default function Showbg() {
 
           border-radius: 42px;
 
-          background-image: url("/images/showcase.jpg");
+          background-image: url("/images/showcase-bg/showcase-bg.png");
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;

@@ -55,7 +55,7 @@ export default function Hero() {
         {/* BACKGROUND IMAGE */}
         {/* 3D BACKGROUND */}
         <div className="heroImage">
-          <img src="/images/hero.jpg" alt="Arc3D Contact" />
+          <img src="/images/bg.png" alt="Arc3D Contact" />
         </div>
         {/*  <div className="heroImage">
           <Canvas
@@ -189,23 +189,31 @@ export default function Hero() {
 
         .heroImage {
           position: relative;
+
           width: 100%;
+          height: 100%;
+
           overflow: hidden;
+
           box-shadow:
             0 40px 120px rgba(0, 0, 0, 0.12),
             inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
           border: 1px solid rgba(255, 255, 255, 0.4);
+
           z-index: 2;
         }
 
         .heroImage img {
           width: 100%;
           height: 100%;
+
           object-fit: cover;
+
           display: block;
+
           transition: transform 1.2s ease;
         }
-
         .heroImage:hover img {
           transform: scale(1.05);
         }

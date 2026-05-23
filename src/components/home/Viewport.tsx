@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function Viewport() {
+export default function Viewportold() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -41,7 +41,6 @@ export default function Viewport() {
 
       ctx.clearRect(0, 0, w, h);
 
-      /* PREMIUM BACKGROUND */
       const bg = ctx.createLinearGradient(0, 0, w, h);
 
       bg.addColorStop(0, "#f8f6f2");
@@ -51,7 +50,6 @@ export default function Viewport() {
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
 
-      /* SOFT GRID */
       ctx.strokeStyle = "rgba(0,0,0,0.035)";
       ctx.lineWidth = 1;
 
@@ -71,7 +69,6 @@ export default function Viewport() {
         ctx.stroke();
       }
 
-      /* CONNECTION LINES */
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
 
@@ -104,11 +101,9 @@ export default function Viewport() {
         }
       }
 
-      /* NODES */
       for (const p of nodes) {
         const pulse = Math.sin(time * 2 + p.x * 0.01 + p.y * 0.01) * 0.5 + 1;
 
-        /* OUTER GLOW */
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 18);
 
         glow.addColorStop(0, "rgba(0,0,0,0.08)");
@@ -120,7 +115,6 @@ export default function Viewport() {
         ctx.arc(p.x, p.y, 18, 0, Math.PI * 2);
         ctx.fill();
 
-        /* MAIN DOT */
         ctx.beginPath();
 
         ctx.fillStyle = "#111";
@@ -130,7 +124,6 @@ export default function Viewport() {
         ctx.fill();
       }
 
-      /* FLOATING SCAN LINE */
       const scanX = ((Math.sin(time * 0.5) + 1) / 2) * w;
 
       const scan = ctx.createLinearGradient(scanX - 120, 0, scanX + 120, 0);

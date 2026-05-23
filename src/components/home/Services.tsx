@@ -1,6 +1,8 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 export default function Services() {
+  const router = useRouter();
   const services = [
     {
       id: "01",
@@ -8,7 +10,8 @@ export default function Services() {
       title: "2D → 3D Architectural Conversion",
       description:
         "We transform static architectural drawings into immersive cinematic 3D environments with real-world scale, intelligent materials, spatial depth, and experiential walkthrough precision.",
-      image: "/images/showcase.jpg",
+      image: "/images/services/2d-3d-arc-design.png",
+      path: "/servicesSection/2d-to-3d",
     },
     {
       id: "02",
@@ -16,7 +19,8 @@ export default function Services() {
       title: "Custom Floor Planning",
       description:
         "Luxury-driven layout systems engineered for movement, functionality, natural flow, ventilation, and architectural harmony — crafted around human interaction and living behavior.",
-      image: "/images/showcase.jpg",
+      image: "/images/services/floor-planning.png",
+      path: "/servicesSection/ai-design-system",
     },
     {
       id: "03",
@@ -24,7 +28,8 @@ export default function Services() {
       title: "AI Design Assistance",
       description:
         "Advanced architectural intelligence systems generate optimized structural suggestions, lighting strategies, orientation logic, and high-efficiency spatial decisions in real time.",
-      image: "/images/showcase.jpg",
+      image: "/images/services/ai-design-model.png",
+      path: "/servicesSection/floor-planning",
     },
     {
       id: "04",
@@ -32,7 +37,8 @@ export default function Services() {
       title: "Visualization & Rendering",
       description:
         "Ultra-premium cinematic rendering pipelines that deliver emotionally immersive architectural storytelling before construction even begins.",
-      image: "/images/showcase.jpg",
+      image: "/images/services/visualization-rendering.png",
+      path: "/servicesSection/visualization",
     },
   ];
 
@@ -99,7 +105,7 @@ export default function Services() {
               </div>
 
               {/* BUTTON */}
-              <button>
+              <button onClick={() => router.push(service.path)}>
                 Explore Service
                 <span>→</span>
               </button>

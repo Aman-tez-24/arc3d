@@ -24,7 +24,10 @@ export default function ContactSection() {
       <div className="container">
         {/* IMAGE SIDE */}
         <div className="imageBox">
-          <img src="/images/showcase.jpg" alt="architecture contact" />
+          <img
+            src="/images/contactSection/contact-enquiry.png"
+            alt="architecture contact"
+          />
           <div className="overlay" />
           <div className="imageText">
             <h3>Arc3D Studio</h3>

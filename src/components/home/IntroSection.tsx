@@ -17,7 +17,10 @@ export default function IntroSection() {
             </div>
 
             <div className="blob">
-              <img src="/images/hero.jpg" alt="architectural visualization" />
+              <img
+                src="/images/intro/intro1.png"
+                alt="architectural visualization"
+              />
             </div>
 
             {/* FLOATING ELEMENTS */}
@@ -88,7 +91,10 @@ export default function IntroSection() {
             </div>
 
             <div className="blob blob2">
-              <img src="/images/hero.jpg" alt="luxury architectural design" />
+              <img
+                src="/images/intro/intro2.png"
+                alt="luxury architectural design"
+              />
             </div>
 
             <div className="floating floating3" />
