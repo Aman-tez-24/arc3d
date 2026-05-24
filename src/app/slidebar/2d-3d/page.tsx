@@ -2,11 +2,60 @@
 
 import { useState } from "react";
 import Sidebar from "@/components/layout/slidebar";
+import { supabase } from "@/lib/supabase";
 export default function Convert2Dto3DPage() {
   const [file, setFile] = useState<File | null>(null);
   const [planType, setPlanType] = useState("Residential");
   const [prompt, setPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Please upload a floor plan");
+      return;
+    }
+
+    try {
+      // UNIQUE FILE NAME
+      const fileName = `${Date.now()}-${file.name}`;
+
+      // UPLOAD IMAGE
+      const { error: uploadError } = await supabase.storage
+        .from("floorplans")
+        .upload(fileName, file);
+
+      if (uploadError) {
+        console.error(uploadError);
+        alert("Upload failed");
+        return;
+      }
+
+      // GET PUBLIC URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("floorplans").getPublicUrl(fileName);
+
+      // SAVE ORDER DATA
+      const { error: dbError } = await supabase.from("orders").insert([
+        {
+          image_url: publicUrl,
+          plan_type: planType,
+          design_requirements: prompt,
+        },
+      ]);
+
+      if (dbError) {
+        console.error(dbError);
+        alert("Database insert failed");
+        return;
+      }
+
+      alert("Uploaded successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  };
   return (
     <section className="page">
       <Sidebar />
@@ -79,7 +128,9 @@ export default function Convert2Dto3DPage() {
               onChange={(e) => setPrompt(e.target.value)}
             />
 
-            <button className="generate">Order 3D Model →</button>
+            <button className="generate" onClick={handleUpload}>
+              Order 3D Model →
+            </button>
           </div>
 
           {/* RIGHT PREVIEW PANEL */}
@@ -90,9 +141,7 @@ export default function Convert2Dto3DPage() {
             </div>
 
             <div className="previewBox">
-              <p>
-                Your generated 3D environment will appear here after processing.
-              </p>
+              <p>Once processed you can see the model here.</p>
             </div>
 
             <div className="infoGrid">

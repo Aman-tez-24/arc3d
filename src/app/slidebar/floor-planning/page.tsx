@@ -3,9 +3,71 @@
 import { useState } from "react";
 import { Upload, Sparkles, Grid3X3, Home, Building2 } from "lucide-react";
 import Slidebar from "@/components/layout/slidebar";
+import { supabase } from "@/lib/supabase";
 export default function FloorPlanningPage() {
   const [planType, setPlanType] = useState("Residential");
   const [file, setFile] = useState<File | null>(null);
+  const [requirements, setRequirements] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!file) {
+      alert("Please upload a blueprint");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // unique filename
+      const fileName = `${Date.now()}-${file.name}`;
+
+      // upload image
+      const { error: uploadError } = await supabase.storage
+        .from("floorplans")
+        .upload(fileName, file);
+
+      if (uploadError) {
+        console.error(uploadError);
+        alert("Image upload failed");
+        return;
+      }
+
+      // get public url
+      const { data: publicUrlData } = supabase.storage
+        .from("floorplans")
+        .getPublicUrl(fileName);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      // insert into database
+      const { error: dbError } = await supabase.from("floor_plans").insert([
+        {
+          image_url: imageUrl,
+          plan_type: planType,
+          design_requirements: requirements,
+        },
+      ]);
+
+      if (dbError) {
+        console.error(dbError);
+        alert("Database insert failed");
+        return;
+      }
+
+      alert("Floor plan submitted successfully");
+
+      // reset
+      setFile(null);
+      setRequirements("");
+      setPlanType("Residential");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="page">
@@ -66,21 +128,25 @@ export default function FloorPlanningPage() {
           <div className="section">
             <h2>Design Requirements</h2>
 
-            <textarea placeholder="Describe rooms, constraints, vastu preferences, number of floors, special requirements..." />
+            <textarea
+              placeholder="Describe rooms, constraints, vastu preferences, number of floors, special requirements..."
+              value={requirements}
+              onChange={(e) => setRequirements(e.target.value)}
+            />
           </div>
 
           {/* CTA */}
           <div className="cta">
-            <button className="generate">
+            <button className="generate" onClick={handleSubmit}>
               <Sparkles size={18} />
-              Order Floor Plan
+              {loading ? "Submitting..." : "Order Floor Plan"}
             </button>
           </div>
         </div>
 
         {/* RIGHT: INSPECTOR PANEL */}
         <div className="panel">
-          <h2>AI Inspector</h2>
+          <h2>Work flow</h2>
 
           <div className="card">
             <h3>Status</h3>

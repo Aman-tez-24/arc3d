@@ -23,6 +23,7 @@ export default function RootLayout({
     "/slidebar/demo",
     "/profile",
     "/settings",
+    "/slidebar/mywork",
   ];
 
   const hideLayout = hideLayoutRoutes.some((route) =>

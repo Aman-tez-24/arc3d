@@ -10,6 +10,7 @@ import {
   Compass,
   Boxes,
   Settings,
+  Sparkles,
   Bell,
   User,
   Search,
@@ -41,6 +42,11 @@ export default function Sidebar() {
       name: "Demo Models",
       icon: <Boxes size={18} />,
       path: "/slidebar/demo",
+    },
+    {
+      name: "My work",
+      icon: <Sparkles size={18} />,
+      path: "/slidebar/mywork",
     },
   ];
 
@@ -88,7 +94,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <button className="settings" onClick={() => router.push("/settings")}>
+        <button className="settings" onClick={() => router.push("/profile")}>
           <Settings size={18} />
           <span>Settings</span>
         </button>
