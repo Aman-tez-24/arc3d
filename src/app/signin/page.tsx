@@ -34,7 +34,7 @@ export default function AuthPage() {
           displayName: name,
         });
 
-        router.push("/profile");
+        router.push("/projects");
       } else {
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -44,7 +44,7 @@ export default function AuthPage() {
 
         console.log("SIGNED IN USER:", userCredential.user);
 
-        router.push("/profile");
+        router.push("/projects");
       }
     } catch (error: any) {
       console.log(error);
@@ -55,7 +55,33 @@ export default function AuthPage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+
+      const user = result.user;
+
+      let displayName = user.displayName;
+
+      // ask name if google account has no name
+      if (!displayName || displayName.trim() === "") {
+        displayName = prompt("Enter your display name") || "Arc3D User";
+
+        await updateProfile(user, {
+          displayName,
+        });
+      }
+
+      // store extra data locally
+      localStorage.setItem(
+        "arc3d-user",
+        JSON.stringify({
+          uid: user.uid,
+          name: displayName,
+          email: user.email,
+          photo: user.photoURL,
+          location: "",
+          role: "Arc3D Member",
+        }),
+      );
 
       router.push("/projects");
     } catch (error: any) {
