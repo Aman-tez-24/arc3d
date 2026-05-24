@@ -1,6 +1,8 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function Workflow() {
+  const router = useRouter();
   return (
     <section className="workflow">
       {/* BACKGROUND */}
@@ -77,7 +79,18 @@ export default function Workflow() {
         <h3>Ready to bring your vision to life?</h3>
         <p>Start your architectural transformation in minutes.</p>
 
-        <button className="btn">Get Started</button>
+        <button
+          className="btn"
+          onClick={() => {
+            if (auth.currentUser) {
+              router.push("/projects");
+            } else {
+              router.push("/signin");
+            }
+          }}
+        >
+          Get Started
+        </button>
       </div>
 
       {/* CSS */}

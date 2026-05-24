@@ -1,9 +1,67 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { updateProfile } from "firebase/auth";
+import { auth, googleProvider } from "@/lib/firebase";
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const router = useRouter();
+
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const handleAuth = async () => {
+    try {
+      if (isSignUp) {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+
+        await updateProfile(userCredential.user, {
+          displayName: name,
+        });
+
+        router.push("/profile");
+      } else {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+
+        console.log("SIGNED IN USER:", userCredential.user);
+
+        router.push("/profile");
+      }
+    } catch (error: any) {
+      console.log(error);
+
+      alert(error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+
+      router.push("/projects");
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   return (
     <>
@@ -105,18 +163,33 @@ export default function AuthPage() {
                 {isSignUp && (
                   <div className="inputGroup">
                     <label>Full Name</label>
-                    <input type="text" placeholder="Enter your full name" />
+                    <input
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </div>
                 )}
 
                 <div className="inputGroup">
                   <label>Email Address</label>
-                  <input type="email" placeholder="Enter your email" />
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
 
                 <div className="inputGroup">
                   <label>Password</label>
-                  <input type="password" placeholder="Enter your password" />
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
 
                 {isSignUp && (
@@ -140,7 +213,7 @@ export default function AuthPage() {
                   </div>
                 )}
 
-                <button className="submitBtn">
+                <button className="submitBtn" onClick={handleAuth}>
                   {isSignUp ? "Create Account" : "Sign In"}
                 </button>
 
@@ -150,7 +223,7 @@ export default function AuthPage() {
                   <span />
                 </div>
 
-                <button className="googleBtn">
+                <button className="googleBtn" onClick={handleGoogleSignIn}>
                   <div className="googleIcon">G</div>
                   Continue with Google
                 </button>

@@ -1,6 +1,25 @@
 "use client";
+import { useEffect, useState, useRef } from "react";
 
+import { User } from "lucide-react";
+
+import { auth } from "@/lib/firebase";
+
+import { onAuthStateChanged, signOut } from "firebase/auth";
 export default function Navbar() {
+  const [user, setUser] = useState<any>(null);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
   return (
     <>
       <header className="navbar">
@@ -52,14 +71,47 @@ export default function Navbar() {
             Company
           </button>
 
-          <button
-            className="signBtn"
-            onClick={() => {
-              window.location.href = "/signin";
-            }}
-          >
-            Sign in
-          </button>
+          {user ? (
+            <div className="profileWrapper" ref={menuRef}>
+              <button
+                className="profileBtn"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                <User size={18} />
+              </button>
+
+              {menuOpen && (
+                <div className="profileMenu">
+                  <button
+                    onClick={() => {
+                      window.location.href = "/projects";
+                    }}
+                  >
+                    Dashboard
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      await signOut(auth);
+
+                      window.location.href = "/";
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              className="signBtn"
+              onClick={() => {
+                window.location.href = "/signin";
+              }}
+            >
+              Sign in
+            </button>
+          )}
         </nav>
       </header>
 
@@ -195,6 +247,76 @@ export default function Navbar() {
 
         .signBtn:hover {
           transform: scale(1.02);
+        }
+        .profileWrapper {
+          position: relative;
+        }
+
+        .profileBtn {
+          width: 42px;
+          height: 42px;
+
+          border-radius: 50%;
+          border: none;
+
+          background: rgba(255, 255, 255, 0.12);
+
+          color: white;
+
+          cursor: pointer;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          transition: 0.3s ease;
+        }
+
+        .profileBtn:hover {
+          background: rgba(255, 255, 255, 0.18);
+        }
+
+        .profileMenu {
+          position: absolute;
+
+          top: 55px;
+          right: 0;
+
+          width: 180px;
+
+          padding: 10px;
+
+          border-radius: 20px;
+
+          background: rgba(255, 255, 255, 0.12);
+
+          backdrop-filter: blur(18px);
+
+          border: 1px solid rgba(255, 255, 255, 0.12);
+
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .profileMenu button {
+          height: 44px;
+
+          border: none;
+
+          border-radius: 14px;
+
+          background: transparent;
+
+          color: white;
+
+          cursor: pointer;
+
+          transition: 0.3s ease;
+        }
+
+        .profileMenu button:hover {
+          background: rgba(255, 255, 255, 0.08);
         }
       `}</style>
     </>

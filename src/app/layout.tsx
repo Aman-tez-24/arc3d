@@ -7,7 +7,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ZoomBlocker from "../components/ZoomBlocker";
 import Cursor from "../components/Cursor";
-
+import { AuthProvider } from "@/context/AuthContext";
 export default function RootLayout({
   children,
 }: {
@@ -15,21 +15,33 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
 
-  const isAuthPage = pathname === "/signin";
+  const hideLayoutRoutes = [
+    "/signin",
+    "/projects",
+    "/slidebar/2d-3d",
+    "/slidebar/floor-planning",
+    "/slidebar/demo",
+    "/profile",
+    "/settings",
+  ];
+
+  const hideLayout = hideLayoutRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
 
   return (
     <html lang="en">
       <body className="appBody">
-        <ZoomBlocker />
-        <Cursor />
+        <AuthProvider>
+          <ZoomBlocker />
+          <Cursor />
 
-        {/* NAVBAR ONLY IF NOT AUTH PAGE */}
-        {!isAuthPage && <Navbar />}
+          {!hideLayout && <Navbar />}
 
-        <main>{children}</main>
+          <main>{children}</main>
 
-        {/* FOOTER ONLY IF NOT AUTH PAGE */}
-        {!isAuthPage && <Footer />}
+          {!hideLayout && <Footer />}
+        </AuthProvider>
       </body>
     </html>
   );
