@@ -17,7 +17,7 @@ import {
   Settings,
 } from "lucide-react";
 import Slidebar from "@/components/layout/slidebar";
-
+import { auth } from "@/lib/firebase";
 export default function MyWorkModelPreviewPage() {
   const router = useRouter();
 
@@ -28,18 +28,41 @@ export default function MyWorkModelPreviewPage() {
 
   const [model, setModel] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("details");
+
+  const fetchData = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.log("No user found");
+      return;
+    }
+  };
+
   useEffect(() => {
     if (!id || !table) return;
 
     const fetchData = async () => {
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.log("No user found");
+        return;
+      }
+
       const { data, error } = await supabase
         .from(table as "orders" | "floor_plans")
         .select("*")
         .eq("id", id)
+        .eq("user_id", user.uid)
         .single();
 
       if (error) {
         console.error(error);
+        return;
+      }
+
+      if (!data) {
+        console.log("No project found");
         return;
       }
 

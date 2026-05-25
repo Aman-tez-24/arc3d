@@ -19,10 +19,12 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { auth } from "@/lib/firebase";
 import { updateProfile, deleteUser } from "firebase/auth";
+import { supabase } from "@/lib/supabase";
+
 export default function SettingsPage() {
   const router = useRouter();
   const [active, setActive] = useState("account");
-  const [editOpen, setEditOpen] = useState(false);
+
   const menu = [
     { id: "account", label: "Account", icon: <User size={18} /> },
     { id: "notifications", label: "Notifications", icon: <Bell size={18} /> },
@@ -53,55 +55,176 @@ export default function SettingsPage() {
     phone: "",
   });
   useEffect(() => {
-    const currentUser = auth.currentUser;
+    const loadUser = async () => {
+      const currentUser = auth.currentUser;
 
-    const savedUser = localStorage.getItem("arc3d-user");
+      if (!currentUser) return;
 
-    if (currentUser) {
-      const parsedUser = savedUser ? JSON.parse(savedUser) : null;
+      try {
+        // FETCH FROM SUPABASE
+        const { data } = await supabase
+          .from("profiles")
+          .select("photo_url")
+          .eq("user_id", currentUser.uid)
+          .single();
 
-      const updatedUser = {
-        name: parsedUser?.name || currentUser.displayName || "Arc3D User",
+        const savedUser = JSON.parse(
+          localStorage.getItem("arc3d-user") || "{}",
+        );
 
-        email: parsedUser?.email || currentUser.email || "",
+        const photo =
+          data?.photo_url ||
+          savedUser?.photo ||
+          currentUser.photoURL ||
+          "/images/default-avatar.png";
 
-        location: parsedUser?.location || "",
+        const updatedUser = {
+          name: savedUser?.name || currentUser.displayName || "Arc3D User",
+          email: savedUser?.email || currentUser.email || "",
+          location: savedUser?.location || "",
+          role: savedUser?.role || "Arc3D Member",
+          company: savedUser?.company || "",
+          phone: savedUser?.phone || "",
+          photo,
+        };
 
-        role: parsedUser?.role || "Arc3D Member",
+        setUser(updatedUser);
+        setForm(updatedUser);
+        setImagePreview(photo);
 
-        company: parsedUser?.company || "",
+        localStorage.setItem("arc3d-user", JSON.stringify(updatedUser));
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-        phone: parsedUser?.phone || "",
-
-        photo:
-          parsedUser?.photo || currentUser.photoURL || "/profile/avatar.jpg",
-      };
-
-      setUser(updatedUser);
-      setForm(updatedUser);
-    }
+    loadUser();
   }, []);
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = e.target.files?.[0];
+
+      if (!file) return;
+
+      const currentUser = auth.currentUser;
+
+      if (!currentUser) return;
+
+      setUploading(true);
+
+      // EXTENSION
+      const fileExt = file.name.split(".").pop();
+
+      // UNIQUE FILE
+      const fileName = `${currentUser.uid}.${fileExt}`;
+
+      // UPLOAD
+      const { error } = await supabase.storage
+        .from("profiles")
+        .upload(fileName, file, {
+          upsert: true,
+        });
+
+      if (error) {
+        console.log(error);
+        alert("Upload failed");
+        return;
+      }
+
+      // GET URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("profiles").getPublicUrl(fileName);
+
+      // REMOVE CACHE
+      const imageUrl = `${publicUrl}?t=${Date.now()}`;
+
+      // UPDATE FIREBASE
+      await updateProfile(currentUser, {
+        photoURL: imageUrl,
+      });
+
+      // SAVE IN DATABASE
+      await supabase.from("profiles").upsert({
+        user_id: currentUser.uid,
+        photo_url: imageUrl,
+      });
+
+      // UPDATE STATES
+      setImagePreview(imageUrl);
+
+      setForm((prev) => ({
+        ...prev,
+        photo: imageUrl,
+      }));
+
+      setUser((prev) => ({
+        ...prev,
+        photo: imageUrl,
+      }));
+
+      // LOCAL STORAGE
+      const existingUser = JSON.parse(
+        localStorage.getItem("arc3d-user") || "{}",
+      );
+
+      localStorage.setItem(
+        "arc3d-user",
+        JSON.stringify({
+          ...existingUser,
+          photo: imageUrl,
+        }),
+      );
+
+      alert("Profile image updated");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUploading(false);
+    }
+  };
   const stats = [
     { label: "Projects", value: 24, icon: <Layers size={18} /> },
     { label: "3D Models", value: 58, icon: <Box size={18} /> },
     { label: "Renders", value: 112, icon: <Activity size={18} /> },
   ];
   const [imagePreview, setImagePreview] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const fetchProfile = async () => {
+    const currentUser = auth.currentUser;
 
-    if (!file) return;
+    if (!currentUser) return;
 
-    const imageUrl = URL.createObjectURL(file);
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("photo_url")
+        .eq("user_id", currentUser.uid)
+        .single();
 
-    setImagePreview(imageUrl);
+      const profileUrl =
+        data?.photo_url || form.photo || "/images/default-avatar.png";
 
-    setForm({
-      ...form,
-      photo: imageUrl,
-    });
+      setImagePreview(profileUrl);
+
+      setUser((prev) => ({
+        ...prev,
+        photo: profileUrl,
+      }));
+
+      setForm((prev) => ({
+        ...prev,
+        photo: profileUrl,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+    const profilePhoto =
+      user?.photo ||
+      localStorage.getItem("profile-photo") ||
+      "/images/default-avatar.png";
   };
   return (
     <section className="page">
@@ -130,16 +253,18 @@ export default function SettingsPage() {
               <div className="avatarWrapper">
                 <div className="avatarImageBox">
                   <Image
-                    src={imagePreview || form.photo || "/profile/avatar.jpg"}
+                    src={
+                      imagePreview || form.photo || "/images/default-avatar.png"
+                    }
                     alt="Profile"
-                    width={110}
-                    height={110}
+                    fill
+                    sizes="110px"
                     className="previewImage"
                   />
                 </div>
 
                 <label className="uploadBtn">
-                  Upload Photo
+                  {uploading ? "Uploading..." : "Upload Photo"}
                   <input
                     type="file"
                     accept="image/*"
@@ -1051,9 +1176,10 @@ export default function SettingsPage() {
           width: 110px;
           height: 110px;
 
+          overflow: hidden;
           border-radius: 28px;
 
-          overflow: hidden;
+          flex-shrink: 0;
 
           border: 3px solid rgba(255, 255, 255, 0.8);
 
@@ -1065,12 +1191,8 @@ export default function SettingsPage() {
         }
 
         .previewImage {
-          width: 100%;
-          height: 100%;
-
           object-fit: cover;
         }
-
         .uploadBtn {
           padding: 10px 18px;
 

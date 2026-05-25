@@ -18,9 +18,10 @@ import {
 import Slidebar from "@/components/layout/slidebar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/firebase";
 export default function MyWorkPage() {
   const router = useRouter();
-
+  const user = auth.currentUser;
   const [works, setWorks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,72 +30,86 @@ export default function MyWorkPage() {
   }, []);
 
   const fetchWorks = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // FETCH 2D FLOOR PLANS
-    const { data: floorPlans, error: floorError } = await supabase
-      .from("floor_plans")
-      .select("*")
-      .order("created_at", { ascending: false });
+      const firebaseUser = auth.currentUser;
 
-    // FETCH 3D ORDERS
-    const { data: orders, error: orderError } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false });
+      if (!firebaseUser) {
+        console.log("No Firebase user found");
+        setWorks([]);
+        return;
+      }
 
-    console.log("FLOOR PLANS:", floorPlans);
-    console.log("ORDERS:", orders);
+      // FLOOR PLANS
+      const { data: floorPlans, error: floorError } = await supabase
+        .from("floor_plans")
+        .select("*")
+        .eq("user_id", firebaseUser.uid)
+        .order("created_at", { ascending: false });
 
-    if (floorError) {
-      console.error("Floor Plans Error:", floorError);
+      // ORDERS
+      const { data: orders, error: orderError } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", firebaseUser.uid)
+        .order("created_at", { ascending: false });
+
+      if (floorError) {
+        console.error("Floor Plans Error:", floorError);
+      }
+
+      if (orderError) {
+        console.error("Orders Error:", orderError);
+      }
+
+      // FORMAT FLOOR PLANS
+      const formattedFloorPlans = (floorPlans || []).map((item) => ({
+        id: item.id,
+        table: "floor_plans",
+        title: item.title || "2D Floor Plan",
+        image: item.image_url,
+        description: item.description || "",
+        created_at: item.created_at,
+        category: "2D Planning",
+        status: item.status || "Progress",
+      }));
+
+      // FORMAT ORDERS
+      const formattedOrders = (orders || []).map((item) => ({
+        id: item.id,
+        table: "orders",
+        title: item.title || "Architecture",
+        image: item.image_url,
+        description: item.description || "",
+        created_at: item.created_at,
+        category: "3D Architecture",
+        status: item.status || "Progress",
+      }));
+
+      // COMBINE
+      const combinedWorks = [...formattedFloorPlans, ...formattedOrders];
+
+      // SORT
+      combinedWorks.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
+
+      setWorks(combinedWorks);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    if (orderError) {
-      console.error("Orders Error:", orderError);
-    }
-
-    // FORMAT FLOOR PLANS
-    const formattedFloorPlans = (floorPlans || []).map((item) => ({
-      id: item.id,
-      table: "floor_plans",
-      title: item.title || "2D Floor Plan",
-      image: item.image_url,
-      description: item.description || "",
-      created_at: item.created_at,
-      category: "2D Planning",
-      status: "Progress",
-    }));
-
-    // FORMAT 3D ORDERS
-    const formattedOrders = (orders || []).map((item) => ({
-      id: item.id,
-      table: "orders",
-      title: item.title || "Architecture",
-      image: item.image_url,
-      description: item.description || "",
-      created_at: item.created_at,
-      category: "3D Architecture",
-      status: "Progress",
-    }));
-
-    // COMBINE BOTH
-    const combinedWorks = [...formattedFloorPlans, ...formattedOrders];
-
-    // SORT BY DATE
-    combinedWorks.sort(
-      (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-    );
-
-    setWorks(combinedWorks);
-
-    setLoading(false);
   };
 
   const deleteWork = async (id: string, table: string) => {
-    const { error } = await supabase.from(table).delete().eq("id", id);
-
+    const { error } = await supabase
+      .from(table)
+      .delete()
+      .eq("id", id)
+      .eq("user_id", auth.currentUser?.uid);
     if (error) {
       console.error("Delete error:", error);
       return;
@@ -112,8 +127,8 @@ export default function MyWorkPage() {
     const { error } = await supabase
       .from(deleteTable)
       .delete()
-      .eq("id", deleteId);
-
+      .eq("id", deleteId)
+      .eq("user_id", auth.currentUser?.uid);
     if (error) {
       console.error("Delete error:", error.message);
       return;

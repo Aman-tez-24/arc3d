@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { signOut } from "firebase/auth";
+import { supabase } from "@/lib/supabase";
+
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import {
@@ -49,7 +51,9 @@ export default function Sidebar() {
       path: "/slidebar/mywork",
     },
   ];
-
+  const [profilePhoto, setProfilePhoto] = useState(
+    "/images/default-avatar.png",
+  );
   const profileRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -66,13 +70,106 @@ export default function Sidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const fetchProfile = async () => {
+    try {
+      const user = auth.currentUser;
+
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("photo_url")
+        .eq("user_id", user.uid)
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      if (data?.photo_url) {
+        setProfilePhoto(data.photo_url);
+      } else {
+        setProfilePhoto("/images/default-avatar.png");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchProfile();
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = e.target.files?.[0];
+
+      if (!file) return;
+
+      const currentUser = auth.currentUser;
+
+      if (!currentUser) return;
+
+      const fileExt = file.name.split(".").pop();
+
+      const fileName = `${currentUser.uid}-${Date.now()}.${fileExt}`;
+
+      // UPLOAD TO SUPABASE STORAGE
+      const { error: uploadError } = await supabase.storage
+        .from("profiles")
+        .upload(fileName, file, {
+          upsert: true,
+        });
+
+      if (uploadError) {
+        console.log(uploadError);
+        return;
+      }
+
+      // GET PUBLIC URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("profiles").getPublicUrl(fileName);
+
+      // SAVE TO DATABASE
+      const { error: dbError } = await supabase.from("profiles").upsert({
+        user_id: currentUser.uid,
+        photo_url: publicUrl,
+      });
+
+      if (dbError) {
+        console.log(dbError);
+        return;
+      }
+
+      setProfilePhoto(publicUrl);
+
+      alert("Profile photo updated!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <aside className="sidebar">
         <div>
           <div className="logoWrap">
-            <div className="logo" onClick={() => router.push("/")}>
-              <img src="/images/logo.png" alt="Arc3D" />
+            <div
+              className="logo"
+              onClick={() => document.getElementById("profileUpload")?.click()}
+            >
+              <img
+                src={profilePhoto || "/images/default-avatar.png"}
+                alt="Profile"
+              />
             </div>
           </div>
 
@@ -174,8 +271,8 @@ export default function Sidebar() {
         }
 
         .logo {
-          width: 60%;
-          height: 56px;
+          width: 72px;
+          height: 72px;
           border-radius: 18px;
 
           display: flex;
@@ -188,7 +285,10 @@ export default function Sidebar() {
         }
 
         .logo img {
-          width: 60px;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 18px;
         }
 
         .menu {

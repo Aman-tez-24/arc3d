@@ -3,17 +3,25 @@
 import { useState } from "react";
 import Sidebar from "@/components/layout/slidebar";
 import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/firebase";
 export default function Convert2Dto3DPage() {
   const [file, setFile] = useState<File | null>(null);
   const [planType, setPlanType] = useState("Residential");
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
+  const user = auth.currentUser;
 
+  console.log(user?.uid);
   const handleUpload = async () => {
     if (!file) {
       alert("Please upload a floor plan");
       return;
     }
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
+    setLoading(true);
 
     try {
       // UNIQUE FILE NAME
@@ -26,6 +34,7 @@ export default function Convert2Dto3DPage() {
 
       if (uploadError) {
         console.error(uploadError);
+        setLoading(false);
         alert("Upload failed");
         return;
       }
@@ -38,21 +47,38 @@ export default function Convert2Dto3DPage() {
       // SAVE ORDER DATA
       const { error: dbError } = await supabase.from("orders").insert([
         {
+          title: `${planType} 3D Model`,
+          description: prompt,
           image_url: publicUrl,
           plan_type: planType,
           design_requirements: prompt,
+
+          status: "Progress",
+
+          user_id: user?.uid,
+
+          created_at: new Date().toISOString(),
         },
       ]);
 
       if (dbError) {
-        console.error(dbError);
+        console.error("DB ERROR:", JSON.stringify(dbError, null, 2));
+        setLoading(false);
         alert("Database insert failed");
         return;
       }
 
+      // RESET FORM
+      setFile(null);
+      setPrompt("");
+      setPlanType("Residential");
+
+      setLoading(false);
+
       alert("Uploaded successfully!");
     } catch (err) {
       console.error(err);
+      setLoading(false);
       alert("Something went wrong");
     }
   };
@@ -94,6 +120,7 @@ export default function Convert2Dto3DPage() {
               <input
                 id="file"
                 type="file"
+                key={file ? file.name : "empty"}
                 hidden
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
               />
@@ -128,8 +155,12 @@ export default function Convert2Dto3DPage() {
               onChange={(e) => setPrompt(e.target.value)}
             />
 
-            <button className="generate" onClick={handleUpload}>
-              Order 3D Model →
+            <button
+              className="generate"
+              onClick={handleUpload}
+              disabled={loading}
+            >
+              {loading ? "Uploading..." : "Order 3D Model →"}
             </button>
           </div>
 

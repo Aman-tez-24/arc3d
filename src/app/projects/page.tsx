@@ -16,32 +16,9 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Slidebar from "@/components/layout/slidebar";
-const projects = [
-  {
-    title: "Oceanview Luxury Villa",
-    category: "Residential • 3D Visualization",
-    image: "/images/showcase/showcase1.png",
-    status: "Completed",
-  },
-  {
-    title: "Neo Urban Residence",
-    category: "AI Spatial Planning",
-    image: "/images/showcase/showcase2.png",
-    status: "In Progress",
-  },
-  {
-    title: "Smart Nature Estate",
-    category: "Landscape Integration",
-    image: "/images/showcase/showcase3.png",
-    status: "Completed",
-  },
-  {
-    title: "Minimal Glass Pavilion",
-    category: "Concept Architecture",
-    image: "/images/showcase/showcase4.png",
-    status: "Prototype",
-  },
-];
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/firebase";
 
 const demos = [
   "Interactive Walkthrough",
@@ -51,6 +28,75 @@ const demos = [
 ];
 
 export default function Arc3DProjectsPage() {
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      setLoading(true);
+
+      const user = auth.currentUser;
+
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      // FETCH FLOOR PLANS
+      const { data: floorPlans } = await supabase
+        .from("floor_plans")
+        .select("*")
+        .eq("user_id", user.uid)
+        .order("created_at", { ascending: false });
+
+      // FETCH 3D ORDERS
+      const { data: orders } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user.uid)
+        .order("created_at", { ascending: false });
+
+      // FORMAT FLOOR PLANS
+      const formattedFloorPlans = (floorPlans || []).map((item) => ({
+        id: item.id,
+        title: item.title || "2D Floor Plan",
+        category: "2D Planning",
+        image: item.image_url,
+        status: item.status || "Progress",
+        created_at: item.created_at,
+      }));
+
+      // FORMAT ORDERS
+      const formattedOrders = (orders || []).map((item) => ({
+        id: item.id,
+        title: item.title || "3D Architecture",
+        category: "3D Visualization",
+        image: item.image_url,
+        status: item.status || "Progress",
+        created_at: item.created_at,
+      }));
+
+      // COMBINE + SORT
+      const combinedProjects = [
+        ...formattedFloorPlans,
+        ...formattedOrders,
+      ].sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
+
+      setProjects(combinedProjects);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="page">
       {/* BACKGROUND */}
@@ -71,7 +117,10 @@ export default function Arc3DProjectsPage() {
           </div>
 
           <div className="actions">
-            <button className="primaryBtn">
+            <button
+              className="primaryBtn"
+              onClick={() => router.push("/slidebar/2d-3d")}
+            >
               <Sparkles size={16} />
               <span>Create</span>
             </button>
@@ -147,21 +196,41 @@ export default function Arc3DProjectsPage() {
             <h2>Built Architectural Environments</h2>
           </div>
 
-          <button className="viewAll">
+          <button
+            className="viewAll"
+            onClick={() => router.push("/slidebar/mywork")}
+          >
             View All
             <ArrowUpRight size={16} />
           </button>
         </div>
+        {loading && <p className="loadingText">Loading projects...</p>}
 
+        {!loading && projects.length === 0 && (
+          <p className="loadingText">No projects found.</p>
+        )}
         <div className="projectGrid">
           {projects.map((project, index) => (
             <div className="projectCard" key={index}>
               <div className="imageWrap">
-                <img src={project.image} alt={project.title} />
+                <img
+                  src={project.image || "/images/showcase/showcase1.png"}
+                  alt={project.title}
+                />
 
                 <div className="overlay" />
 
-                <div className="status">{project.status}</div>
+                <div
+                  className={`status ${
+                    project.status === "Completed"
+                      ? "completed"
+                      : project.status === "Progress"
+                        ? "progress"
+                        : "prototype"
+                  }`}
+                >
+                  {project.status}
+                </div>
               </div>
 
               <div className="projectContent">
@@ -572,7 +641,26 @@ export default function Arc3DProjectsPage() {
             0 30px 100px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
+        .loadingText {
+          margin-top: 30px;
+          font-size: 15px;
+          color: rgba(0, 0, 0, 0.6);
+        }
 
+        .status.completed {
+          background: rgba(16, 185, 129, 0.18);
+          color: #065f46;
+        }
+
+        .status.progress {
+          background: rgba(245, 158, 11, 0.18);
+          color: #92400e;
+        }
+
+        .status.prototype {
+          background: rgba(59, 130, 246, 0.18);
+          color: #1d4ed8;
+        }
         .stats {
           margin-top: 28px;
 

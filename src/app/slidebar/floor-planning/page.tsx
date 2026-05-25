@@ -4,15 +4,23 @@ import { useState } from "react";
 import { Upload, Sparkles, Grid3X3, Home, Building2 } from "lucide-react";
 import Slidebar from "@/components/layout/slidebar";
 import { supabase } from "@/lib/supabase";
+import { auth } from "@/lib/firebase";
 export default function FloorPlanningPage() {
   const [planType, setPlanType] = useState("Residential");
   const [file, setFile] = useState<File | null>(null);
   const [requirements, setRequirements] = useState("");
   const [loading, setLoading] = useState(false);
+  const user = auth.currentUser;
 
+  console.log(user?.uid);
   const handleSubmit = async () => {
     if (!file) {
       alert("Please upload a blueprint");
+      return;
+    }
+
+    if (!user) {
+      alert("Please login first");
       return;
     }
 
@@ -29,6 +37,9 @@ export default function FloorPlanningPage() {
 
       if (uploadError) {
         console.error(uploadError);
+
+        setLoading(false);
+
         alert("Image upload failed");
         return;
       }
@@ -43,14 +54,27 @@ export default function FloorPlanningPage() {
       // insert into database
       const { error: dbError } = await supabase.from("floor_plans").insert([
         {
+          title: `${planType} Floor Plan`,
+          description: requirements,
+
           image_url: imageUrl,
+
           plan_type: planType,
           design_requirements: requirements,
+
+          status: "Progress",
+
+          user_id: user.uid,
+
+          created_at: new Date().toISOString(),
         },
       ]);
 
       if (dbError) {
         console.error(dbError);
+
+        setLoading(false);
+
         alert("Database insert failed");
         return;
       }
@@ -61,11 +85,14 @@ export default function FloorPlanningPage() {
       setFile(null);
       setRequirements("");
       setPlanType("Residential");
+
+      setLoading(false);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
-    } finally {
+
       setLoading(false);
+
+      alert("Something went wrong");
     }
   };
 
@@ -137,7 +164,11 @@ export default function FloorPlanningPage() {
 
           {/* CTA */}
           <div className="cta">
-            <button className="generate" onClick={handleSubmit}>
+            <button
+              className="generate"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
               <Sparkles size={18} />
               {loading ? "Submitting..." : "Order Floor Plan"}
             </button>
