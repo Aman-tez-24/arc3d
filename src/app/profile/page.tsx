@@ -298,7 +298,7 @@ export default function SettingsPage() {
                   <label>Phone Number</label>
 
                   <input
-                    placeholder="+91 9876543210"
+                    placeholder="+91 04011 05099"
                     value={form.phone || ""}
                     onChange={(e) =>
                       setForm({ ...form, phone: e.target.value })
@@ -731,6 +731,19 @@ export default function SettingsPage() {
         }
 
         .active {
+          background: linear-gradient(
+            135deg,
+            rgba(15, 15, 15, 0.96),
+            rgba(45, 55, 75, 0.95)
+          );
+
+          color: white;
+
+          box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.16),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .active:hover {
           background: linear-gradient(
             135deg,
             rgba(15, 15, 15, 0.96),

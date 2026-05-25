@@ -13,61 +13,118 @@ import {
   MoreHorizontal,
   Eye,
   Download,
+  Trash2,
 } from "lucide-react";
 import Slidebar from "@/components/layout/slidebar";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 export default function MyWorkPage() {
   const router = useRouter();
 
-  const works = [
-    {
-      title: "Luxury Forest Villa",
-      type: "3D Architecture",
-      status: "Completed",
-      image: "/images/showcase/showcase1.png",
-      date: "May 22, 2026",
-      icon: <Cuboid size={18} />,
-    },
-    {
-      title: "Modern Duplex Floor Plan",
-      type: "2D Planning",
-      status: "Processing",
-      image: "/images/showcase/showcase2.png",
-      date: "May 19, 2026",
-      icon: <Compass size={18} />,
-    },
-    {
-      title: "Vastu Optimized Residence",
-      type: "Vastu Layout",
-      status: "Completed",
-      image: "/images/showcase/showcase3.png",
-      date: "May 16, 2026",
-      icon: <Sparkles size={18} />,
-    },
-    {
-      title: "Smart Space Interior",
-      type: "3D Visualization",
-      status: "Rendering",
-      image: "/images/showcase/showcase4.png",
-      date: "May 12, 2026",
-      icon: <Cuboid size={18} />,
-    },
-    {
-      title: "Commercial Tower Blueprint",
-      type: "2D Planning",
-      status: "Completed",
-      image: "/images/showcase/showcase.png",
-      date: "May 08, 2026",
-      icon: <Compass size={18} />,
-    },
-    {
-      title: "AI Generated Smart Layout",
-      type: "AI Design",
-      status: "Completed",
-      image: "/images/showcase/showcase1.png",
-      date: "May 03, 2026",
-      icon: <Sparkles size={18} />,
-    },
-  ];
+  const [works, setWorks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchWorks();
+  }, []);
+
+  const fetchWorks = async () => {
+    setLoading(true);
+
+    // FETCH 2D FLOOR PLANS
+    const { data: floorPlans, error: floorError } = await supabase
+      .from("floor_plans")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    // FETCH 3D ORDERS
+    const { data: orders, error: orderError } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    console.log("FLOOR PLANS:", floorPlans);
+    console.log("ORDERS:", orders);
+
+    if (floorError) {
+      console.error("Floor Plans Error:", floorError);
+    }
+
+    if (orderError) {
+      console.error("Orders Error:", orderError);
+    }
+
+    // FORMAT FLOOR PLANS
+    const formattedFloorPlans = (floorPlans || []).map((item) => ({
+      id: item.id,
+      table: "floor_plans",
+      title: item.title || "2D Floor Plan",
+      image: item.image_url,
+      description: item.description || "",
+      created_at: item.created_at,
+      category: "2D Planning",
+      status: "Progress",
+    }));
+
+    // FORMAT 3D ORDERS
+    const formattedOrders = (orders || []).map((item) => ({
+      id: item.id,
+      table: "orders",
+      title: item.title || "Architecture",
+      image: item.image_url,
+      description: item.description || "",
+      created_at: item.created_at,
+      category: "3D Architecture",
+      status: "Progress",
+    }));
+
+    // COMBINE BOTH
+    const combinedWorks = [...formattedFloorPlans, ...formattedOrders];
+
+    // SORT BY DATE
+    combinedWorks.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+
+    setWorks(combinedWorks);
+
+    setLoading(false);
+  };
+
+  const deleteWork = async (id: string, table: string) => {
+    const { error } = await supabase.from(table).delete().eq("id", id);
+
+    if (error) {
+      console.error("Delete error:", error);
+      return;
+    }
+
+    setWorks((prev) => prev.filter((item) => item.id !== id));
+  };
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteTable, setDeleteTable] = useState<string | null>(null);
+  const confirmDelete = async () => {
+    if (!deleteId || !deleteTable) return;
+
+    console.log("Deleting from:", deleteTable, deleteId);
+
+    const { error } = await supabase
+      .from(deleteTable)
+      .delete()
+      .eq("id", deleteId);
+
+    if (error) {
+      console.error("Delete error:", error.message);
+      return;
+    }
+
+    // refresh from DB (BEST PRACTICE)
+    await fetchWorks();
+
+    setDeleteId(null);
+    setDeleteTable(null);
+  };
 
   return (
     <section className="page">
@@ -146,29 +203,56 @@ export default function MyWorkPage() {
         {/* CATEGORY PILLS */}
         <div className="pills">
           <button className="pill active">All Works</button>
-          <button className="pill">3D Models</button>
+          {/* <button className="pill">3D Models</button>
           <button className="pill">2D Plans</button>
           <button className="pill">Vastu Plans</button>
-          <button className="pill">AI Generated</button>
+          <button className="pill">AI Generated</button>*/}
         </div>
-
+        {!loading && works.length === 0 && (
+          <p className="loading">No projects found.</p>
+        )}
+        {loading && <p className="loading">Loading projects...</p>}
         {/* GRID */}
         <div className="grid">
           {works.map((work, index) => (
-            <div className="card" key={index}>
+            <div
+              className="card"
+              key={index}
+              onClick={() =>
+                router.push(
+                  `/slidebar/myworkOpen?id=${work.id}&table=${work.table}`,
+                )
+              }
+              style={{ cursor: "pointer" }}
+            >
               <div className="imageWrap">
-                <img src={work.image} alt={work.title} />
+                <img
+                  src={work.image || "/images/showcase/showcase1.png"}
+                  alt={work.title}
+                />
 
                 <div className="overlay" />
 
                 <div className="topInfo">
                   <div className="type">
-                    {work.icon}
-                    <span>{work.type}</span>
+                    {work.category === "2D Planning" ? (
+                      <Compass size={18} />
+                    ) : (
+                      <Cuboid size={18} />
+                    )}
+                    <span>Architecture Project</span>
                   </div>
+                  {/* */}
 
-                  <button className="moreBtn">
-                    <MoreHorizontal size={16} />
+                  <button
+                    className="moreBtn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteId(work.id);
+                      setDeleteTable(work.table);
+                    }}
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
 
@@ -177,35 +261,54 @@ export default function MyWorkPage() {
                     <h3>{work.title}</h3>
                     <div className="meta">
                       <Clock3 size={14} />
-                      <span>{work.date}</span>
+                      <span>
+                        {new Date(work.created_at).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
 
-                  <div
-                    className={`status ${work.status
-                      .toLowerCase()
-                      .replace(/ /g, "")}`}
-                  >
-                    {work.status}
-                  </div>
+                  <div className="status completed">Process...</div>
                 </div>
               </div>
 
               <div className="cardFooter">
-                <button>
-                  <Eye size={16} />
-                  Open
-                </button>
+                <div className="cardFooter">
+                  <button
+                    disabled={work.status !== "Completed"}
+                    className={work.status !== "Completed" ? "disabledBtn" : ""}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (work.status === "Completed") {
+                        router.push(
+                          `/slidebar/myworkOpen?id=${work.id}&table=${work.table}`,
+                        );
+                      }
+                    }}
+                  >
+                    <Eye size={16} />
+                    Open
+                  </button>
 
-                <button>
-                  <Download size={16} />
-                  Export
-                </button>
+                  <button
+                    disabled={work.status !== "Completed"}
+                    className={work.status !== "Completed" ? "disabledBtn" : ""}
+                    onClick={() => {
+                      if (work.status === "Completed") {
+                        console.log("Export:", work.id);
+                      }
+                    }}
+                  >
+                    <Download size={16} />
+                    Export
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      {/* GRID */}
+      {loading && <p className="loading">Loading projects...</p>}
 
       <style jsx>{`
         .page {
@@ -592,17 +695,20 @@ export default function MyWorkPage() {
 
         .cardFooter {
           display: flex;
-          gap: 14px;
+          gap: 48px;
           padding: 22px;
+          height: 100px;
         }
 
         .cardFooter button {
           flex: 1;
           display: flex;
+          height: 50;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          padding: 14px;
+          margin-top: -20px;
+          padding: 12px;
           border-radius: 16px;
           border: 1px solid rgba(0, 0, 0, 0.06);
           background: rgba(255, 255, 255, 0.65);
@@ -614,7 +720,63 @@ export default function MyWorkPage() {
           transform: translateY(-3px);
           background: white;
         }
+        .disabledBtn {
+          opacity: 0.45;
+          cursor: not-allowed !important;
+          pointer-events: none;
+          background: rgba(255, 255, 255, 0.35) !important;
+          color: rgba(0, 0, 0, 0.45);
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          box-shadow: none !important;
+          transform: none !important;
+        }
 
+        .disabledBtn:hover {
+          transform: none !important;
+          background: rgba(255, 255, 255, 0.35) !important;
+        }
+        .modalOverlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999;
+        }
+
+        .modal {
+          width: 360px;
+          padding: 24px;
+          border-radius: 20px;
+          background: white;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+          text-align: center;
+        }
+
+        .modalActions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+        }
+
+        .modalActions button {
+          padding: 10px 16px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+        }
+
+        .modalActions .danger {
+          background: #ef4444;
+          color: white;
+        }
+        .loading {
+          margin-top: 30px;
+          font-size: 14px;
+          opacity: 0.6;
+        }
         @media (max-width: 1200px) {
           .grid {
             grid-template-columns: repeat(2, 1fr);
@@ -661,6 +823,29 @@ export default function MyWorkPage() {
           }
         }
       `}</style>
+      {deleteId && (
+        <div className="modalOverlay">
+          <div className="modal">
+            <h3>Delete Project?</h3>
+            <p>This action cannot be undone.</p>
+
+            <div className="modalActions">
+              <button
+                onClick={() => {
+                  setDeleteId(null);
+                  setDeleteTable(null);
+                }}
+              >
+                Cancel
+              </button>
+
+              <button className="danger" onClick={confirmDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
