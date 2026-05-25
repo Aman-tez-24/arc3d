@@ -215,16 +215,7 @@ export default function MyWorkPage() {
         {/* GRID */}
         <div className="grid">
           {works.map((work, index) => (
-            <div
-              className="card"
-              key={index}
-              onClick={() =>
-                router.push(
-                  `/slidebar/myworkOpen?id=${work.id}&table=${work.table}`,
-                )
-              }
-              style={{ cursor: "pointer" }}
-            >
+            <div className="card" key={index} style={{ cursor: "pointer" }}>
               <div className="imageWrap">
                 <img
                   src={work.image || "/images/showcase/showcase1.png"}
@@ -272,36 +263,34 @@ export default function MyWorkPage() {
               </div>
 
               <div className="cardFooter">
-                <div className="cardFooter">
-                  <button
-                    disabled={work.status !== "Completed"}
-                    className={work.status !== "Completed" ? "disabledBtn" : ""}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (work.status === "Completed") {
-                        router.push(
-                          `/slidebar/myworkOpen?id=${work.id}&table=${work.table}`,
-                        );
-                      }
-                    }}
-                  >
-                    <Eye size={16} />
-                    Open
-                  </button>
+                <button
+                  disabled={work.status !== "Completed"}
+                  className={work.status !== "Completed" ? "disabledBtn" : ""}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (work.status === "Completed") {
+                      router.push(
+                        `/slidebar/myworkOpen/${work.table}/${work.id}`,
+                      );
+                    }
+                  }}
+                >
+                  <Eye size={16} />
+                  Open
+                </button>
 
-                  <button
-                    disabled={work.status !== "Completed"}
-                    className={work.status !== "Completed" ? "disabledBtn" : ""}
-                    onClick={() => {
-                      if (work.status === "Completed") {
-                        console.log("Export:", work.id);
-                      }
-                    }}
-                  >
-                    <Download size={16} />
-                    Export
-                  </button>
-                </div>
+                <button
+                  disabled={work.status !== "Completed"}
+                  className={work.status !== "Completed" ? "disabledBtn" : ""}
+                  onClick={() => {
+                    if (work.status === "Completed") {
+                      console.log("Export:", work.id);
+                    }
+                  }}
+                >
+                  <Download size={16} />
+                  Export
+                </button>
               </div>
             </div>
           ))}
@@ -707,7 +696,7 @@ export default function MyWorkPage() {
           align-items: center;
           justify-content: center;
           gap: 10px;
-          margin-top: -20px;
+
           padding: 12px;
           border-radius: 16px;
           border: 1px solid rgba(0, 0, 0, 0.06);
