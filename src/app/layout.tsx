@@ -8,6 +8,7 @@ import Footer from "../components/layout/Footer";
 import ZoomBlocker from "../components/ZoomBlocker";
 import Cursor from "../components/Cursor";
 import { AuthProvider } from "@/context/AuthContext";
+import { useMobileBlock } from "@/hooks/useMobileBlock";
 export default function RootLayout({
   children,
 }: {
@@ -29,6 +30,7 @@ export default function RootLayout({
   const hideLayout = hideLayoutRoutes.some((route) =>
     pathname.startsWith(route),
   );
+  useMobileBlock();
 
   return (
     <html lang="en">
