@@ -1,6 +1,8 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function AboutPage() {
+  const router = useRouter();
   return (
     <section className="aboutPage">
       {/* HERO */}
@@ -172,7 +174,17 @@ export default function AboutPage() {
           experienced.
         </p>
 
-        <button>Get Started</button>
+        <button
+          onClick={() => {
+            if (auth.currentUser) {
+              router.push("/projects");
+            } else {
+              router.push("/signin");
+            }
+          }}
+        >
+          Get Started
+        </button>
       </div>
 
       <style jsx>{`

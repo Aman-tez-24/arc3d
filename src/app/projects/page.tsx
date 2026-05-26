@@ -146,7 +146,10 @@ export default function Arc3DProjectsPage() {
             </p>
 
             <div className="heroButtons">
-              <button className="primaryBtn largeBtn">
+              <button
+                className="primaryBtn largeBtn"
+                onClick={() => router.push("/slidebar/2d-3d")}
+              >
                 Start New Environment
               </button>
 
@@ -240,7 +243,7 @@ export default function Arc3DProjectsPage() {
                 <div className="bottomRow">
                   <p>Immersive architectural visualization system.</p>
 
-                  <button>
+                  <button onClick={() => router.push("/slidebar/mywork")}>
                     <ArrowUpRight size={18} />
                   </button>
                 </div>

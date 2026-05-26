@@ -1,7 +1,7 @@
 "use client";
 
-import { initializeApp, getApps, getApp } from "firebase/app";
-
+import { initializeApp, getApps, getApp, } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -22,5 +22,5 @@ const app = !getApps().length
   : getApp();
 
 export const auth = getAuth(app);
-
+export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();

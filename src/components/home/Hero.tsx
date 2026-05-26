@@ -9,6 +9,7 @@ import { Environment, useGLTF } from "@react-three/drei";
 
 import * as THREE from "three";
 
+import { ChevronUp } from "lucide-react";
 /*function BackgroundModel() {
   const { scene } = useGLTF("/models/scene.gltf");
 
@@ -55,7 +56,7 @@ export default function Hero() {
         {/* BACKGROUND IMAGE */}
         {/* 3D BACKGROUND */}
         <div className="heroImage">
-          <img src="/images/bg.png" alt="Arc3D Contact" />
+          <img src="/images/hero/bg.png" alt="Arc3D Contact" />
         </div>
         {/*  <div className="heroImage">
           <Canvas
@@ -156,7 +157,7 @@ export default function Hero() {
             });
           }}
         >
-          −
+          <ChevronUp />
         </div>
       </div>
 

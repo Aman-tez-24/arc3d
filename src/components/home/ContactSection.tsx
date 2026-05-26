@@ -1,13 +1,46 @@
 "use client";
 
 import { useState } from "react";
-
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 export default function ContactSection() {
   const [form, setForm] = useState({
     name: "",
     email: "",
     query: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.query) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await addDoc(collection(db, "contact_requests"), {
+        name: form.name,
+        email: form.email,
+        query: form.query,
+        createdAt: serverTimestamp(),
+      });
+
+      setForm({ name: "", email: "", query: "" });
+      setSuccess(true);
+
+      setTimeout(() => setSuccess(false), 3000);
+      alert("Request sent successfully!");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to send request");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="contact">
@@ -66,7 +99,17 @@ export default function ContactSection() {
             />
           </div>
 
-          <button className="btn">Send Request</button>
+          <button
+            className="btn"
+            onClick={handleSubmit}
+            disabled={loading}
+            style={{
+              opacity: loading ? 0.6 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
+          >
+            {loading ? "Sending..." : "Send Request"}
+          </button>
         </div>
       </div>
 

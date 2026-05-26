@@ -1,6 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
 
 export default function Showcase() {
+  const router = useRouter();
   const projects = [
     {
       title: "Modern Villa Concept",
@@ -28,6 +32,14 @@ export default function Showcase() {
     },
   ];
 
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsub();
+  }, []);
   return (
     <section id="showcase" className="showcase">
       {/* BACKGROUND */}
@@ -81,9 +93,17 @@ export default function Showcase() {
 
               <h3>{project.title}</h3>
 
-              <button>
-                Explore Project
-                <span>→</span>
+              <button
+                className="navItem"
+                onClick={() => {
+                  if (user) {
+                    router.push("/projects");
+                  } else {
+                    router.push("/signup");
+                  }
+                }}
+              >
+                {user ? "Explore Project" : "Explore Project"} <span>→</span>
               </button>
             </div>
           </div>

@@ -171,7 +171,7 @@ export default function Navbar() {
           align-items: center;
           gap: 4px;
 
-          background: rgba(185, 200, 210, 0.14);
+          background: rgba(199, 199, 199, 0.45);
 
           backdrop-filter: blur(18px);
 

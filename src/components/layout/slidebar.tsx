@@ -16,6 +16,8 @@ import {
   Bell,
   User,
   Search,
+  CheckCircle2,
+  MessageSquare,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -157,6 +159,81 @@ export default function Sidebar() {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  /* const notifications = [
+    {
+      id: 1,
+      title: "3D Model Generated",
+      message: "Your luxury villa render has been completed.",
+      time: "2 min ago",
+      icon: <Sparkles size={16} />,
+    },
+    {
+      id: 2,
+      title: "New Message",
+      message: "Architect team sent feedback on your floor plan.",
+      time: "15 min ago",
+      icon: <MessageSquare size={16} />,
+    },
+    {
+      id: 3,
+      title: "Project Approved",
+      message: "Your modern elevation design was approved.",
+      time: "1 hour ago",
+      icon: <CheckCircle2 size={16} />,
+    },
+  ];*/
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNotifications = async () => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    setLoading(true);
+
+    const { data, error } = await supabase
+      .from("notifications")
+      .select("*")
+      .eq("user_id", currentUser.uid)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.log(error);
+    } else {
+      setNotifications(data || []);
+    }
+
+    setLoading(false);
+  };
+
+  const handleOpen = () => {
+    const next = !open;
+    setOpen(next);
+
+    if (next) fetchNotifications();
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
   return (
     <>
       <aside className="sidebar">
@@ -170,6 +247,14 @@ export default function Sidebar() {
                 src={profilePhoto || "/images/default-avatar.png"}
                 alt="Profile"
               />
+            </div>
+            <div
+              className="navbarLogo"
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            >
+              <img src="/images/logo.png" alt="Arc3D" />
             </div>
           </div>
 
@@ -205,9 +290,47 @@ export default function Sidebar() {
         </div>
 
         <div className="topbarRight">
-          <button className="iconBtn">
-            <Bell size={20} />
-          </button>
+          <div className="notificationWrapper" ref={cardRef}>
+            <button className="iconBtn" onClick={handleOpen}>
+              <Bell size={20} />
+
+              {unreadCount > 0 && <span className="notificationDot" />}
+            </button>
+
+            {open && (
+              <div className="notificationCard">
+                <div className="notificationHeader">
+                  <h3>Notifications</h3>
+
+                  <span>{notifications.length} New</span>
+                </div>
+
+                <div className="notificationList">
+                  {loading ? (
+                    <p style={{ padding: "20px" }}>Loading...</p>
+                  ) : notifications.length === 0 ? (
+                    <p style={{ padding: "20px" }}>No notifications</p>
+                  ) : (
+                    notifications.map((item) => (
+                      <div className="notificationItem" key={item.id}>
+                        <div className="notificationIcon">
+                          <Bell size={16} />
+                        </div>
+
+                        <div className="notificationContent">
+                          <h4>{item.title}</h4>
+                          <p>{item.message}</p>
+                          <span>
+                            {new Date(item.created_at).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="profileWrapper" ref={profileRef}>
             <button
@@ -291,6 +414,46 @@ export default function Sidebar() {
           border-radius: 18px;
         }
 
+        .navbarLogo {
+          width: 128px;
+          height: 68px;
+          margin-left: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          border-radius: 14px;
+
+          background: rgba(255, 255, 255, 0);
+          /* backdrop-filter: blur(18px);
+
+          border: 1px solid rgba(255, 255, 255, 0.7);
+
+          box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+*/
+          cursor: pointer;
+
+          transition: all 0.35s ease;
+
+          overflow: hidden;
+        }
+
+        .navbarLogo:hover {
+          transform: translateY(-3px) scale(1.03);
+          /* box-shadow:
+            0 18px 45px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9); */
+        }
+
+        .navbarLogo img {
+          width: 80%;
+          height: 80%;
+          object-fit: contain;
+
+          filter: brightness(0) saturate(100%);
+        }
         .menu {
           display: flex;
           flex-direction: column;
@@ -548,6 +711,193 @@ export default function Sidebar() {
 
         .confirmBtn:hover {
           background: #dc2626;
+        }
+        .notificationWrapper {
+          position: relative;
+        }
+
+        .iconBtn {
+          width: 42px;
+          height: 42px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.5);
+
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .iconBtn:hover {
+          transform: translateY(-2px);
+        }
+
+        .notificationDot {
+          position: absolute;
+
+          top: 12px;
+          right: 12px;
+
+          width: 10px;
+          height: 10px;
+
+          border-radius: 999px;
+
+          background: #ff3b30;
+
+          border: 2px solid white;
+        }
+
+        .notificationCard {
+          position: absolute;
+
+          top: 68px;
+          right: 0;
+
+          width: 380px;
+
+          padding: 22px;
+
+          border-radius: 30px;
+
+          background: rgba(255, 255, 255, 0.87);
+
+          backdrop-filter: blur(30px);
+
+          border: 1px solid rgba(255, 255, 255, 0.7);
+
+          box-shadow:
+            0 40px 120px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+          animation: popup 0.25s ease;
+        }
+
+        @keyframes popup {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.98);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0px) scale(1);
+          }
+        }
+
+        .notificationHeader {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          margin-bottom: 20px;
+        }
+
+        .notificationHeader h3 {
+          font-size: 22px;
+          font-weight: 700;
+        }
+
+        .notificationHeader span {
+          font-size: 12px;
+
+          padding: 6px 10px;
+
+          border-radius: 999px;
+
+          background: rgba(0, 0, 0, 0.06);
+        }
+
+        .notificationList {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+
+          max-height: 420px;
+          overflow-y: auto;
+
+          padding-right: 6px;
+
+          scrollbar-width: thin; /* Firefox */
+          scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+        }
+
+        /* Chrome / Edge / Safari */
+        .notificationList::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .notificationList::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .notificationList::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.25);
+          border-radius: 999px;
+          transition: all 0.3s ease;
+        }
+
+        .notificationList::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.45);
+        }
+        .notificationItem {
+          display: flex;
+          gap: 14px;
+
+          padding: 16px;
+
+          border-radius: 22px;
+
+          background: rgb(255, 255, 255);
+
+          border: 1px solid rgba(255, 255, 255, 0.7);
+
+          transition: 0.3s ease;
+        }
+
+        .notificationItem:hover {
+          transform: translateY(-2px);
+
+          background: white;
+        }
+
+        .notificationIcon {
+          min-width: 42px;
+          height: 42px;
+
+          border-radius: 14px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          background: linear-gradient(135deg, #111, #37445e);
+
+          color: white;
+        }
+
+        .notificationContent h4 {
+          font-size: 15px;
+          margin-bottom: 6px;
+        }
+
+        .notificationContent p {
+          font-size: 13px;
+          line-height: 1.6;
+
+          color: rgba(0, 0, 0, 0.65);
+
+          margin-bottom: 8px;
+        }
+
+        .notificationContent span {
+          font-size: 11px;
+
+          color: rgba(0, 0, 0, 0.45);
         }
 
         /* animations */

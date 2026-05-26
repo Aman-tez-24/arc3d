@@ -1,6 +1,18 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
 export default function ServicesPage() {
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const router = useRouter();
   return (
     <section className="servicesPage">
       {/* HERO — CINEMATIC INTRO */}
@@ -109,7 +121,7 @@ export default function ServicesPage() {
       </div>
 
       {/* SUBSCRIPTION SECTION (LUXURY SaaS STYLE) */}
-      <div className="pricing">
+      {/*  <div className="pricing">
         <h2>Membership Access</h2>
 
         <div className="plans">
@@ -158,13 +170,24 @@ export default function ServicesPage() {
           </div>
         </div>
       </div>
-
+*/}
       {/* FINAL CTA */}
       <div className="cta">
         <h2>Build Something That Has Never Existed</h2>
         <p>Arc3D is not software — it is a new way of thinking about space.</p>
 
-        <button>Enter Arc3D</button>
+        <button
+          onClick={() => {
+            if (user) {
+              router.push("/projects"); // dashboard
+            } else {
+              router.push("/signup");
+            }
+          }}
+          className="joinBtn"
+        >
+          {user ? "Go to Dashboard" : "Enter Arc3D"}
+        </button>
       </div>
 
       <style jsx>{`

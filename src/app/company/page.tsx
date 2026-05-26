@@ -1,6 +1,18 @@
 "use client";
-
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 export default function CompanyPage() {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const router = useRouter();
   return (
     <section className="companyPage">
       {/* HERO */}
@@ -171,7 +183,18 @@ export default function CompanyPage() {
           space.
         </p>
 
-        <button>Join Arc3D</button>
+        <button
+          onClick={() => {
+            if (user) {
+              router.push("/projects"); // dashboard
+            } else {
+              router.push("/signup");
+            }
+          }}
+          className="joinBtn"
+        >
+          {user ? "Go to Dashboard" : "Join Arc3D"}
+        </button>
       </div>
 
       <style jsx>{`

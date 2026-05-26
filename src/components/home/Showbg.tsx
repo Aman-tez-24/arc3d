@@ -1,6 +1,17 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
 export default function Showbg() {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsub();
+  }, []);
   return (
     <section className="showbg">
       {/* TOP LABEL */}
@@ -35,9 +46,17 @@ export default function Showbg() {
               explored digitally.
             </p>
 
-            <button>
-              Explore Project
-              <span>→</span>
+            <button
+              className="navItem"
+              onClick={() => {
+                if (user) {
+                  router.push("/projects");
+                } else {
+                  router.push("/signup");
+                }
+              }}
+            >
+              {user ? "Explore Project" : "Explore Project"} <span>→</span>
             </button>
           </div>
 

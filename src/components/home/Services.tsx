@@ -1,5 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
 
 export default function Services() {
   const router = useRouter();
@@ -41,6 +43,15 @@ export default function Services() {
       path: "/servicesSection/visualization",
     },
   ];
+
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsub();
+  }, []);
 
   return (
     <section className="services">
@@ -105,9 +116,16 @@ export default function Services() {
               </div>
 
               {/* BUTTON */}
-              <button onClick={() => router.push(service.path)}>
-                Explore Service
-                <span>→</span>
+              <button
+                onClick={() => {
+                  if (user) {
+                    router.push("/projects");
+                  } else {
+                    router.push("/signup");
+                  }
+                }}
+              >
+                {user ? "Go to Dashboard" : "Join Arc3D"}
               </button>
             </div>
           </div>

@@ -133,7 +133,12 @@ export default function IntroSection() {
             intelligent digital presence.
           </p>
 
-          <button>
+          <button
+            className="navItem"
+            onClick={() => {
+              window.location.href = "/about";
+            }}
+          >
             Explore Spatial Engine
             <span>→</span>
           </button>
