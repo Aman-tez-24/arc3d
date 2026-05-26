@@ -1,9 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function AIDesignSystemPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const router = useRouter();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -148,9 +160,30 @@ export default function AIDesignSystemPage() {
           </p>
 
           <div className="buttons">
-            <button>Launch AI System</button>
+            <button
+              onClick={() => {
+                if (user) {
+                  router.push("/projects"); // dashboard
+                } else {
+                  router.push("/signin");
+                }
+              }}
+            >
+              Generate model
+            </button>
 
-            <button className="ghost">Explore Intelligence</button>
+            <button
+              className="ghost"
+              onClick={() => {
+                if (user) {
+                  router.push("/projects"); // dashboard
+                } else {
+                  router.push("/signin");
+                }
+              }}
+            >
+              Explore Intelligence
+            </button>
           </div>
         </div>
       </div>
@@ -322,7 +355,17 @@ export default function AIDesignSystemPage() {
             spatial reasoning and immersive design systems.
           </p>
 
-          <button>Launch AI Design Engine</button>
+          <button
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
+            Launch AI Design Engine
+          </button>
         </div>
       </div>
 

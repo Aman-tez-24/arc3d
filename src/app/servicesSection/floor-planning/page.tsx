@@ -1,8 +1,19 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function FloorPlanningPage() {
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -124,8 +135,29 @@ export default function FloorPlanningPage() {
         </p>
 
         <div className="buttons">
-          <button>Generate Plan</button>
-          <button className="ghost">Upload Blueprint</button>
+          <button
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
+            Generate Plan
+          </button>
+          <button
+            className="ghost"
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
+            Upload Blueprint
+          </button>
         </div>
 
         {/* STATS */}
@@ -273,7 +305,17 @@ export default function FloorPlanningPage() {
             systems and architectural precision.
           </p>
 
-          <button>Start Planning</button>
+          <button
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
+            Start Planning
+          </button>
         </div>
       </div>
 

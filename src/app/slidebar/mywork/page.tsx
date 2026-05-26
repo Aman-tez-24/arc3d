@@ -21,12 +21,20 @@ import { supabase } from "@/lib/supabase";
 import { auth } from "@/lib/firebase";
 export default function MyWorkPage() {
   const router = useRouter();
-  const user = auth.currentUser;
   const [works, setWorks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchWorks();
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        fetchWorks(); // ✅ no arguments
+      } else {
+        setWorks([]);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const fetchWorks = async () => {
@@ -36,10 +44,11 @@ export default function MyWorkPage() {
       const firebaseUser = auth.currentUser;
 
       if (!firebaseUser) {
-        console.log("No Firebase user found");
         setWorks([]);
         return;
       }
+
+      const uid = firebaseUser.uid;
 
       // FLOOR PLANS
       const { data: floorPlans, error: floorError } = await supabase
@@ -140,7 +149,63 @@ export default function MyWorkPage() {
     setDeleteId(null);
     setDeleteTable(null);
   };
+  const [profilePhoto, setProfilePhoto] = useState<string>(
+    "/images/default-avatar.png",
+  );
 
+  const [totalProjects, setTotalProjects] = useState(0);
+
+  /*
+  const fetchTotalProjects = async (user: any) => {
+    if (!user) return;
+
+    const { count, error } = await supabase
+      .from("projects")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.uid);
+
+    if (error) {
+      console.log("count error:", error);
+      return;
+    }
+
+    setTotalProjects(count || 0);
+  };
+
+  const fetchProfile = async (user: any) => {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("photo_url")
+      .eq("user_id", user.uid)
+      .single();
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    setProfilePhoto(data?.photo_url || "/images/default-avatar.png");
+  };
+
+  
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchWorks();
+        fetchProfile(user);
+        fetchTotalProjects(user);
+      } else {
+        setWorks([]);
+        setTotalProjects(0);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+*/
   return (
     <section className="page">
       <Slidebar />
@@ -199,17 +264,17 @@ export default function MyWorkPage() {
 
           <div className="heroStats">
             <div className="statCard">
-              <h3>48</h3>
+              <h3>{totalProjects}</h3>
               <span>Total Projects</span>
             </div>
 
             <div className="statCard">
-              <h3>12</h3>
+              <h3>0</h3>
               <span>Currently Rendering</span>
             </div>
 
             <div className="statCard">
-              <h3>98%</h3>
+              <h3>100%</h3>
               <span>Completion Accuracy</span>
             </div>
           </div>
@@ -223,10 +288,11 @@ export default function MyWorkPage() {
           <button className="pill">Vastu Plans</button>
           <button className="pill">AI Generated</button>*/}
         </div>
+
+        {loading && <p className="loading">Loading projects...</p>}
         {!loading && works.length === 0 && (
           <p className="loading">No projects found.</p>
         )}
-        {loading && <p className="loading">Loading projects...</p>}
         {/* GRID */}
         <div className="grid">
           {works.map((work, index) => (
@@ -312,7 +378,6 @@ export default function MyWorkPage() {
         </div>
       </div>
       {/* GRID */}
-      {loading && <p className="loading">Loading projects...</p>}
 
       <style jsx>{`
         .page {

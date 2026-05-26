@@ -1,10 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function TwoDtoThreeDPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const router = useRouter();
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -260,7 +271,15 @@ export default function TwoDtoThreeDPage() {
             intelligent spatial visualization.
           </p>
 
-          <button>
+          <button
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
             Begin Conversion
             <span>→</span>
           </button>

@@ -1,10 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 export default function VisualizationPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+    });
 
+    return () => unsubscribe();
+  }, []);
+  const router = useRouter();
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -168,9 +178,30 @@ export default function VisualizationPage() {
           </p>
 
           <div className="buttons">
-            <button>Launch Render Engine</button>
+            <button
+              onClick={() => {
+                if (user) {
+                  router.push("/projects"); // dashboard
+                } else {
+                  router.push("/signin");
+                }
+              }}
+            >
+              Launch Render Engine
+            </button>
 
-            <button className="ghost">Explore Gallery</button>
+            <button
+              className="ghost"
+              onClick={() => {
+                if (user) {
+                  router.push("/projects"); // dashboard
+                } else {
+                  router.push("/signin");
+                }
+              }}
+            >
+              Explore Gallery
+            </button>
           </div>
         </div>
       </div>
@@ -332,7 +363,17 @@ export default function VisualizationPage() {
             with cinematic realism and spatial precision.
           </p>
 
-          <button>Start Visualization</button>
+          <button
+            onClick={() => {
+              if (user) {
+                router.push("/projects"); // dashboard
+              } else {
+                router.push("/signin");
+              }
+            }}
+          >
+            Start Visualization
+          </button>
         </div>
       </div>
 

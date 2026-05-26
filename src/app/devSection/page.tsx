@@ -34,7 +34,13 @@ export default function DevSectionPage() {
         </p>
 
         <div className="heroActions">
-          <button>Explore SDK</button>
+          <button
+            onClick={() => {
+              alert("Under development");
+            }}
+          >
+            Explore SDK
+          </button>
           <button className="ghost">Read Documentation</button>
         </div>
       </div>
@@ -183,7 +189,7 @@ engine.render({
       <div className="terminal">
         <div className="pulse" />
         <span>System Status:</span>
-        <p>All Rendering Systems Operational</p>
+        <p>Syatem upder development</p>
       </div>
 
       {/* FOOTER */}
