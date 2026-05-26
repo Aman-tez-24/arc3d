@@ -25,6 +25,7 @@ export default function RootLayout({
     "/profile",
     "/settings",
     "/slidebar/mywork",
+    "/mobile-block",
   ];
 
   const hideLayout = hideLayoutRoutes.some((route) =>
