@@ -52,7 +52,7 @@ export default function Showbg() {
                 if (user) {
                   router.push("/projects");
                 } else {
-                  router.push("/signup");
+                  router.push("/signin");
                 }
               }}
             >

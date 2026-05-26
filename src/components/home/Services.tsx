@@ -121,7 +121,7 @@ export default function Services() {
                   if (user) {
                     router.push("/projects");
                   } else {
-                    router.push("/signup");
+                    router.push("/signin");
                   }
                 }}
               >

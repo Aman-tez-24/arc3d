@@ -71,7 +71,7 @@ export default function FloorPlanningPage() {
       ]);
 
       if (dbError) {
-        console.error(dbError);
+        console.error("DB ERROR:", JSON.stringify(dbError, null, 2));
 
         setLoading(false);
 

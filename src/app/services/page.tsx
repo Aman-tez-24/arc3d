@@ -181,7 +181,7 @@ export default function ServicesPage() {
             if (user) {
               router.push("/projects"); // dashboard
             } else {
-              router.push("/signup");
+              router.push("/signin");
             }
           }}
           className="joinBtn"
