@@ -127,6 +127,7 @@ export default function Hero() {
               storytelling.
             </p>
             <button
+              className="explore"
               onClick={() => {
                 const section = document.getElementById("showcase");
 
@@ -252,6 +253,41 @@ export default function Hero() {
         .topLeftCurve,
         .bottomRightCurve {
           pointer-events: none;
+        }
+
+        .explore {
+          margin-top: 32px;
+
+          display: flex;
+          align-items: center;
+          gap: 14px;
+
+          padding: 12px 28px;
+
+          border: none;
+
+          border-radius: 999px;
+
+          background: #0a0a0a;
+
+          color: white;
+
+          font-size: 13px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+
+          cursor: pointer;
+
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.07);
+
+          transition: all 0.35s ease;
+        }
+
+        .explore:hover {
+          background: #0a0a0a;
+
+          transform: translateY(-6px);
+          gap: 18px;
         }
         /* =========================
            TOP LEFT CURVE
@@ -449,7 +485,7 @@ export default function Hero() {
 
         /* =========================
            BUTTON
-        ========================= */
+        ========================= 
 
         .heroContent button {
           margin-top: 30px;
@@ -480,7 +516,7 @@ export default function Hero() {
         .heroContent button:hover {
           gap: 20px;
         }
-
+*/
         .heroContent span {
           font-size: 1.5rem;
         }

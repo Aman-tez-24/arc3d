@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function DevSectionPage() {
   return (
     <section className="page">
-      {/* PREMIUM BACKGROUND */}
+      {/* BACKGROUND */}
       <div className="noise" />
       <div className="gridOverlay" />
 
@@ -18,131 +18,127 @@ export default function DevSectionPage() {
       <div className="hero">
         <div className="badge">
           <span className="dot" />
-          ARC3D DEVELOPER HUB
+          ARC3D INNOVATION HUB
         </div>
 
         <h1>
-          Build Intelligent
+          Building The Future
           <br />
-          Spatial Systems
+          Of Architectural Intelligence
         </h1>
 
         <p>
-          Access rendering APIs, AI architecture systems, visualization
-          pipelines, and developer tools engineered for next-generation 3D
-          architectural platforms.
+          Arc3D is expanding beyond visualization into intelligent architectural
+          systems, spatial automation, and AI-assisted design workflows focused
+          on the future of architecture.
         </p>
 
         <div className="heroActions">
-          <button
-            onClick={() => {
-              alert("Under development");
-            }}
-          >
-            Explore SDK
-          </button>
-          <button className="ghost">Read Documentation</button>
+          <Link href="/internship">
+            <button>Apply Internship</button>
+          </Link>
+
+          <Link href="/contact">
+            <button className="ghost">Collaborate With Us</button>
+          </Link>
         </div>
       </div>
 
       {/* METRICS */}
       <div className="metrics">
         <div className="metric">
-          <h3>REST + WebGL</h3>
-          <span>High Performance APIs</span>
+          <h3>2D → 3D</h3>
+          <span>AI Research Pipeline</span>
         </div>
 
         <div className="metric">
-          <h3>AI Driven</h3>
-          <span>Spatial Intelligence Engine</span>
+          <h3>Spatial AI</h3>
+          <span>Architectural Intelligence</span>
         </div>
 
         <div className="metric">
-          <h3>Real-Time</h3>
-          <span>3D Visualization Pipeline</span>
+          <h3>4K Visuals</h3>
+          <span>Cinematic Rendering</span>
         </div>
       </div>
 
-      {/* DEV GRID */}
+      {/* GRID */}
       <div className="grid">
-        <Link href="/docs" className="card large">
+        <Link href="/devSection/research" className="card large">
           <div className="topLine" />
 
           <span className="index">01</span>
 
-          <h2>API Systems</h2>
+          <h2>Research Program</h2>
 
           <p>
-            Connect to Arc3D rendering engines, AI processors, and visualization
-            services through scalable REST and real-time rendering APIs.
+            Explore Arc3D research initiatives focused on AI-assisted
+            architectural generation, spatial automation, and intelligent 3D
+            workflows.
           </p>
 
           <div className="bottom">
-            <span>Explore APIs</span>
+            <span>Explore Research</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link href="/docs" className="card">
+        <Link href="/devSection/careers" className="card">
           <div className="topLine" />
 
           <span className="index">02</span>
 
-          <h2>Integration</h2>
+          <h2>Careers</h2>
 
           <p>
-            Plug Arc3D into React, Next.js, Unity, enterprise architecture
-            systems, and immersive visualization workflows.
+            Join Arc3D and help shape next-generation architectural experiences,
+            visualization systems, and future spatial technologies.
           </p>
 
           <div className="bottom">
-            <span>View Stack</span>
+            <span>View Careers</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link href="/docs" className="card">
+        <Link href="/devSection/technology" className="card">
           <div className="topLine" />
 
           <span className="index">03</span>
 
-          <h2>Architecture</h2>
+          <h2>Technology Stack</h2>
 
           <p>
-            Understand rendering infrastructure, AI spatial systems, and the
-            neural visualization pipeline powering Arc3D.
+            Discover the technologies powering Arc3D including React, Next.js,
+            Blender workflows, rendering systems, and AI development pipelines.
           </p>
 
           <div className="bottom">
-            <span>See System</span>
+            <span>See Stack</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link
-          href="https://github.com/yourrepo"
-          target="_blank"
-          className="card highlight"
-        >
+        <Link href="/devSection/collaborate" className="card highlight">
           <div className="topLine" />
 
           <span className="index">04</span>
 
-          <h2>GitHub</h2>
+          <h2>Collaborate With Us</h2>
 
           <p>
-            Access SDKs, developer resources, rendering modules, and open-source
-            infrastructure behind Arc3D.
+            Partner with Arc3D on architectural visualization, spatial research,
+            AI systems, or next-generation design innovation projects.
           </p>
 
           <div className="bottom">
-            <span>Open Repository</span>
+            <span>Start Collaboration</span>
             <span>↗</span>
           </div>
         </Link>
       </div>
 
-      {/* CODE WINDOW */}
+      {/* RESEARCH WINDOW */}
       <div className="codeSection">
         <div className="codeHeader">
           <div className="controls">
@@ -151,7 +147,7 @@ export default function DevSectionPage() {
             <span />
           </div>
 
-          <p>arc3d-sdk / visualization-engine.ts</p>
+          <p>arc3d / ai-research-roadmap.md</p>
         </div>
 
         <div className="codeContent">
@@ -169,27 +165,25 @@ export default function DevSectionPage() {
           </div>
 
           <pre>
-            {`import { Arc3D } from "arc3d-sdk";
-
-const engine = new Arc3D.Engine({
-  lighting: "cinematic",
-  quality: "ultra",
-});
-
-await engine.load("/models/villa.glb");
-
-engine.render({
-  environment: "sunset",
-});`}
+            {`• 2D Floor Plan Understanding
+• Intelligent Wall Detection
+• Spatial Room Segmentation
+• Automatic Furniture Placement
+• Material Recommendation System
+• Lighting & Shadow Prediction
+• 3D Scene Reconstruction
+• Architectural AI Research
+• Blender Automation Pipeline
+• Spatial Visualization Engine`}
           </pre>
         </div>
       </div>
 
-      {/* TERMINAL BAR */}
+      {/* STATUS */}
       <div className="terminal">
         <div className="pulse" />
-        <span>System Status:</span>
-        <p>Syatem upder development</p>
+        <span>Research Status:</span>
+        <p>Active Development Phase</p>
       </div>
 
       {/* FOOTER */}
@@ -197,9 +191,9 @@ engine.render({
         <div className="footerLine" />
 
         <p>
-          “Build once.
+          “Designing the future
           <br />
-          Visualize infinitely.”
+          of architectural intelligence.”
         </p>
       </div>
 
@@ -220,7 +214,6 @@ engine.render({
           color: #111;
         }
 
-        /* NOISE */
         .noise {
           position: absolute;
           inset: 0;
@@ -236,7 +229,6 @@ engine.render({
           pointer-events: none;
         }
 
-        /* GRID */
         .gridOverlay {
           position: absolute;
           inset: 0;
@@ -252,7 +244,6 @@ engine.render({
           opacity: 0.45;
         }
 
-        /* ORBS */
         .orb {
           position: absolute;
           border-radius: 999px;
@@ -285,7 +276,6 @@ engine.render({
           transform: translateX(-50%);
         }
 
-        /* HERO */
         .hero {
           position: relative;
           z-index: 2;
@@ -314,8 +304,6 @@ engine.render({
           letter-spacing: 0.32em;
 
           color: rgba(0, 0, 0, 0.55);
-
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
         }
 
         .dot {
@@ -371,15 +359,6 @@ engine.render({
           font-weight: 700;
 
           cursor: pointer;
-
-          transition:
-            transform 0.4s ease,
-            box-shadow 0.4s ease;
-        }
-
-        button:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
         }
 
         .ghost {
@@ -391,7 +370,6 @@ engine.render({
           border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* METRICS */
         .metrics {
           position: relative;
           z-index: 2;
@@ -413,17 +391,12 @@ engine.render({
 
           border: 1px solid rgba(255, 255, 255, 0.7);
 
-          box-shadow:
-            0 30px 80px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-
           text-align: center;
         }
 
         .metric h3 {
           font-size: 32px;
           font-weight: 800;
-          letter-spacing: -1px;
         }
 
         .metric span {
@@ -437,7 +410,6 @@ engine.render({
           color: rgba(0, 0, 0, 0.5);
         }
 
-        /* GRID */
         .grid {
           position: relative;
           z-index: 2;
@@ -451,10 +423,6 @@ engine.render({
         }
 
         .card {
-          position: relative;
-
-          overflow: hidden;
-
           padding: 42px;
           border-radius: 34px;
 
@@ -465,25 +433,6 @@ engine.render({
           backdrop-filter: blur(24px);
 
           border: 1px solid rgba(255, 255, 255, 0.75);
-
-          box-shadow:
-            0 30px 100px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7);
-
-          transition:
-            transform 0.6s ease,
-            box-shadow 0.6s ease,
-            background 0.6s ease;
-        }
-
-        .card:hover {
-          transform: translateY(-12px);
-
-          background: rgba(255, 255, 255, 0.75);
-
-          box-shadow:
-            0 50px 140px rgba(0, 0, 0, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .large {
@@ -518,7 +467,6 @@ engine.render({
 
           font-size: 34px;
           line-height: 1.05;
-          letter-spacing: -1.5px;
           font-weight: 800;
         }
 
@@ -529,15 +477,12 @@ engine.render({
           line-height: 1.9;
 
           color: rgba(0, 0, 0, 0.62);
-
-          max-width: 420px;
         }
 
         .bottom {
           margin-top: 42px;
 
           display: flex;
-          align-items: center;
           justify-content: space-between;
 
           font-size: 13px;
@@ -547,7 +492,6 @@ engine.render({
           color: rgba(0, 0, 0, 0.55);
         }
 
-        /* CODE SECTION */
         .codeSection {
           position: relative;
           z-index: 2;
@@ -561,10 +505,6 @@ engine.render({
           border-radius: 34px;
 
           background: #0b1020;
-
-          box-shadow:
-            0 50px 140px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .codeHeader {
@@ -577,8 +517,6 @@ engine.render({
           justify-content: space-between;
 
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
-          background: rgba(255, 255, 255, 0.03);
         }
 
         .controls {
@@ -596,9 +534,6 @@ engine.render({
 
         .codeHeader p {
           font-size: 12px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-
           color: rgba(255, 255, 255, 0.45);
         }
 
@@ -626,11 +561,8 @@ engine.render({
 
           font-size: 14px;
           line-height: 2;
-
-          overflow-x: auto;
         }
 
-        /* TERMINAL */
         .terminal {
           position: relative;
           z-index: 2;
@@ -651,8 +583,6 @@ engine.render({
           backdrop-filter: blur(20px);
 
           border: 1px solid rgba(255, 255, 255, 0.7);
-
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
         }
 
         .pulse {
@@ -663,20 +593,6 @@ engine.render({
           background: #111;
         }
 
-        .terminal span {
-          font-size: 12px;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-
-          color: rgba(0, 0, 0, 0.45);
-        }
-
-        .terminal p {
-          font-size: 13px;
-          color: rgba(0, 0, 0, 0.72);
-        }
-
-        /* FOOTER */
         .footer {
           position: relative;
           z-index: 2;
@@ -699,20 +615,12 @@ engine.render({
           font-size: 18px;
           line-height: 1.8;
 
-          letter-spacing: 0.04em;
-
           color: rgba(0, 0, 0, 0.55);
         }
 
-        /* RESPONSIVE */
         @media (max-width: 900px) {
           .page {
             padding: 120px 18px;
-          }
-
-          .hero h1 {
-            line-height: 1;
-            letter-spacing: -2px;
           }
 
           .heroActions {
@@ -725,22 +633,6 @@ engine.render({
 
           .grid {
             grid-template-columns: 1fr;
-          }
-
-          .card {
-            padding: 34px 28px;
-          }
-
-          .card h2 {
-            font-size: 28px;
-          }
-
-          .codeContent {
-            padding: 24px;
-          }
-
-          .footer {
-            margin-top: 100px;
           }
         }
       `}</style>

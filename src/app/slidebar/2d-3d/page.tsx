@@ -101,9 +101,9 @@ export default function Convert2Dto3DPage() {
           </h1>
 
           <p>
-            Upload architectural blueprints, define design intent, and let the
-            Arc3D AI engine reconstruct fully spatial, real-world accurate 3D
-            environments in seconds.
+            Upload your architectural floor plans and project requirements, and
+            our team will transform them into detailed, high-quality 3D
+            architectural models and visualizations tailored to your vision.
           </p>
         </div>
 
@@ -177,23 +177,23 @@ export default function Convert2Dto3DPage() {
 
             <div className="infoGrid">
               <div className="infoCard">
-                <h3>AI Parsing</h3>
-                <p>Detects walls, rooms & structure</p>
+                <h3>Plan Review</h3>
+                <p>Architectural drawings are analyzed</p>
               </div>
 
               <div className="infoCard">
-                <h3>Spatial Mapping</h3>
-                <p>Converts layout into 3D space</p>
+                <h3>3D Modeling</h3>
+                <p>Floor plans are transformed 3D structures</p>
               </div>
 
               <div className="infoCard">
-                <h3>Material Engine</h3>
-                <p>Applies textures & realism</p>
+                <h3>Material & Detailing</h3>
+                <p>Textures and architectural elements are applied</p>
               </div>
 
               <div className="infoCard">
-                <h3>Rendering</h3>
-                <p>Generates cinematic output</p>
+                <h3>Visualization</h3>
+                <p>High-quality renders are produced for presentation</p>
               </div>
             </div>
           </div>

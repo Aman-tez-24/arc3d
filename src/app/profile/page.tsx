@@ -17,24 +17,32 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { updateProfile, deleteUser } from "firebase/auth";
 import { supabase } from "@/lib/supabase";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
 
 export default function SettingsPage() {
   const router = useRouter();
   const [active, setActive] = useState("account");
-
+  const [profileLoading, setProfileLoading] = useState(true);
   const menu = [
     { id: "account", label: "Account", icon: <User size={18} /> },
     { id: "notifications", label: "Notifications", icon: <Bell size={18} /> },
     { id: "security", label: "Security", icon: <Lock size={18} /> },
-    { id: "appearance", label: "Appearance", icon: <Palette size={18} /> },
-    { id: "ai", label: "AI Settings", icon: <Sparkles size={18} /> },
+    //{ id: "appearance", label: "Appearance", icon: <Palette size={18} /> },
+    //{ id: "ai", label: "AI Settings", icon: <Sparkles size={18} /> },
     { id: "data", label: "Data", icon: <Database size={18} /> },
-    { id: "global", label: "Global", icon: <Globe size={18} /> },
+    // { id: "global", label: "Global", icon: <Globe size={18} /> },
   ];
-
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [updatingPassword, setUpdatingPassword] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -58,47 +66,52 @@ export default function SettingsPage() {
     const loadUser = async () => {
       const currentUser = auth.currentUser;
 
-      if (!currentUser) return;
+      if (!currentUser) {
+        setProfileLoading(false);
+        return;
+      }
 
       try {
-        // FETCH FROM SUPABASE
         const { data } = await supabase
           .from("profiles")
           .select("photo_url")
           .eq("user_id", currentUser.uid)
           .single();
 
-        const savedUser = JSON.parse(
-          localStorage.getItem("arc3d-user") || "{}",
-        );
-
         const photo =
           data?.photo_url ||
-          savedUser?.photo ||
           currentUser.photoURL ||
           "/images/default-avatar.png";
 
         const updatedUser = {
-          name: savedUser?.name || currentUser.displayName || "Arc3D User",
-          email: savedUser?.email || currentUser.email || "",
-          location: savedUser?.location || "",
-          role: savedUser?.role || "Arc3D Member",
-          company: savedUser?.company || "",
-          phone: savedUser?.phone || "",
+          name: currentUser.displayName || "Arc3D User",
+          email: currentUser.email || "",
+          location: "",
+          role: "Arc3D Member",
+          company: "",
+          phone: "",
           photo,
         };
 
         setUser(updatedUser);
         setForm(updatedUser);
         setImagePreview(photo);
-
-        localStorage.setItem("arc3d-user", JSON.stringify(updatedUser));
       } catch (error) {
         console.log(error);
+      } finally {
+        setProfileLoading(false);
       }
     };
 
-    loadUser();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        loadUser();
+      } else {
+        setProfileLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -221,10 +234,140 @@ export default function SettingsPage() {
     } catch (error) {
       console.log(error);
     }
-    const profilePhoto =
-      user?.photo ||
-      localStorage.getItem("profile-photo") ||
-      "/images/default-avatar.png";
+  };
+  const handlePasswordUpdate = async () => {
+    try {
+      setUpdatingPassword(true);
+
+      const user = auth.currentUser;
+
+      if (!user || !user.email) {
+        alert("User not found");
+        return;
+      }
+
+      if (!currentPassword || !newPassword) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+      }
+
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        currentPassword,
+      );
+
+      await reauthenticateWithCredential(user, credential);
+
+      await updatePassword(user, newPassword);
+
+      setCurrentPassword("");
+      setNewPassword("");
+
+      alert("Password updated successfully");
+    } catch (error: any) {
+      console.log(error);
+
+      if (error.code === "auth/wrong-password") {
+        alert("Current password is incorrect");
+      } else {
+        alert(error.message);
+      }
+    } finally {
+      setUpdatingPassword(false);
+    }
+  };
+
+  const [notifSettings, setNotifSettings] = useState({
+    emailUpdates: false,
+    aiAlerts: false,
+    projectActivity: false,
+  });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+
+      if (snap.exists()) {
+        const data = snap.data()?.settings?.notifications;
+
+        if (data) {
+          setNotifSettings({
+            emailUpdates: data.emailUpdates ?? false,
+            aiAlerts: data.aiAlerts ?? false,
+            projectActivity: data.projectActivity ?? false,
+          });
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+  const updateNotificationSetting = async (key: string, value: boolean) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const updated = {
+      ...notifSettings,
+      [key]: value,
+    };
+
+    setNotifSettings(updated);
+
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        settings: {
+          notifications: updated,
+        },
+      },
+      { merge: true },
+    );
+  };
+
+  const handleClearCache = () => {
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+
+      alert("Cache cleared successfully");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const [deleting, setDeleting] = useState(false);
+  const handleDeleteProjects = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const confirmDelete = confirm(
+      "This will permanently delete all your projects.",
+    );
+
+    if (!confirmDelete) return;
+
+    setDeleting(true);
+
+    const { error } = await supabase
+      .from("projects")
+      .delete()
+      .eq("user_id", user.uid);
+
+    setDeleting(false);
+
+    if (error) {
+      alert("Delete failed");
+      return;
+    }
+
+    alert("Projects deleted successfully");
   };
   return (
     <section className="page">
@@ -251,16 +394,18 @@ export default function SettingsPage() {
           <div className="sidebarTop">
             <div className="profile">
               <div className="avatarWrapper">
-                <div className="avatarImageBox">
-                  <Image
-                    src={
-                      imagePreview || form.photo || "/images/default-avatar.png"
-                    }
-                    alt="Profile"
-                    fill
-                    sizes="110px"
-                    className="previewImage"
-                  />
+                <div className="avatarContainer">
+                  {profileLoading ? (
+                    <div className="avatarSkeleton" />
+                  ) : (
+                    <Image
+                      src={imagePreview || "/images/default-avatar.png"}
+                      alt="Profile"
+                      fill
+                      sizes="110px"
+                      className="previewImage"
+                    />
+                  )}
                 </div>
 
                 <label className="uploadBtn">
@@ -510,7 +655,16 @@ export default function SettingsPage() {
                     <p>Receive system and workspace notifications.</p>
                   </div>
 
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={notifSettings.emailUpdates}
+                    onChange={(e) =>
+                      updateNotificationSetting(
+                        "emailUpdates",
+                        e.target.checked,
+                      )
+                    }
+                  />
                 </div>
 
                 <div className="toggle">
@@ -519,7 +673,13 @@ export default function SettingsPage() {
                     <p>Get alerts when AI tasks are completed.</p>
                   </div>
 
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={notifSettings.aiAlerts}
+                    onChange={(e) =>
+                      updateNotificationSetting("aiAlerts", e.target.checked)
+                    }
+                  />
                 </div>
 
                 <div className="toggle">
@@ -528,7 +688,16 @@ export default function SettingsPage() {
                     <p>Track collaboration and workspace activity.</p>
                   </div>
 
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={notifSettings.projectActivity}
+                    onChange={(e) =>
+                      updateNotificationSetting(
+                        "projectActivity",
+                        e.target.checked,
+                      )
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -546,19 +715,37 @@ export default function SettingsPage() {
 
               <div className="formGrid">
                 <div className="inputBox full">
-                  <label>New Password</label>
-                  <input placeholder="••••••••••••" />
+                  <label>Current Password</label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="Enter current password"
+                  />
                 </div>
 
                 <div className="inputBox full">
-                  <label>Two-Factor Authentication</label>
-                  <input placeholder="Enter authentication code" />
+                  <label>New Password</label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                  />
                 </div>
+
+                <button
+                  className="saveBtn"
+                  onClick={handlePasswordUpdate}
+                  disabled={updatingPassword}
+                >
+                  {updatingPassword ? "Updating..." : "Update Password"}
+                </button>
               </div>
             </div>
           )}
 
-          {/* APPEARANCE */}
+          {/* APPEARANCE 
           {active === "appearance" && (
             <div className="card">
               <div className="cardHeader">
@@ -569,28 +756,24 @@ export default function SettingsPage() {
               </div>
 
               <div className="themeGrid">
-                <div className="theme activeTheme">
+                <div
+                  className={`theme ${theme === "light" ? "activeTheme" : ""}`}
+                  onClick={() => changeTheme("light")}
+                >
                   <div className="themePreview light" />
                   <span>Light</span>
                 </div>
 
-                <div className="theme">
+                <div
+                  className={`theme ${theme === "dark" ? "activeTheme" : ""}`}
+                  onClick={() => changeTheme("dark")}
+                >
                   <div className="themePreview dark" />
                   <span>Dark</span>
                 </div>
-
-                <div className="theme">
-                  <div className="themePreview glass" />
-                  <span>Glass</span>
-                </div>
-
-                <div className="theme">
-                  <div className="themePreview neon" />
-                  <span>Neon</span>
-                </div>
               </div>
             </div>
-          )}
+          )}*/}
 
           {/* AI */}
           {active === "ai" && (
@@ -625,12 +808,12 @@ export default function SettingsPage() {
               </div>
 
               <div className="dangerZone">
-                <button>Clear Cache</button>
-                <button>Delete Projects</button>
+                <button onClick={handleClearCache}>Clear Cache</button>
+
+                <button onClick={handleDeleteProjects}>Delete Projects</button>
               </div>
             </div>
           )}
-
           {/* GLOBAL */}
           {active === "global" && (
             <div className="card">
@@ -656,6 +839,31 @@ export default function SettingsPage() {
 
       {/* STYLES */}
       <style jsx>{`
+        body.dark-mode {
+          background: #0f1115;
+          color: #ffffff;
+        }
+
+        /* cards */
+        body.dark-mode .card {
+          background: rgba(20, 22, 28, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* inputs */
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode select {
+          background: #1a1d25;
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* text dim fix */
+        body.dark-mode p,
+        body.dark-mode span {
+          color: rgba(255, 255, 255, 0.7);
+        }
         .page {
           position: relative;
           min-height: 100vh;
@@ -1170,28 +1378,97 @@ export default function SettingsPage() {
           gap: 14px;
         }
 
-        .avatarImageBox {
+        .avatarContainer {
           position: relative;
 
           width: 110px;
           height: 110px;
 
           overflow: hidden;
-          border-radius: 28px;
-
           flex-shrink: 0;
 
-          border: 3px solid rgba(255, 255, 255, 0.8);
+          border-radius: 28px;
 
-          background: linear-gradient(135deg, #575757, #606368);
+          border: 3px solid rgba(255, 255, 255, 0.9);
+
+          background: rgba(255, 255, 255, 0.75);
+
+          backdrop-filter: blur(24px);
 
           box-shadow:
-            0 20px 50px rgba(0, 0, 0, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            0 25px 60px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .previewImage {
           object-fit: cover;
+        }
+
+        .avatarSkeleton {
+          position: absolute;
+          inset: 0;
+
+          border-radius: 25px;
+
+          background: linear-gradient(
+            90deg,
+            rgba(240, 240, 240, 0.9) 25%,
+            rgba(225, 225, 225, 0.95) 50%,
+            rgba(240, 240, 240, 0.9) 75%
+          );
+
+          background-size: 200% 100%;
+
+          animation: shimmer 1.4s linear infinite;
+        }
+
+        @keyframes shimmer {
+          from {
+            background-position: 200% 0;
+          }
+
+          to {
+            background-position: -200% 0;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .profile {
+            flex-direction: column;
+            text-align: center;
+            gap: 20px;
+          }
+
+          .profile h3 {
+            font-size: 26px;
+          }
+        }
+        .avatarSkeleton {
+          position: absolute;
+          inset: 0;
+
+          border-radius: 25px;
+
+          background: linear-gradient(
+            90deg,
+            rgba(240, 240, 240, 0.9) 25%,
+            rgba(225, 225, 225, 0.95) 50%,
+            rgba(240, 240, 240, 0.9) 75%
+          );
+
+          background-size: 200% 100%;
+
+          animation: avatarShimmer 1.5s linear infinite;
+        }
+
+        @keyframes avatarShimmer {
+          0% {
+            background-position: 200% 0;
+          }
+
+          100% {
+            background-position: -200% 0;
+          }
         }
         .uploadBtn {
           padding: 10px 18px;

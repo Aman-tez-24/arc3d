@@ -62,18 +62,18 @@ export default function IntroSection() {
 
           <div className="stats">
             <div className="statCard">
-              <h3>120+</h3>
-              <span>Projects Visualized</span>
+              <h3>4+</h3>
+              <span>Projects</span>
             </div>
 
             <div className="statCard">
-              <h3>Real-Time</h3>
-              <span>Spatial Rendering</span>
+              <h3>Cinematic</h3>
+              <span>Spatial Visualization</span>
             </div>
 
             <div className="statCard">
-              <h3>AI Driven</h3>
-              <span>Design Systems</span>
+              <h3>Custom</h3>
+              <span>Design Experience</span>
             </div>
           </div>
         </div>
@@ -117,20 +117,22 @@ export default function IntroSection() {
           <div className="line" />
 
           <p>
-            We do not simply create 3D models — we engineer architectural
-            experiences. Every material, shadow, reflection, and surface is
-            tuned to communicate realism and emotional depth.
+            We do not simply create visualizations — we craft architectural
+            experiences. Every material, lighting detail, texture, and
+            composition is carefully refined to deliver realism, atmosphere, and
+            spatial depth.
           </p>
 
           <p>
-            Arc3D empowers architects, developers, and visionaries to explore
-            future spaces through cinematic environments powered by advanced
-            visualization systems.
+            Arc3D enables architects, developers, and clients to explore future
+            spaces through cinematic architectural visualization and premium
+            digital presentation workflows.
           </p>
 
           <p>
-            This is more than rendering. This is architecture transformed into
-            intelligent digital presence.
+            This is more than rendering. It is architecture transformed into
+            immersive visual storytelling through modern design and advanced
+            spatial visualization.
           </p>
 
           <button

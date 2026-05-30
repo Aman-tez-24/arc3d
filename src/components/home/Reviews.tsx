@@ -3,17 +3,17 @@
 export default function Reviews() {
   const reviews = [
     {
-      name: "Rohan Mehta",
+      name: "G. Manikanta",
       role: "Luxury Villa Architect",
-      company: "RM Studio",
+      company: "House",
       review:
         "Arc3D completely transformed how we present architecture. The cinematic visualization quality helped our clients emotionally connect with the project before construction even started.",
       rating: "5.0",
     },
     {
-      name: "Sophia Carter",
+      name: "B. Rohit",
       role: "Interior Visualization Lead",
-      company: "Nova Spaces",
+      company: "3D Studio",
       review:
         "The level of realism, lighting precision, and interactive spatial depth feels years ahead of traditional rendering workflows. It feels premium in every detail.",
       rating: "5.0",

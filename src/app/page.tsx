@@ -8,6 +8,18 @@ import Workflow from "@/components/home/Workflow";
 import MorphingParticles from "@/components/home/MorphingParticles";
 import ContactSection from "@/components/home/ContactSection";
 import Reviews from "@/components/home/Reviews";
+export const metadata = {
+  title: "Arc3D – Official Platform for 3D Architectural Visualization",
+  description:
+    "Arc3D (arc3d.in) is a next-generation architectural visualization platform for 3D rendering, AI floor planning, and immersive architectural design workflows.",
+  keywords: [
+    "Arc3D",
+    "arc3d",
+    "3D architecture",
+    "architectural visualization",
+    "AI floor planning",
+  ],
+};
 export default function HomePage() {
   return (
     <main className="bg-[#f3f1eb] min-h-screen">
@@ -16,7 +28,7 @@ export default function HomePage() {
       <Showbg />
       <Showcase />
       <Services />
-      <Viewport />
+      {/*   <Viewport /> */}
       <Workflow />
       <Reviews />
       <MorphingParticles />

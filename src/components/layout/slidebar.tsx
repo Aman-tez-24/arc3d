@@ -53,9 +53,11 @@ export default function Sidebar() {
       path: "/slidebar/mywork",
     },
   ];
-  const [profilePhoto, setProfilePhoto] = useState(
-    "/images/default-avatar.png",
-  );
+  // const [profilePhoto, setProfilePhoto] = useState(
+  //  "/images/default-avatar.png",
+  // );
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -76,7 +78,10 @@ export default function Sidebar() {
     try {
       const user = auth.currentUser;
 
-      if (!user) return;
+      if (!user) {
+        setProfileLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("profiles")
@@ -84,18 +89,14 @@ export default function Sidebar() {
         .eq("user_id", user.uid)
         .single();
 
-      if (error) {
-        console.log(error);
-        return;
+      if (!error && data?.photo_url) {
+        setProfilePhoto(data.photo_url);
       }
 
-      if (data?.photo_url) {
-        setProfilePhoto(data.photo_url);
-      } else {
-        setProfilePhoto("/images/default-avatar.png");
-      }
+      setProfileLoading(false);
     } catch (err) {
       console.log(err);
+      setProfileLoading(false);
     }
   };
 
@@ -243,10 +244,14 @@ export default function Sidebar() {
               className="logo"
               onClick={() => document.getElementById("profileUpload")?.click()}
             >
-              <img
-                src={profilePhoto || "/images/default-avatar.png"}
-                alt="Profile"
-              />
+              {profileLoading ? (
+                <div className="avatarSkeleton" />
+              ) : (
+                <img
+                  src={profilePhoto || "/images/default-avatar.png"}
+                  alt="Profile"
+                />
+              )}
             </div>
             <div
               className="navbarLogo"
@@ -402,7 +407,12 @@ export default function Sidebar() {
           align-items: center;
           justify-content: center;
 
-          background: linear-gradient(135deg, #111, #3d4d6b);
+          background: linear-gradient(
+            90deg,
+            #c8c8c8 25%,
+            #cecece 50%,
+            #cccccc 75%
+          );
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
           cursor: pointer;
         }
@@ -412,6 +422,33 @@ export default function Sidebar() {
           height: 100%;
           object-fit: cover;
           border-radius: 18px;
+        }
+
+        .avatarSkeleton {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+
+          background: linear-gradient(
+            90deg,
+            #f1f1f1 25%,
+            #e6e6e6 50%,
+            #f1f1f1 75%
+          );
+
+          background-size: 200% 100%;
+
+          animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: 200% 0;
+          }
+
+          100% {
+            background-position: -200% 0;
+          }
         }
 
         .navbarLogo {

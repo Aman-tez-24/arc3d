@@ -101,8 +101,8 @@ export default function DemoModelsPage() {
           materials for immersive previews.
         </p>
       </div>
-
-      {/* TABS */}
+      {/*
+    
       <div className="tabs">
         {categories.map((cat) => (
           <button
@@ -118,7 +118,7 @@ export default function DemoModelsPage() {
         ))}
       </div>
 
-      {/* GRID */}
+    
       <div className="grid">
         {paginated.map((model, i) => (
           <div
@@ -142,27 +142,26 @@ export default function DemoModelsPage() {
           </div>
         ))}
       </div>
+      */}
 
-      {/* PREMIUM PAGINATION BAR */}
-
-      {/* PREMIUM PAGINATION BAR */}
+      {/*
       <div className="pagination">
         <div className="left">
           <button className="navBtn" onClick={prev}>
             <ChevronLeft size={18} />
           </button>
 
-          <div className="pagePill">
-            {/*<span>Page</span>*/}
-            <strong>{page}</strong>
-            {/*<span>/ {totalPages}</span>*/}
-          </div>
+          <div className="pagePill"> 
+      
+      <strong>{page}</strong>
+      
+       </div>
 
           <button className="navBtn" onClick={next}>
             <ChevronRight size={18} />
           </button>
-        </div>
-
+        </div> 
+     
         <div className="right">
           <div className="label">Cards per page</div>
 
@@ -180,6 +179,29 @@ export default function DemoModelsPage() {
               <option value={12}>12</option>
             </select>
           </div>
+        </div>
+      </div>*/}
+
+      <div className="comingSoonCard">
+        <div className="comingBadge">
+          <Cuboid size={18} />
+          <span>DEMO MODELS</span>
+        </div>
+
+        <h2>Interactive Demo Models Coming Soon</h2>
+
+        <p>
+          We are currently preparing a collection of immersive architectural
+          demonstrations, real-time walkthroughs, AI-generated floor plans, and
+          cinematic visualization experiences. These showcase environments will
+          be available in a future update.
+        </p>
+
+        <div className="comingFeatures">
+          <span>Interactive models</span>
+          <span>Real world Rendering</span>
+          <span>Floor Planning</span>
+          <span>Cinematic Visualizations</span>
         </div>
       </div>
 
@@ -445,6 +467,116 @@ export default function DemoModelsPage() {
         /* OPTIONAL: hover glow for full bar */
         .pagination:hover {
           box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+        }
+        .comingSoonCard {
+          position: relative;
+          overflow: hidden;
+
+          max-width: 1000px;
+          margin: 60px auto 0;
+          padding: 80px 50px;
+
+          text-align: center;
+
+          border-radius: 32px;
+
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.03)
+          );
+
+          backdrop-filter: blur(20px);
+
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .comingBadge {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+
+          padding: 12px 20px;
+          border-radius: 999px;
+
+          background: rgba(52, 52, 52, 0.06);
+
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+        }
+
+        .comingSoonCard h2 {
+          margin-top: 28px;
+
+          font-size: clamp(36px, 5vw, 64px);
+          line-height: 1.05;
+          font-weight: 800;
+          letter-spacing: -2px;
+        }
+
+        .comingSoonCard p {
+          max-width: 720px;
+          margin: 24px auto 0;
+
+          font-size: 16px;
+          line-height: 1.9;
+
+          color: rgba(33, 33, 33, 0.65);
+        }
+
+        .comingFeatures {
+          margin-top: 40px;
+
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        .comingFeatures span {
+          padding: 12px 18px;
+
+          border-radius: 999px;
+
+          background: rgba(2, 2, 2, 0.05);
+
+          border: 1px solid rgba(255, 255, 255, 0);
+
+          font-size: 13px;
+          color: rgba(23, 23, 23, 0.8);
+        }
+
+        @media (max-width: 768px) {
+          .comingSoonCard {
+            padding: 60px 24px;
+          }
+
+          .comingSoonCard h2 {
+            letter-spacing: -1px;
+          }
+        }
+        .comingSoonCard {
+          position: relative;
+          overflow: hidden;
+
+          max-width: 1000px;
+          margin: 60px auto 0;
+          padding: 80px 50px;
+
+          text-align: center;
+
+          border-radius: 32px;
+
+          background: rgba(255, 255, 255, 0.75);
+
+          backdrop-filter: blur(24px);
+
+          border: 1px solid rgba(255, 255, 255, 0.9);
+
+          box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
       `}</style>
     </div>

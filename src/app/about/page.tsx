@@ -49,42 +49,45 @@ export default function AboutPage() {
         <h2>What We Do</h2>
 
         <p>
-          Arc3D is not just a design tool — it is an intelligent architectural
-          engine. We convert 2D floor plans into fully interactive 3D
-          environments, simulate real-world lighting conditions, and enable
-          architects, developers, and clients to walk through spaces before
-          construction begins.
+          Arc3D specializes in transforming architectural concepts into premium
+          visual experiences. We convert 2D floor plans into detailed 3D models,
+          create custom floor plans, provide vastu-based planning solutions, and
+          produce high-quality architectural visualizations that help clients
+          understand spaces before construction begins.
         </p>
 
         <div className="grid">
           <div className="feature">
             <h3>2D → 3D Conversion</h3>
             <p>
-              Automatically generate accurate 3D models from architectural
-              blueprints with structural intelligence.
+              Transform architectural floor plans into accurate and visually
+              detailed 3D models that showcase structure, scale, and design
+              intent.
             </p>
           </div>
 
           <div className="feature">
-            <h3>AI Design Assistant</h3>
+            <h3>Custom Floor Planning</h3>
             <p>
-              Smart suggestions for layouts, optimization, vastu alignment, and
-              space efficiency.
+              Professionally designed floor plans tailored to functionality,
+              aesthetics, space utilization, and client requirements.
             </p>
           </div>
 
           <div className="feature">
-            <h3>Real-Time Walkthroughs</h3>
+            <h3>Vastu Planning</h3>
             <p>
-              Experience cinematic walkthroughs of spaces before they are built.
+              Create layouts aligned with vastu principles while maintaining
+              modern architectural standards and practical living requirements.
             </p>
           </div>
 
           <div className="feature">
-            <h3>Luxury Visualization</h3>
+            <h3>Architectural Visualization</h3>
             <p>
-              High-quality rendering with lighting, textures, and realism
-              optimized for decision making.
+              High-quality renders and presentation visuals that bring
+              architectural concepts to life with realistic materials, lighting,
+              and detail.
             </p>
           </div>
         </div>
@@ -121,7 +124,7 @@ export default function AboutPage() {
           <div>
             <h3>3D Engine Build</h3>
             <p>
-              Developed a real-time 3D visualization system for immersive
+              Developed a custom 3D visualization system for immersive
               architecture workflows.
             </p>
           </div>

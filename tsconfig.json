@@ -13,24 +13,30 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "baseUrl": ".",
-
-"paths": {
-  "@/*": ["./src/*"]
-}
+    ]
   },
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
-, "src/components/ZoomBlocker"  ],
+    "**/*.mts",
+    "src/components/ZoomBlocker"
+  ],
+
   "exclude": ["node_modules"]
 }

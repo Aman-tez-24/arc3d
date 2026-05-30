@@ -106,11 +106,11 @@ export default function FloorPlanningPage() {
           <div className="hero">
             <span className="tag">ARC3D FLOOR ENGINE</span>
 
-            <h1>AI Floor Planning Studio</h1>
+            <h1>Arc3D Floor Planning Studio</h1>
 
             <p>
               Upload your blueprint and transform it into intelligent, optimized
-              architectural layouts with AI-assisted spatial design.
+              architectural layouts with Arc3D-assisted spatial design.
             </p>
           </div>
 
@@ -187,8 +187,9 @@ export default function FloorPlanningPage() {
           <div className="card">
             <h3>Optimization Engine</h3>
             <p>
-              AI will optimize space efficiency, lighting flow, and structural
-              alignment.
+              Every design is reviewed and refined to achieve efficient space
+              planning, natural lighting distribution, and architectural
+              harmony.
             </p>
           </div>
 

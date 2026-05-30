@@ -1,6 +1,9 @@
 import Link from "next/link";
-
+import { getAuth } from "firebase/auth";
 export default function Footer() {
+  const auth = getAuth();
+
+  const user = auth.currentUser;
   return (
     <footer className="footer">
       <div className="bg" />
@@ -52,7 +55,7 @@ export default function Footer() {
             >
               X
             </a>
-
+            {/*
             <a
               href="https://www.youtube.com/channel/UCEz7MWyt84wpxRN3EYy5c_Q"
               target="_blank"
@@ -69,14 +72,15 @@ export default function Footer() {
               className="circle"
             >
               GH
-            </a>
+            </a>*/}
           </div>
 
           {/* ADDRESS */}
           <div className="address">
-            <p className="studio">Arc3D Studio</p>
-            <p>Visakhapatnam</p>
-            <p>Andhra Pradesh, India</p>
+            <p className="studio">Arc3D </p>
+            <p>SG0308, Celebraty Towers, Panorama Hills</p>
+            <p>Rushikonda, Visakhapatnam</p>
+            <p>Andhra Pradesh, India - 530041</p>
           </div>
         </div>
 
@@ -104,20 +108,22 @@ export default function Footer() {
         <div className="column">
           <h3>Company</h3>
 
-          <Link href="/companySection">
+          <Link href="/about">
             <span className="footerLink">About</span>
           </Link>
 
-          <Link href="/companySection">
-            <span className="footerLink">Projects</span>
-          </Link>
-
-          <Link href="/companySection">
-            <span className="footerLink">Careers</span>
+          <Link href={user ? "/projects" : "/signin"} className="navItem">
+            <span className="footerLink">
+              {user ? "Explore Project" : "Explore Project"}
+            </span>
           </Link>
 
           <Link href="/contact">
             <span className="footerLink">Contact</span>
+          </Link>
+
+          <Link href="/internship">
+            <span className="footerLink">Summer internship</span>
           </Link>
         </div>
 
@@ -125,19 +131,19 @@ export default function Footer() {
           <h3>Developers</h3>
 
           <Link href="/devSection">
-            <span className="footerLink">API</span>
+            <span className="footerLink">Research Program</span>
           </Link>
 
           <Link href="/devSection">
-            <span className="footerLink">Integration</span>
+            <span className="footerLink">Careers</span>
           </Link>
 
           <Link href="/devSection">
-            <span className="footerLink">Architecture</span>
+            <span className="footerLink">Technology Stack</span>
           </Link>
 
-          <Link href="https://github.com/yourrepo" target="_blank">
-            <span className="footerLink">GitHub</span>
+          <Link href="/devSection">
+            <span className="footerLink">Collaborate With Us</span>
           </Link>
         </div>
 
@@ -145,19 +151,19 @@ export default function Footer() {
           <h3>Docs</h3>
 
           <Link href="/docsSection">
-            <span className="footerLink">Getting Started</span>
+            <span className="footerLink">Project Process</span>
           </Link>
 
           <Link href="/docsSection">
-            <span className="footerLink">3D Engine</span>
+            <span className="footerLink">FAQ</span>
           </Link>
 
           <Link href="/docsSection">
-            <span className="footerLink">Workflow</span>
+            <span className="footerLink">Privacy Policy</span>
           </Link>
 
           <Link href="/docsSection">
-            <span className="footerLink">Support</span>
+            <span className="footerLink">Terms & Conditions</span>
           </Link>
         </div>
       </div>
@@ -302,7 +308,7 @@ export default function Footer() {
         .address p {
           font-size: 13px;
           color: rgba(0, 0, 0, 0.55);
-          line-height: 1.6;
+          line-height: 0.6;
         }
 
         .address .studio {

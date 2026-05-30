@@ -32,7 +32,15 @@ export default function Arc3DProjectsPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   useEffect(() => {
-    fetchProjects();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchProjects();
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const fetchProjects = async () => {
@@ -153,10 +161,10 @@ export default function Arc3DProjectsPage() {
                 Start New Environment
               </button>
 
-              <button className="secondaryBtn largeBtn">
+              {/* <button className="secondaryBtn largeBtn">
                 <Play size={16} />
                 <span>Watch Demo</span>
-              </button>
+              </button>*/}
             </div>
           </div>
 
@@ -177,7 +185,7 @@ export default function Arc3DProjectsPage() {
         {/* STATS */}
         <div className="stats">
           <div className="statCard glass">
-            <h3>240+</h3>
+            <h3>4+</h3>
             <p>Architectural Concepts</p>
           </div>
 
@@ -187,7 +195,7 @@ export default function Arc3DProjectsPage() {
           </div>
 
           <div className="statCard glass">
-            <h3>Realtime</h3>
+            <h3>Real World</h3>
             <p>Rendering Pipeline</p>
           </div>
         </div>
@@ -255,23 +263,38 @@ export default function Arc3DProjectsPage() {
         {/* DEMO SECTION */}
         <div className="demoSection glass">
           <div className="demoLeft">
-            <span>INTERACTIVE FEATURES</span>
-            <h2>Advanced Spatial Demonstrations</h2>
+            <span>COMING SOON</span>
+
+            <h2>Future Arc3D Capabilities</h2>
 
             <p>
-              Explore advanced rendering systems, AI-powered planning engines,
-              immersive walkthrough simulations, and cinematic architectural
-              environments built using the Arc3D ecosystem.
+              We are actively developing the next generation of Arc3D
+              technologies. These features are currently under research and
+              development and will be introduced in future releases as the
+              platform continues to evolve.
             </p>
           </div>
 
           <div className="demoGrid">
-            {demos.map((item, index) => (
-              <div className="demoCard" key={index}>
-                <div className="demoNumber">0{index + 1}</div>
-                <h3>{item}</h3>
-              </div>
-            ))}
+            <div className="demoCard">
+              <div className="demoNumber">01</div>
+              <h3>2D Floor Plan to 3D Model Automation</h3>
+            </div>
+
+            <div className="demoCard">
+              <div className="demoNumber">02</div>
+              <h3>AI-Assisted Architectural Planning</h3>
+            </div>
+
+            <div className="demoCard">
+              <div className="demoNumber">03</div>
+              <h3>Automated Interior Generation</h3>
+            </div>
+
+            <div className="demoCard">
+              <div className="demoNumber">04</div>
+              <h3>Interactive Architectural Experiences</h3>
+            </div>
           </div>
         </div>
       </main>
@@ -890,7 +913,7 @@ export default function Arc3DProjectsPage() {
 
         .demoCard h3 {
           margin-top: 18px;
-          font-size: 24px;
+          font-size: 22px;
           line-height: 1.2;
         }
 

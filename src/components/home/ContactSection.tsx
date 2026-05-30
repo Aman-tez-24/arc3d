@@ -63,8 +63,8 @@ export default function ContactSection() {
           />
           <div className="overlay" />
           <div className="imageText">
-            <h3>Arc3D Studio</h3>
-            <p>Precision • Design • Intelligence</p>
+            <h3>Arc3D Technologies</h3>
+            <p>Visualise • Decide • Deliver</p>
           </div>
         </div>
 

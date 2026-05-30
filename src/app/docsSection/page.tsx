@@ -15,200 +15,153 @@ export default function DocsSectionPage() {
       <div className="hero">
         <div className="badge">
           <span className="dot" />
-          ARC3D DOCUMENTATION PLATFORM
+          ARC3D CLIENT DOCUMENTATION
         </div>
 
         <h1>
-          Learn.
+          Understand
           <br />
-          Build.
+          The Entire
           <br />
-          Deploy at Scale.
+          Arc3D Workflow
         </h1>
 
         <p>
-          A complete developer ecosystem for understanding Arc3D’s architecture
-          intelligence engine — from foundational setup to cinematic rendering
-          systems, AI-powered workflows, spatial computing pipelines, and
-          enterprise-scale deployment infrastructure.
+          Everything you need to know about Arc3D’s project workflow,
+          architectural visualization process, rendering delivery standards,
+          privacy systems, and client experience from submission to final
+          output.
         </p>
 
         <div className="heroBottom">
           <div className="heroCard">
-            <h3>Realtime Engine</h3>
-            <span>Advanced rendering pipeline documentation</span>
+            <h3>Project Workflow</h3>
+            <span>Step-by-step architecture visualization pipeline</span>
           </div>
 
           <div className="heroCard">
-            <h3>AI Spatial Systems</h3>
-            <span>Learn intelligent architecture generation</span>
+            <h3>Rendering Standards</h3>
+            <span>Understand quality, outputs, and delivery formats</span>
           </div>
 
           <div className="heroCard">
-            <h3>Production Ready</h3>
-            <span>Enterprise deployment + optimization guides</span>
+            <h3>Client Support</h3>
+            <span>FAQs, policies, and service information</span>
           </div>
         </div>
       </div>
 
       {/* DOCS GRID */}
       <div className="grid">
-        <Link href="/docs" className="card large">
+        <Link href="/docsSection/process" className="card large">
           <div className="line" />
 
           <span className="index">01</span>
 
-          <h2>Getting Started</h2>
+          <h2>Project Process</h2>
 
           <p>
-            Learn how to install Arc3D, configure the rendering environment,
-            initialize the visualization engine, and launch your first cinematic
-            architecture workflow in minutes.
+            Understand how Arc3D handles architectural projects — from client
+            submission and planning review to cinematic rendering and final
+            delivery.
           </p>
 
-          <ul>
-            <li>Engine installation</li>
-            <li>Project structure</li>
-            <li>Scene configuration</li>
-            <li>Development workflow</li>
-          </ul>
-
           <div className="bottom">
-            <span>Start Learning</span>
+            <span>Explore Process</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link href="/docs" className="card">
+        <Link href="/docsSection/faq" className="card">
           <div className="line" />
 
           <span className="index">02</span>
 
-          <h2>3D Rendering Engine</h2>
+          <h2>Frequently Asked Questions</h2>
 
           <p>
-            Deep dive into Arc3D’s realtime rendering architecture including
-            shaders, cinematic lighting systems, GPU optimization, particle
-            engines, environment simulation, and immersive camera workflows.
+            Answers to common questions regarding project timelines, file
+            formats, rendering quality, revisions, pricing structure, and
+            delivery systems.
           </p>
 
           <div className="bottom">
-            <span>Explore Engine</span>
+            <span>Read FAQ</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link href="/docs" className="card">
+        <Link href="/docsSection/privacy" className="card">
           <div className="line" />
 
           <span className="index">03</span>
 
-          <h2>AI Architecture Pipeline</h2>
+          <h2>Privacy Policy</h2>
 
           <p>
-            Understand how Arc3D processes blueprints, interprets spatial
-            relationships, optimizes floor plans, and generates intelligent 3D
-            environments using AI-assisted architectural reasoning systems.
+            Learn how Arc3D securely handles architectural drawings, project
+            information, client uploads, rendering assets, and confidential
+            design data.
           </p>
 
           <div className="bottom">
-            <span>View Pipeline</span>
+            <span>View Policy</span>
             <span>↗</span>
           </div>
         </Link>
 
-        <Link href="/docs" className="card highlight">
+        <Link href="/docsSection/terms" className="card highlight">
           <div className="line" />
 
           <span className="index">04</span>
 
-          <h2>Deployment & Support</h2>
+          <h2>Terms & Conditions</h2>
 
           <p>
-            Production deployment guides for Vercel, performance optimization,
-            rendering stability, model compression, asset streaming, debugging,
-            and scaling large architecture environments.
+            Understand project agreements, revisions, rendering ownership,
+            delivery policies, service responsibilities, and usage conditions
+            for Arc3D clients.
           </p>
 
           <div className="bottom">
-            <span>Get Support</span>
+            <span>Read Terms</span>
             <span>↗</span>
           </div>
         </Link>
       </div>
 
-      {/* TERMINAL */}
-      <div className="terminal">
-        <div className="terminalTop">
-          <div className="circles">
-            <span />
-            <span />
-            <span />
-          </div>
-
-          <p>arc3d-terminal</p>
-        </div>
-
-        <div className="codeArea">
-          <div className="codeLine">
-            <span className="prompt">$</span>
-            npx create-next-app arc3d-app
-          </div>
-
-          <div className="codeLine">
-            <span className="prompt">$</span>
-            cd arc3d-app
-          </div>
-
-          <div className="codeLine">
-            <span className="prompt">$</span>
-            npm install three @react-three/fiber framer-motion
-          </div>
-
-          <div className="codeLine">
-            <span className="prompt">$</span>
-            npm run dev
-          </div>
-
-          <div className="success">✓ Arc3D Engine initialized successfully</div>
-        </div>
-      </div>
-
-      {/* FEATURES */}
+      {/* WORKFLOW SECTION */}
       <div className="features">
         <div className="sectionTitle">
-          <span>DEVELOPER EXPERIENCE</span>
-          <h2>Built for Modern Spatial Engineering</h2>
+          <span>CLIENT EXPERIENCE</span>
+          <h2>Designed Around Simplicity & Clarity</h2>
         </div>
 
         <div className="featureGrid">
           <div className="featureCard">
-            <h3>Realtime Visualization</h3>
+            <h3>Structured Workflow</h3>
 
             <p>
-              Understand cinematic rendering systems, realtime scene updates,
-              physically based lighting, reflections, and advanced spatial
-              interactions.
+              Every project follows a clear process from architectural drawing
+              submission to cinematic visualization delivery.
             </p>
           </div>
 
           <div className="featureCard">
-            <h3>Production Workflows</h3>
+            <h3>Professional Rendering</h3>
 
             <p>
-              Learn scalable architecture workflows for handling large
-              environments, asset optimization, streaming, and immersive user
-              experiences.
+              High-quality architectural renders crafted with attention to
+              lighting, materials, proportions, and visual storytelling.
             </p>
           </div>
 
           <div className="featureCard">
-            <h3>AI Assisted Systems</h3>
+            <h3>Secure Handling</h3>
 
             <p>
-              Discover how AI enhances architecture generation, layout
-              optimization, environmental analysis, and intelligent design
-              recommendations.
+              Your floor plans, concepts, and architectural assets remain
+              protected throughout the project lifecycle.
             </p>
           </div>
         </div>
@@ -217,36 +170,35 @@ export default function DocsSectionPage() {
       {/* INFO SECTION */}
       <div className="info">
         <div className="infoBox">
-          <span>WHY THESE DOCS MATTER</span>
+          <span>WHY THESE DOCUMENTS MATTER</span>
 
           <h2>
-            Arc3D is More Than a Framework —
+            Transparency Builds
             <br />
-            It’s an Entire Spatial Computing Ecosystem.
+            Better Architectural Experiences.
           </h2>
 
           <p>
-            These documentation systems are designed to help developers,
-            designers, architects, and visualization engineers understand how
-            cinematic rendering, AI-assisted architecture, immersive interaction
-            systems, and realtime spatial intelligence work together inside a
-            unified platform.
+            Arc3D believes every client should clearly understand how their
+            architectural project is handled, visualized, delivered, and
+            protected. These documentation systems are designed to create
+            clarity, trust, and a smoother project experience.
           </p>
 
           <div className="infoStats">
             <div>
-              <h3>120+</h3>
-              <p>Technical Guides</p>
+              <h3>4+</h3>
+              <p>Projects Completed</p>
             </div>
 
             <div>
-              <h3>40+</h3>
-              <p>Rendering Modules</p>
+              <h3>4K</h3>
+              <p>Rendering Quality</p>
             </div>
 
             <div>
-              <h3>AI Powered</h3>
-              <p>Architecture Systems</p>
+              <h3>Secure</h3>
+              <p>Client Workflow</p>
             </div>
           </div>
         </div>
@@ -256,7 +208,11 @@ export default function DocsSectionPage() {
       <div className="footer">
         <div className="footerLine" />
 
-        <p>“Documentation is where imagination becomes executable reality.”</p>
+        <p>
+          “Great architecture begins with
+          <br />
+          clear understanding.”
+        </p>
       </div>
 
       <style jsx>{`
@@ -275,7 +231,6 @@ export default function DocsSectionPage() {
           color: #111;
         }
 
-        /* BACKGROUND */
         .gradient {
           position: absolute;
           border-radius: 999px;
@@ -325,7 +280,6 @@ export default function DocsSectionPage() {
           background-size: 140px 140px;
         }
 
-        /* HERO */
         .hero {
           position: relative;
           z-index: 2;
@@ -353,15 +307,13 @@ export default function DocsSectionPage() {
           letter-spacing: 0.35em;
 
           color: rgba(0, 0, 0, 0.55);
-
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
         }
 
         .dot {
           width: 8px;
           height: 8px;
           border-radius: 999px;
-          background: #4f46e5;
+          background: #111;
         }
 
         .hero h1 {
@@ -392,33 +344,48 @@ export default function DocsSectionPage() {
           gap: 20px;
         }
 
-        .heroCard {
-          padding: 28px;
-          border-radius: 28px;
-
-          background: rgba(255, 255, 255, 0.45);
+        .heroCard,
+        .card,
+        .featureCard,
+        .infoBox,
+        .infoStats div {
+          background: rgba(255, 255, 255, 0.52);
           backdrop-filter: blur(24px);
 
-          border: 1px solid rgba(255, 255, 255, 0.75);
+          border: 1px solid rgba(255, 255, 255, 0.7);
 
           box-shadow:
-            0 30px 80px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            0 30px 100px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
-        .heroCard h3 {
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 10px;
+        .heroCard,
+        .featureCard,
+        .infoStats div {
+          padding: 28px;
+          border-radius: 28px;
         }
 
-        .heroCard span {
-          font-size: 13px;
-          color: rgba(0, 0, 0, 0.55);
-          line-height: 1.7;
+        .heroCard h3,
+        .featureCard h3 {
+          font-size: 22px;
+          margin-bottom: 12px;
         }
 
-        /* GRID */
+        .heroCard span,
+        .featureCard p {
+          font-size: 14px;
+          line-height: 1.8;
+          color: rgba(0, 0, 0, 0.58);
+        }
+
+        .grid,
+        .featureGrid,
+        .infoStats {
+          display: grid;
+          gap: 24px;
+        }
+
         .grid {
           position: relative;
           z-index: 2;
@@ -426,9 +393,15 @@ export default function DocsSectionPage() {
           max-width: 1200px;
           margin: 110px auto 0;
 
-          display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 24px;
+        }
+
+        .featureGrid,
+        .infoStats {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .featureGrid {
+          margin-top: 40px;
         }
 
         .card {
@@ -442,29 +415,11 @@ export default function DocsSectionPage() {
           text-decoration: none;
           color: inherit;
 
-          background: rgba(255, 255, 255, 0.52);
-          backdrop-filter: blur(24px);
-
-          border: 1px solid rgba(255, 255, 255, 0.7);
-
-          box-shadow:
-            0 30px 100px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7);
-
-          transition:
-            transform 0.6s ease,
-            box-shadow 0.6s ease,
-            background 0.6s ease;
+          transition: 0.5s ease;
         }
 
         .card:hover {
-          transform: translateY(-12px);
-
-          background: rgba(255, 255, 255, 0.72);
-
-          box-shadow:
-            0 50px 140px rgba(0, 0, 0, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 1);
+          transform: translateY(-10px);
         }
 
         .large {
@@ -501,24 +456,16 @@ export default function DocsSectionPage() {
           font-weight: 800;
         }
 
-        .card p {
-          margin-top: 18px;
-
-          font-size: 15px;
-          line-height: 1.9;
-
+        .card p,
+        .card li,
+        .infoBox p {
           color: rgba(0, 0, 0, 0.62);
+          line-height: 1.9;
         }
 
         .card ul {
-          margin-top: 26px;
+          margin-top: 24px;
           padding-left: 18px;
-        }
-
-        .card li {
-          margin-bottom: 12px;
-          font-size: 14px;
-          color: rgba(0, 0, 0, 0.58);
         }
 
         .bottom {
@@ -535,100 +482,33 @@ export default function DocsSectionPage() {
           color: rgba(0, 0, 0, 0.55);
         }
 
-        /* TERMINAL */
-        .terminal {
+        .features,
+        .info,
+        .footer {
           position: relative;
           z-index: 2;
-
-          max-width: 1100px;
-          margin: 130px auto 0;
-
-          overflow: hidden;
-          border-radius: 34px;
-
-          background: #0b1020;
-
-          box-shadow:
-            0 50px 140px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        .terminalTop {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-
-          padding: 18px 24px;
-
-          background: rgba(255, 255, 255, 0.04);
-
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .circles {
-          display: flex;
-          gap: 8px;
-        }
-
-        .circles span {
-          width: 10px;
-          height: 10px;
-          border-radius: 999px;
-          background: rgba(255, 255, 255, 0.35);
-        }
-
-        .terminalTop p {
-          font-size: 12px;
-          letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        .codeArea {
-          padding: 40px;
-        }
-
-        .codeLine {
-          margin-bottom: 18px;
-
-          font-size: 14px;
-          font-family: monospace;
-
-          color: rgba(255, 255, 255, 0.88);
-        }
-
-        .prompt {
-          margin-right: 14px;
-          color: #7dd3fc;
-        }
-
-        .success {
-          margin-top: 26px;
-
-          color: #86efac;
-          font-size: 14px;
-          font-family: monospace;
-        }
-
-        /* FEATURES */
         .features {
-          position: relative;
-          z-index: 2;
-
           max-width: 1200px;
           margin: 140px auto 0;
         }
 
-        .sectionTitle {
+        .sectionTitle,
+        .infoBox,
+        .footer {
           text-align: center;
         }
 
-        .sectionTitle span {
+        .sectionTitle span,
+        .infoBox span {
           font-size: 11px;
           letter-spacing: 0.35em;
           color: rgba(0, 0, 0, 0.45);
         }
 
-        .sectionTitle h2 {
+        .sectionTitle h2,
+        .infoBox h2 {
           margin-top: 20px;
 
           font-size: clamp(38px, 5vw, 64px);
@@ -636,45 +516,7 @@ export default function DocsSectionPage() {
           letter-spacing: -2px;
         }
 
-        .featureGrid {
-          margin-top: 60px;
-
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 22px;
-        }
-
-        .featureCard {
-          padding: 36px;
-          border-radius: 28px;
-
-          background: rgba(255, 255, 255, 0.5);
-          backdrop-filter: blur(20px);
-
-          border: 1px solid rgba(255, 255, 255, 0.8);
-
-          box-shadow:
-            0 25px 80px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        }
-
-        .featureCard h3 {
-          font-size: 24px;
-          margin-bottom: 16px;
-          font-weight: 700;
-        }
-
-        .featureCard p {
-          font-size: 15px;
-          line-height: 1.9;
-          color: rgba(0, 0, 0, 0.6);
-        }
-
-        /* INFO */
         .info {
-          position: relative;
-          z-index: 2;
-
           max-width: 1100px;
           margin: 140px auto 0;
         }
@@ -682,82 +524,24 @@ export default function DocsSectionPage() {
         .infoBox {
           padding: 70px;
           border-radius: 40px;
-
-          background: rgba(255, 255, 255, 0.55);
-          backdrop-filter: blur(28px);
-
-          border: 1px solid rgba(255, 255, 255, 0.75);
-
-          box-shadow:
-            0 40px 120px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-
-          text-align: center;
-        }
-
-        .infoBox span {
-          font-size: 11px;
-          letter-spacing: 0.35em;
-          color: rgba(0, 0, 0, 0.45);
-        }
-
-        .infoBox h2 {
-          margin-top: 22px;
-
-          font-size: clamp(36px, 5vw, 64px);
-          line-height: 1.05;
-          letter-spacing: -2px;
         }
 
         .infoBox p {
           margin: 28px auto 0;
-
           max-width: 760px;
-
-          font-size: 16px;
-          line-height: 2;
-
-          color: rgba(0, 0, 0, 0.62);
         }
 
         .infoStats {
           margin-top: 60px;
-
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-        }
-
-        .infoStats div {
-          padding: 30px;
-          border-radius: 24px;
-
-          background: rgba(255, 255, 255, 0.55);
-
-          border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
         .infoStats h3 {
           font-size: 32px;
-          font-weight: 800;
           margin-bottom: 10px;
         }
 
-        .infoStats p {
-          margin: 0;
-          font-size: 13px;
-          line-height: 1.6;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-
-        /* FOOTER */
         .footer {
-          position: relative;
-          z-index: 2;
-
           margin-top: 140px;
-          text-align: center;
         }
 
         .footerLine {
@@ -771,20 +555,12 @@ export default function DocsSectionPage() {
         .footer p {
           font-size: 18px;
           line-height: 1.8;
-          letter-spacing: 0.04em;
-
           color: rgba(0, 0, 0, 0.55);
         }
 
-        /* RESPONSIVE */
         @media (max-width: 900px) {
           .page {
             padding: 120px 18px;
-          }
-
-          .hero h1 {
-            letter-spacing: -2px;
-            line-height: 1;
           }
 
           .heroBottom,
@@ -800,25 +576,9 @@ export default function DocsSectionPage() {
             padding: 34px 26px;
           }
 
-          .card h2 {
-            font-size: 28px;
-          }
-
-          .sectionTitle h2,
-          .infoBox h2 {
-            line-height: 1.1;
-          }
-
-          .terminal {
-            border-radius: 28px;
-          }
-
-          .codeArea {
-            padding: 28px;
-          }
-
-          .footer {
-            margin-top: 100px;
+          .hero h1 {
+            letter-spacing: -2px;
+            line-height: 1;
           }
         }
       `}</style>

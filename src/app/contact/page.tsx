@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db, auth } from "@/lib/firebase";
 export default function ContactSectionPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -65,6 +68,44 @@ export default function ContactSectionPage() {
     };
   }, []);
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    query: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.query) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await addDoc(collection(db, "contact_requests"), {
+        name: form.name,
+        email: form.email,
+        query: form.query,
+        createdAt: serverTimestamp(),
+      });
+
+      setForm({ name: "", email: "", query: "" });
+      setSuccess(true);
+
+      setTimeout(() => setSuccess(false), 3000);
+      alert("Request sent successfully!");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to send request");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="contactPage">
       {/* BG */}
@@ -81,8 +122,8 @@ export default function ContactSectionPage() {
         </h1>
 
         <p>
-          Connect with Arc3D for immersive architecture, cinematic
-          visualization, AI-driven planning, and premium digital spatial
+          Connect with Arc3D for premium architectural visualization, cinematic
+          rendering, custom floor planning, and refined digital presentation
           experiences.
         </p>
       </div>
@@ -94,7 +135,7 @@ export default function ContactSectionPage() {
           <div className="glassCard">
             <span className="smallTag">HEADQUARTERS</span>
 
-            <h2>Arc3D Studio</h2>
+            <h2>Arc3D technologies</h2>
 
             <p>
               Spatial intelligence and immersive architecture visualization
@@ -103,23 +144,25 @@ export default function ContactSectionPage() {
 
             <div className="infoBlock">
               <h3>Location</h3>
-              <p>Visakhapatnam, Andhra Pradesh, India</p>
+              <p>SG0308, Celebrity Towers, Panorama Hills</p>
+              <p> Rushikonda, Visakhapatnam, Andhra Pradesh</p>
+              <p> India - 530041</p>
             </div>
 
             <div className="infoBlock">
               <h3>Email</h3>
-              <p>contact@arc3d.in</p>
+              <p>support@arc3d.in</p>
             </div>
 
             <div className="infoBlock">
               <h3>Phone</h3>
-              <p>+91 98765 43210</p>
+              <p>+91 62810 59299</p>
             </div>
 
             <div className="socials">
               <a href="#">IG</a>
               <a href="#">X</a>
-              <a href="#">YT</a>
+
               <a href="#">IN</a>
             </div>
           </div>
@@ -134,32 +177,46 @@ export default function ContactSectionPage() {
 
             <div className="inputGroup">
               <label>Full Name</label>
-              <input type="text" placeholder="Enter your name" />
+              <input
+                type="text"
+                placeholder="Your name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
             </div>
 
             <div className="inputGroup">
               <label>Email Address</label>
-              <input type="email" placeholder="Enter your email" />
-            </div>
-
-            <div className="inputGroup">
-              <label>Project Type</label>
-
-              <select>
-                <option>2D → 3D Conversion</option>
-                <option>Floor Planning</option>
-                <option>AI Design System</option>
-                <option>Visualization</option>
-              </select>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
             </div>
 
             <div className="inputGroup">
               <label>Project Details</label>
 
-              <textarea placeholder="Tell us about your project..." />
+              <textarea
+                placeholder="Describe your architectural idea..."
+                value={form.query}
+                onChange={(e) => setForm({ ...form, query: e.target.value })}
+              />
             </div>
 
-            <button className="submitBtn">Send Request</button>
+            <button
+              className="submitBtn"
+              onClick={handleSubmit}
+              disabled={loading}
+              style={{
+                opacity: loading ? 0.6 : 1,
+                cursor: loading ? "not-allowed" : "pointer",
+              }}
+            >
+              {" "}
+              {loading ? "Sending..." : "Send Request"}
+            </button>
           </div>
         </div>
       </div>
@@ -173,7 +230,17 @@ export default function ContactSectionPage() {
           cinematic precision and AI-powered workflows.
         </p>
 
-        <button>Explore Arc3D</button>
+        <button
+          onClick={() => {
+            if (auth.currentUser) {
+              router.push("/projects");
+            } else {
+              router.push("/signin");
+            }
+          }}
+        >
+          Explore Arc3D
+        </button>
       </div>
 
       <style jsx>{`

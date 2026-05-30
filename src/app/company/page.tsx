@@ -62,23 +62,35 @@ export default function CompanyPage() {
 
         <div className="grid">
           <div className="box">
-            <h3>Design is Simulation</h3>
-            <p>Every design decision must behave like a real-world system.</p>
+            <h3>Precision in Every Detail</h3>
+            <p>
+              Every model, plan, and visualization is crafted with accuracy,
+              proportion, and architectural integrity.
+            </p>
           </div>
 
           <div className="box">
             <h3>Clarity over Complexity</h3>
-            <p>Powerful systems should feel simple to the user.</p>
+            <p>
+              Great architecture should be easy to understand, communicate, and
+              present to every stakeholder.
+            </p>
           </div>
 
           <div className="box">
-            <h3>Experience before Construction</h3>
-            <p>Every structure must be lived virtually before it is built.</p>
+            <h3>Visualization before Construction</h3>
+            <p>
+              Detailed visual representations help clients and architects make
+              confident decisions before execution begins.
+            </p>
           </div>
 
           <div className="box">
-            <h3>AI as Co-Creator</h3>
-            <p>Intelligence should assist, not replace, human creativity.</p>
+            <h3>Design with Purpose</h3>
+            <p>
+              Every space should balance functionality, aesthetics, comfort, and
+              the unique requirements of its occupants.
+            </p>
           </div>
         </div>
       </div>
@@ -90,10 +102,10 @@ export default function CompanyPage() {
         <div className="step">
           <span>01</span>
           <div>
-            <h3>Concept Phase</h3>
+            <h3>The Vision</h3>
             <p>
-              The idea of merging architecture with real-time simulation was
-              born.
+              Arc3D began with a simple goal — helping clients visualize
+              architectural spaces more clearly before construction starts.
             </p>
           </div>
         </div>
@@ -101,9 +113,11 @@ export default function CompanyPage() {
         <div className="step">
           <span>02</span>
           <div>
-            <h3>Prototype Engine</h3>
+            <h3>Architectural Services</h3>
             <p>
-              Early 3D system built to convert 2D plans into spatial models.
+              We started delivering professional floor planning, 3D modeling,
+              and architectural visualization services for residential and
+              commercial projects.
             </p>
           </div>
         </div>
@@ -111,9 +125,10 @@ export default function CompanyPage() {
         <div className="step">
           <span>03</span>
           <div>
-            <h3>AI Integration</h3>
+            <h3>Expanding Solutions</h3>
             <p>
-              Intelligent design suggestions and spatial optimization added.
+              Our offerings grew to include custom floor plans, vastu-based
+              planning, detailed renders, and premium presentation visuals.
             </p>
           </div>
         </div>
@@ -121,10 +136,11 @@ export default function CompanyPage() {
         <div className="step">
           <span>04</span>
           <div>
-            <h3>Arc3D Platform</h3>
+            <h3>The Future of Arc3D</h3>
             <p>
-              A unified ecosystem for architecture, simulation, and design
-              intelligence.
+              We continue building advanced architectural technologies and
+              research systems that will further streamline design and
+              visualization workflows.
             </p>
           </div>
         </div>
@@ -162,15 +178,18 @@ export default function CompanyPage() {
         <h2>Who We Are</h2>
 
         <p>
-          Arc3D is built by a multidisciplinary team of designers, engineers,
-          and AI researchers focused on redefining spatial intelligence.
+          Arc3D is a growing architectural visualization studio focused on
+          helping clients transform ideas, floor plans, and concepts into
+          detailed visual representations. We combine architectural
+          understanding, creative design, and modern visualization techniques to
+          deliver clear and impactful project presentations.
         </p>
 
         <div className="teamGrid">
-          <div className="member">AI Systems</div>
-          <div className="member">3D Engineers</div>
-          <div className="member">Architectural Designers</div>
-          <div className="member">Simulation Experts</div>
+          <div className="member">Architectural Visualization</div>
+          <div className="member">3D Modeling</div>
+          <div className="member">Floor Planning</div>
+          <div className="member">Vastu Consultation</div>
         </div>
       </div>
 
@@ -274,10 +293,14 @@ export default function CompanyPage() {
           background: white;
           border-radius: 22px;
         }
+        .box p {
+          color: #5d5d5d;
+          padding-top: 10px;
+        }
 
         /* TIMELINE */
         .timeline {
-          margin-top: 140px;
+          padding-top: 40px;
           max-width: 900px;
           margin: auto;
         }

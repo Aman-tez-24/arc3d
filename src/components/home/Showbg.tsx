@@ -64,17 +64,17 @@ export default function Showbg() {
           <div className="metrics">
             <div className="metric">
               <h3>120+</h3>
-              <p>Spatial Concepts</p>
+              <p>Architectural Visuals</p>
             </div>
 
             <div className="metric">
               <h3>4K</h3>
-              <p>Cinematic Quality</p>
+              <p>Cinematic Rendering</p>
             </div>
 
             <div className="metric">
-              <h3>Real-Time</h3>
-              <p>Interactive Rendering</p>
+              <h3>Studio</h3>
+              <p>Presentation Workflow</p>
             </div>
           </div>
 

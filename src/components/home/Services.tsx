@@ -8,37 +8,40 @@ export default function Services() {
   const services = [
     {
       id: "01",
-      tag: "Core System",
+      tag: "Architectural Visualization",
       title: "2D → 3D Architectural Conversion",
       description:
-        "We transform static architectural drawings into immersive cinematic 3D environments with real-world scale, intelligent materials, spatial depth, and experiential walkthrough precision.",
+        "We transform architectural drawings and floor plans into detailed 3D visualizations with realistic materials, spatial depth, lighting composition, and premium presentation quality.",
       image: "/images/services/2d-3d-arc-design.png",
       path: "/servicesSection/2d-to-3d",
     },
+
     {
       id: "02",
       tag: "Spatial Planning",
       title: "Custom Floor Planning",
       description:
-        "Luxury-driven layout systems engineered for movement, functionality, natural flow, ventilation, and architectural harmony — crafted around human interaction and living behavior.",
+        "Thoughtfully designed floor plans focused on functionality, circulation, ventilation, space optimization, and architectural balance tailored to modern living requirements.",
       image: "/images/services/floor-planning.png",
-      path: "/servicesSection/ai-design-system",
-    },
-    {
-      id: "03",
-      tag: "AI Intelligence",
-      title: "AI Design Assistance",
-      description:
-        "Advanced architectural intelligence systems generate optimized structural suggestions, lighting strategies, orientation logic, and high-efficiency spatial decisions in real time.",
-      image: "/images/services/ai-design-model.png",
       path: "/servicesSection/floor-planning",
     },
+
+    {
+      id: "03",
+      tag: "Design Consultation",
+      title: "Architectural Design Assistance",
+      description:
+        "Professional design guidance for layout refinement, space utilization, elevation concepts, lighting ideas, and architectural planning support for residential and commercial projects.",
+      image: "/images/services/ai-design-model.png",
+      path: "/servicesSection/design-assistance",
+    },
+
     {
       id: "04",
-      tag: "Cinematic Visuals",
+      tag: "Cinematic Rendering",
       title: "Visualization & Rendering",
       description:
-        "Ultra-premium cinematic rendering pipelines that deliver emotionally immersive architectural storytelling before construction even begins.",
+        "High-quality architectural renders crafted to showcase atmosphere, materials, lighting, and design intent through cinematic visual presentation.",
       image: "/images/services/visualization-rendering.png",
       path: "/servicesSection/visualization",
     },
@@ -110,9 +113,9 @@ export default function Services() {
 
               {/* FEATURES */}
               <div className="features">
-                <div>Precision Modeling</div>
-                <div>Real-Time Experience</div>
-                <div>Architectural Intelligence</div>
+                <div>Detailed Visualization</div>
+                <div>Premium Presentation</div>
+                <div>Architectural Planning</div>
               </div>
 
               {/* BUTTON */}

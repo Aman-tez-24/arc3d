@@ -97,8 +97,9 @@ export default function Workflow() {
       <style jsx>{`
         .workflow {
           position: relative;
-          padding: 160px 20px 120px;
-          background: #ffffff;
+          padding: 140px 20px 120px;
+          background: linear-gradient(to bottom, #ffffff, #f8f5ef);
+
           overflow: hidden;
         }
 
