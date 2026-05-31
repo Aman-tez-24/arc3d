@@ -9,25 +9,25 @@ export default function Showcase() {
     {
       title: "Modern Villa Concept",
       category: "Residential • 3D Visualization",
-      image: "/images/showcase/showcase1.png",
+      image: "/images/showcase/showcase1.webp",
       size: "large",
     },
     {
       title: "Urban Minimal Residence",
       category: "Architecture • Spatial Flow",
-      image: "/images/showcase/showcase2.png",
+      image: "/images/showcase/showcase2.webp",
       size: "small",
     },
     {
       title: "Luxury Nature Estate",
       category: "Landscape • Rendering",
-      image: "/images/showcase/showcase3.png",
+      image: "/images/showcase/showcase3.webp",
       size: "small",
     },
     {
       title: "Smart Space Prototype",
       category: "AI Assisted • Concept Build",
-      image: "/images/showcase/showcase4.png",
+      image: "/images/showcase/showcase4.webp",
       size: "large",
     },
   ];

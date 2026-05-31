@@ -56,7 +56,7 @@ export default function Hero() {
         {/* BACKGROUND IMAGE */}
         {/* 3D BACKGROUND */}
         <div className="heroImage">
-          <img src="/images/hero/bg.png" alt="Arc3D Contact" />
+          <img src="/images/hero/bg.webp" alt="Arc3D Contact" />
         </div>
         {/*  <div className="heroImage">
           <Canvas

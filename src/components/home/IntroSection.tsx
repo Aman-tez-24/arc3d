@@ -18,7 +18,7 @@ export default function IntroSection() {
 
             <div className="blob">
               <img
-                src="/images/intro/intro1.png"
+                src="/images/intro/intro1.webp"
                 alt="architectural visualization"
               />
             </div>
@@ -92,7 +92,7 @@ export default function IntroSection() {
 
             <div className="blob blob2">
               <img
-                src="/images/intro/intro2.png"
+                src="/images/intro/intro2.webp"
                 alt="luxury architectural design"
               />
             </div>

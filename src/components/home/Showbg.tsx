@@ -143,7 +143,7 @@ export default function Showbg() {
 
           border-radius: 42px;
 
-          background-image: url("/images/showcase-bg/showcase-bg.png");
+          background-image: url("/images/showcase-bg/showcase-bg.webp");
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;

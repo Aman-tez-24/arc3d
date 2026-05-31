@@ -12,7 +12,7 @@ export default function Services() {
       title: "2D → 3D Architectural Conversion",
       description:
         "We transform architectural drawings and floor plans into detailed 3D visualizations with realistic materials, spatial depth, lighting composition, and premium presentation quality.",
-      image: "/images/services/2d-3d-arc-design.png",
+      image: "/images/services/2d-3d-arc-design.webp",
       path: "/servicesSection/2d-to-3d",
     },
 
@@ -22,7 +22,7 @@ export default function Services() {
       title: "Custom Floor Planning",
       description:
         "Thoughtfully designed floor plans focused on functionality, circulation, ventilation, space optimization, and architectural balance tailored to modern living requirements.",
-      image: "/images/services/floor-planning.png",
+      image: "/images/services/floor-planning.webp",
       path: "/servicesSection/floor-planning",
     },
 
@@ -32,7 +32,7 @@ export default function Services() {
       title: "Architectural Design Assistance",
       description:
         "Professional design guidance for layout refinement, space utilization, elevation concepts, lighting ideas, and architectural planning support for residential and commercial projects.",
-      image: "/images/services/ai-design-model.png",
+      image: "/images/services/ai-design-model.webp",
       path: "/servicesSection/design-assistance",
     },
 
@@ -42,7 +42,7 @@ export default function Services() {
       title: "Visualization & Rendering",
       description:
         "High-quality architectural renders crafted to showcase atmosphere, materials, lighting, and design intent through cinematic visual presentation.",
-      image: "/images/services/visualization-rendering.png",
+      image: "/images/services/visualization-rendering.webp",
       path: "/servicesSection/visualization",
     },
   ];
