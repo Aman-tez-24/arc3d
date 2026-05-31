@@ -2,11 +2,13 @@
 import { useEffect, useState, useRef } from "react";
 
 import { User } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 export default function Navbar() {
+  const router = useRouter();
+
   const [user, setUser] = useState<any>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,50 +26,25 @@ export default function Navbar() {
     <>
       <header className="navbar">
         {/* LOGO */}
-        <div
-          className="navbarLogo"
-          onClick={() => {
-            window.location.href = "/";
-          }}
-        >
+        <div className="navbarLogo" onClick={() => router.push("/")}>
           <img src="/images/logo.png" alt="Arc3D" />
         </div>
 
         {/* MENU */}
         <nav className="navbarMenu">
-          <button
-            className="navItem active"
-            onClick={() => {
-              window.location.href = "/";
-            }}
-          >
+          <button className="navItem active" onClick={() => router.push("/")}>
             Home
           </button>
 
-          <button
-            className="navItem"
-            onClick={() => {
-              window.location.href = "/about";
-            }}
-          >
+          <button className="navItem" onClick={() => router.push("/about")}>
             About
           </button>
 
-          <button
-            className="navItem"
-            onClick={() => {
-              window.location.href = "/services";
-            }}
-          >
+          <button className="navItem" onClick={() => router.push("/services")}>
             Services
           </button>
 
-          <button
-            className="navItem"
-            onClick={() => {
-              window.location.href = "/company";
-            }}
-          >
+          <button className="navItem" onClick={() => router.push("/company")}>
             Company
           </button>
 
