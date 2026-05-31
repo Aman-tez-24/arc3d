@@ -1,3 +1,4 @@
+import Script from "next/script";
 import CompanyClient from "./CompanyClient";
 
 export const metadata = {
@@ -10,5 +11,24 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <CompanyClient />;
+  const companySchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Arc3D",
+    url: "https://arc3d.in/company",
+  };
+
+  return (
+    <>
+      <Script
+        id="company-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(companySchema),
+        }}
+      />
+
+      <CompanyClient />
+    </>
+  );
 }

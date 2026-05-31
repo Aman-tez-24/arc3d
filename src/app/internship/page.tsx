@@ -1,3 +1,4 @@
+import Script from "next/script";
 import InternshipClient from "./InternshipClient";
 
 export const metadata = {
@@ -10,5 +11,24 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <InternshipClient />;
+  const internshipSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Arc3D Internship Program",
+    url: "https://arc3d.in/internship",
+  };
+
+  return (
+    <>
+      <Script
+        id="internship-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(internshipSchema),
+        }}
+      />
+
+      <InternshipClient />
+    </>
+  );
 }

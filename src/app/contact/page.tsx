@@ -1,3 +1,4 @@
+import Script from "next/script";
 import ContactClient from "./ContactClient";
 
 export const metadata = {
@@ -10,5 +11,24 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <ContactClient />;
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact Arc3D",
+    url: "https://arc3d.in/contact",
+  };
+
+  return (
+    <>
+      <Script
+        id="contact-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(contactSchema),
+        }}
+      />
+
+      <ContactClient />
+    </>
+  );
 }
