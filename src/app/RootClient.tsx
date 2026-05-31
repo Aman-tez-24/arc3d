@@ -3,7 +3,8 @@
 import "./globals.css";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import { useState } from "react";
+import Loader from "@/components/Loader";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ZoomBlocker from "../components/ZoomBlocker";
@@ -18,7 +19,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
   const hideLayoutRoutes = [
     "/signin",
     "/projects",
@@ -87,15 +88,19 @@ export default function RootLayout({
     return () => clearInterval(interval);
   }, []);
 
-  setInterval(() => {
-    const start = performance.now();
-    debugger;
-    const end = performance.now();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const start = performance.now();
+      debugger;
+      const end = performance.now();
 
-    if (end - start > 100) {
-      document.body.innerHTML = "Blocked";
-    }
-  }, 1000);
+      if (end - start > 100) {
+        document.body.innerHTML = "Blocked";
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const block = (e: Event) => e.preventDefault();
@@ -179,20 +184,59 @@ export default function RootLayout({
     return () => clearInterval(interval);
   }, [router]);
 
+  useEffect(() => {
+    const firstVisit =
+      typeof window !== "undefined" && !sessionStorage.getItem("arc3d-loaded");
+
+    if (!firstVisit) {
+      setLoading(false);
+      return;
+    }
+
+    const assets = [
+      "/images/hero.jpg",
+
+      "/images/services/2d-3d-arc-design.png",
+      "/images/services/floor-planning.png",
+      "/images/services/visualization-rendering.png",
+
+      "/logo/logo.png",
+    ];
+
+    Promise.all(
+      assets.map(
+        (src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+
+            img.src = src;
+
+            img.onload = resolve;
+            img.onerror = resolve;
+          }),
+      ),
+    ).then(() => {
+      sessionStorage.setItem("arc3d-loaded", "true");
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500); // premium loader duration
+    });
+  }, []);
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <html lang="en">
-      <body className="appBody">
-        <AuthProvider>
-          <ZoomBlocker />
-          <Cursor />
+    <AuthProvider>
+      <ZoomBlocker />
+      <Cursor />
 
-          {!hideLayout && <Navbar />}
+      {!hideLayout && <Navbar />}
 
-          <main>{children}</main>
+      <main>{children}</main>
 
-          {!hideLayout && <Footer />}
-        </AuthProvider>
-      </body>
-    </html>
+      {!hideLayout && <Footer />}
+    </AuthProvider>
   );
 }
